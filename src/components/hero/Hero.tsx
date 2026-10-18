@@ -3,23 +3,26 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { ArrowDownRight, ArrowRight, CornerDownRight } from "lucide-react";
 import { profileData } from "@/data/profile";
 
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
-  const photoY = useTransform(scrollYProgress, [0, 1], [0, 40]);
-  const floatingPhotoY = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 35]);
+  const floatingPhotoY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : -25]);
 
   return (
     <section
       ref={containerRef}
+      id="hero"
       className="relative min-h-[96vh] flex flex-col justify-between pt-28 pb-12 overflow-hidden border-b border-[rgba(255,255,255,0.08)] bg-[#101116]"
     >
       {/* Restrained Background Atmosphere on Deep Graphite-Black (#101116) */}
@@ -32,11 +35,11 @@ export function Hero() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 my-auto">
-        {/* Top Technical Metadata Bar */}
+        {/* 1. Top Technical Metadata Bar */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
           className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[rgba(255,255,255,0.08)] text-[11px] font-code text-[#8A8CAC]"
         >
           <div className="flex items-center gap-2">
@@ -57,10 +60,11 @@ export function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Expressive Editorial Typography */}
           <div className="lg:col-span-7 space-y-8">
+            {/* 2. Headline Reveal */}
             <motion.div
-              initial={{ opacity: 0, y: 25 }}
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
             >
               <h1 className="font-editorial text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.88] select-none">
                 ARYAN
@@ -71,26 +75,24 @@ export function Hero() {
               </h1>
             </motion.div>
 
-            {/* Supporting Statement */}
+            {/* 4. Supporting Statement */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+              transition={{ duration: 0.6, delay: 0.45, ease: "easeOut" }}
               className="font-serif italic text-xl sm:text-2xl text-[#959BB5] max-w-xl leading-relaxed"
             >
               &ldquo;{profileData.headline}&rdquo;
             </motion.p>
 
-            {/* Three Disciplines — Refined editorial text treatments */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-              className="space-y-3 pt-2 max-w-xl border-t border-[rgba(255,255,255,0.08)]"
-            >
+            {/* 5. Three Disciplines — Staggered micro-reveals */}
+            <div className="space-y-3 pt-2 max-w-xl border-t border-[rgba(255,255,255,0.08)]">
               {profileData.disciplines.map((d, idx) => (
-                <div
+                <motion.div
                   key={d.name}
+                  initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.55 + idx * 0.08, ease: "easeOut" }}
                   className="group flex flex-col sm:flex-row sm:items-baseline justify-between py-2 border-b border-[rgba(255,255,255,0.06)] hover:border-[rgba(131,135,195,0.4)] transition-colors"
                 >
                   <div className="flex items-center gap-2.5">
@@ -104,15 +106,15 @@ export function Hero() {
                   <span className="text-xs text-[#959BB5] font-light mt-1 sm:mt-0">
                     {d.description}
                   </span>
-                </div>
+                </motion.div>
               ))}
-            </motion.div>
+            </div>
 
             {/* Actions */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
+              transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
               className="flex flex-wrap items-center gap-5 pt-4"
             >
               <Link
@@ -127,7 +129,7 @@ export function Hero() {
               <Link
                 href="/about"
                 data-cursor="ABOUT"
-                className="group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#F0EEF4] hover:text-[#8387C3] py-4 px-2 transition-colors focus:outline-none"
+                className="group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#F0EEF4] hover:text-[#8387C3] py-4 px-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
               >
                 <span>A LITTLE ABOUT ME</span>
                 <ArrowDownRight className="w-4 h-4 text-[#8387C3] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" />
@@ -135,11 +137,11 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: THE PHOTOGRAPHIC HERO COMPOSITION */}
+          {/* 3. Right Column: THE PHOTOGRAPHIC HERO COMPOSITION */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={shouldReduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 relative flex justify-center lg:justify-end"
           >
             <div className="relative w-full max-w-[380px] sm:max-w-[420px]">

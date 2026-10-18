@@ -1,9 +1,28 @@
-import React from "react";
-import { Terminal, Database, Code, Globe, Cpu, Wrench } from "lucide-react";
+"use client";
+
+import React, { useState } from "react";
+import { Terminal, Database, Code, Globe, Cpu, Wrench, Filter } from "lucide-react";
 import { skillCategories } from "@/data/skills";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function SkillsSection() {
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+
+  const categories = [
+    "All",
+    "Programming",
+    "Frontend",
+    "Backend",
+    "Databases",
+    "AI & ML",
+    "Cloud & Tools",
+  ];
+
+  const filteredCategories = skillCategories.filter((group) => {
+    if (activeCategory === "All") return true;
+    return group.category === activeCategory;
+  });
+
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "Programming":
@@ -33,8 +52,30 @@ export function SkillsSection() {
           description="Technologies actively applied across full-stack web architectures, applied machine learning pipelines, and algorithmic systems. No arbitrary progress bars — each technology is linked to applied project implementations."
         />
 
+        {/* Category Filters */}
+        <div className="flex flex-wrap items-center gap-2 mb-10 pb-4 border-b border-[rgba(255,255,255,0.08)]">
+          <div className="flex items-center gap-1.5 text-xs font-code text-[#8A8CAC] mr-2">
+            <Filter className="w-3.5 h-3.5 text-[#8387C3]" />
+            <span>FILTER DOMAIN:</span>
+          </div>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setActiveCategory(cat)}
+              className={`font-code text-xs px-3.5 py-1.5 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] ${
+                activeCategory === cat
+                  ? "bg-[#8387C3] text-[#101116] font-semibold shadow-md"
+                  : "bg-[#171924] text-[#959BB5] hover:text-[#F0EEF4] border border-[rgba(255,255,255,0.08)]"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skillCategories.map((categoryGroup) => (
+          {filteredCategories.map((categoryGroup) => (
             <div
               key={categoryGroup.category}
               className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] p-6 transition-all duration-300 flex flex-col justify-between shadow-xl"

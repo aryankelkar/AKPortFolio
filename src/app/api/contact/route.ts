@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { profileData } from "@/data/profile";
 
 export async function POST(request: Request) {
   try {
@@ -27,12 +28,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // In a production environment with RESEND_API_KEY or SENDGRID_API_KEY configured,
-    // you would dispatch the email here:
-    // if (process.env.RESEND_API_KEY) { await resend.emails.send(...) }
-
     // Generate verified mailto fallback URL
-    const mailtoUrl = `mailto:aryan.kelkar@example.com?subject=${encodeURIComponent(
+    const mailtoUrl = `mailto:${profileData.email}?subject=${encodeURIComponent(
       subject ? `[Portfolio Inquiry] ${subject}` : `[Portfolio Inquiry] Message from ${name}`
     )}&body=${encodeURIComponent(
       `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`

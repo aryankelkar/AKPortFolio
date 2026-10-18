@@ -97,6 +97,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
   background-color: #101116;
   color: #F0EEF4;
 }
@@ -111,6 +112,15 @@ body {
 ::selection {
   background: #282B3C;
   color: #F0EEF4;
+}
+
+/* Accessibility Focus Ring Utility */
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid #8387C3;
+  outline-offset: 2px;
 }
 
 /* Custom Editorial Scrollbar */

@@ -1,25 +1,34 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useSpring } from "motion/react";
 import { Menu, X, ArrowUpRight, FileText } from "lucide-react";
 import { profileData } from "@/data/profile";
 
-const NAV_LINKS = [
-  { label: "WORK", href: "/work" },
-  { label: "ABOUT", href: "/about" },
-  { label: "ARCHIVE", href: "/achievements" },
-  { label: "JOURNEY", href: "/journey" },
-  { label: "ACTIVITIES", href: "/activities" },
-  { label: "CONTACT", href: "/contact" },
+interface NavLinkItem {
+  label: string;
+  href: string;
+  sectionId: string;
+}
+
+const NAV_LINKS: NavLinkItem[] = [
+  { label: "WORK", href: "/work", sectionId: "work" },
+  { label: "ABOUT", href: "/about", sectionId: "about" },
+  { label: "ARCHIVE", href: "/achievements", sectionId: "achievements" },
+  { label: "JOURNEY", href: "/journey", sectionId: "journey" },
+  { label: "ACTIVITIES", href: "/activities", sectionId: "activities" },
+  { label: "CONTACT", href: "/contact", sectionId: "contact" },
 ];
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("");
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
+  const isHome = pathname === "/";
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -28,6 +37,7 @@ export function Navbar() {
     restDelta: 0.001,
   });
 
+  // Track scroll position for header appearance
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -37,17 +47,67 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
+  // IntersectionObserver for active section on homepage
   useEffect(() => {
+    if (!isHome) {
+      setActiveSection("");
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: 0.1,
+      }
+    );
+
+    NAV_LINKS.forEach((link) => {
+      const el = document.getElementById(link.sectionId);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [isHome]);
+
+  // Escape key handler & focus trapping for mobile menu
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
     } else {
       document.body.style.overflow = "unset";
     }
+
     return () => {
       document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [mobileMenuOpen]);
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: NavLinkItem) => {
+    if (isHome) {
+      const targetElement = document.getElementById(link.sectionId);
+      if (targetElement) {
+        e.preventDefault();
+        targetElement.scrollIntoView({ behavior: "smooth" });
+        if (mobileMenuOpen) setMobileMenuOpen(false);
+      }
+    }
+  };
 
   return (
     <header
@@ -84,22 +144,30 @@ export function Navbar() {
             className="hidden md:flex items-center gap-6 lg:gap-8"
           >
             {NAV_LINKS.map((link) => {
-              const isActive =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(link.href);
+              const isSectionActive = isHome && activeSection === link.sectionId;
+              const isRouteActive = !isHome && pathname.startsWith(link.href);
+              const isActive = isSectionActive || isRouteActive;
 
               return (
                 <Link
                   key={link.label}
-                  href={link.href}
-                  className={`font-code text-xs tracking-widest transition-colors py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded ${
+                  href={isHome ? `#${link.sectionId}` : link.href}
+                  onClick={(e) => handleLinkClick(e, link)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`relative font-code text-xs tracking-widest transition-colors py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded ${
                     isActive
-                      ? "text-[#F0EEF4] font-semibold border-b-2 border-[#8387C3]"
+                      ? "text-[#F0EEF4] font-semibold"
                       : "text-[#959BB5] hover:text-[#F0EEF4]"
                   }`}
                 >
                   {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active-indicator"
+                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#8387C3] rounded-full"
+                      transition={{ duration: 0.22, ease: "easeOut" }}
+                    />
+                  )}
                 </Link>
               );
             })}
@@ -119,6 +187,7 @@ export function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-2 rounded-lg text-[#959BB5] hover:text-[#F0EEF4] hover:bg-[#171924] border border-[rgba(255,255,255,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
@@ -139,23 +208,28 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div
           id="mobile-navigation"
-          className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#101116]/98 backdrop-blur-xl border-t border-[rgba(255,255,255,0.10)] px-6 py-8 flex flex-col justify-between overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site Navigation"
+          className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#101116]/98 backdrop-blur-xl border-t border-[rgba(255,255,255,0.10)] px-6 py-8 flex flex-col justify-between overflow-y-auto z-50"
         >
           <div className="space-y-4">
             <p className="font-code text-[11px] uppercase tracking-widest text-[#8387C3] mb-4">
               [ DIRECTORY NAVIGATION ]
             </p>
             {NAV_LINKS.map((link) => {
-              const isActive =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(link.href);
+              const isSectionActive = isHome && activeSection === link.sectionId;
+              const isRouteActive = !isHome && pathname.startsWith(link.href);
+              const isActive = isSectionActive || isRouteActive;
 
               return (
                 <Link
                   key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
+                  href={isHome ? `#${link.sectionId}` : link.href}
+                  onClick={(e) => {
+                    handleLinkClick(e, link);
+                    setMobileMenuOpen(false);
+                  }}
                   className={`block py-3 font-editorial text-2xl tracking-wide border-b border-[rgba(255,255,255,0.06)] transition-colors ${
                     isActive
                       ? "text-[#8387C3] pl-2 font-medium"
