@@ -27,7 +27,7 @@ const nebulaVertexShader = `
   }
 `;
 
-// GLSL Fragment Shader: Procedural Domain-Warped Deep Space Nebula
+// GLSL Fragment Shader: Serene, Deep-Space Astronomical Nebula
 const nebulaFragmentShader = `
   precision highp float;
   uniform vec2 u_resolution;
@@ -67,16 +67,13 @@ const nebulaFragmentShader = `
     return 130.0 * dot(m, g);
   }
 
-  // 4-Octave Fractional Brownian Motion (FBM)
-  float fbm(vec2 p) {
-    float val = 0.0;
-    float amp = 0.5;
-    for (int i = 0; i < 4; i++) {
-      val += amp * snoise(p);
-      p = p * 2.04 + vec2(0.35, 0.25);
-      amp *= 0.5;
-    }
-    return val;
+  // Broad, low-frequency 2-octave smooth cosmic noise (Zero high-frequency distortion)
+  float cosmicNoise(vec2 p, float t) {
+    // Macro cloud structure: very broad scale
+    float n1 = snoise(p * 0.40 + vec2(t * 0.010, t * 0.007));
+    // Gentle wispy secondary modulation with minimal displacement
+    float n2 = snoise(p * 0.80 - vec2(t * 0.007, -t * 0.009) + n1 * 0.20);
+    return (n1 * 0.65 + n2 * 0.35) * 0.5 + 0.5;
   }
 
   void main() {
@@ -84,54 +81,46 @@ const nebulaFragmentShader = `
     vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
 
     // Subtle pointer parallax offset
-    uv += u_mouse * 0.045;
+    uv += u_mouse * 0.025;
 
-    // Slow, peaceful, clearly perceptible astronomical drift
-    float t1 = u_time * 0.024;
-    float t2 = u_time * 0.016;
+    float t = u_time;
 
-    // Domain Warping: Layer 1
-    vec2 q = vec2(
-      fbm(uv * 1.15 + vec2(t1, t2 * 0.85)),
-      fbm(uv * 1.15 + vec2(-t2 * 0.9, t1 * 0.75))
-    );
+    // Spatial Astronomical Masking:
+    // Plume 1: Upper-right hero celestial formation (fades smoothly towards center)
+    vec2 plumePos1 = uv - vec2(0.42, 0.26);
+    float plumeDist1 = length(vec2(plumePos1.x * 0.85, plumePos1.y * 1.15));
+    float plumeMask1 = smoothstep(1.15, 0.18, plumeDist1);
 
-    // Domain Warping: Layer 2
-    vec2 r = vec2(
-      fbm(uv * 2.1 + 3.2 * q + vec2(t2 * 1.1, -t1 * 0.65)),
-      fbm(uv * 2.1 + 3.2 * q + vec2(-t1 * 0.75, t2 * 1.15))
-    );
+    // Plume 2: Subtle lower-left cosmic veil
+    vec2 plumePos2 = uv - vec2(-0.48, -0.38);
+    float plumeDist2 = length(vec2(plumePos2.x * 1.05, plumePos2.y * 0.85));
+    float plumeMask2 = smoothstep(0.95, 0.12, plumeDist2) * 0.50;
 
-    // Core procedural nebula density
-    float f = fbm(uv * 1.7 + 3.6 * r + vec2(t1 * 0.45, t2 * 0.45));
-    f = clamp(f * 0.5 + 0.5, 0.0, 1.0);
+    float spatialMask = clamp(plumeMask1 + plumeMask2, 0.0, 1.0);
 
-    // Color Palette Tokens:
-    // Base Canvas: Deep Graphite Black #101116
-    vec3 colBase = vec3(0.063, 0.067, 0.086);
+    // Low-frequency procedural cloud density
+    float rawDensity = cosmicNoise(uv, t);
 
-    // Subtle Blue-Black Atmosphere: #131521
-    vec3 colAtmosphere = vec3(0.075, 0.082, 0.130);
+    // Soft organic thresholding: clouds emerge organically and dissolve into darkness
+    float nebulaDensity = smoothstep(0.36, 0.82, rawDensity) * spatialMask;
 
-    // Muted Violet-Indigo Cosmic Cloud: #28245C
-    vec3 colNebula1 = vec3(0.157, 0.141, 0.361);
+    // Design Tokens from User Specification:
+    vec3 colGraphite    = vec3(0.063, 0.067, 0.086); // #101116 (Dominant)
+    vec3 colDeepSpace   = vec3(0.067, 0.075, 0.106); // #11131B
+    vec3 colDarkBlue    = vec3(0.090, 0.106, 0.169); // #171B2B
+    vec3 colMutedViolet = vec3(0.157, 0.145, 0.247); // #28253F
+    vec3 colSoftLavender= vec3(0.384, 0.361, 0.569); // #625C91
 
-    // Soft Lavender Accent Veil: #5C5592
-    vec3 colNebula2 = vec3(0.361, 0.333, 0.573);
+    // Serene layered color transitions without harsh ridges
+    vec3 color = mix(colGraphite, colDeepSpace, smoothstep(0.0, 0.35, nebulaDensity));
+    color = mix(color, colDarkBlue, smoothstep(0.18, 0.58, nebulaDensity));
+    color = mix(color, colMutedViolet, smoothstep(0.42, 0.82, nebulaDensity));
+    color = mix(color, colSoftLavender, smoothstep(0.78, 0.98, nebulaDensity) * 0.40);
 
-    // Celestial High-Energy Dust: #857FD2
-    vec3 colHighlight = vec3(0.522, 0.498, 0.824);
-
-    // Cloud Composition Mixing
-    vec3 color = mix(colBase, colAtmosphere, smoothstep(0.15, 0.50, f));
-    color = mix(color, colNebula1, smoothstep(0.32, 0.70, f) * 0.88);
-    color = mix(color, colNebula2, smoothstep(0.54, 0.86, f) * (0.60 + 0.40 * q.x));
-    color = mix(color, colHighlight, smoothstep(0.76, 0.96, f) * 0.38);
-
-    // Radial attenuation: Keep center reading areas darker while keeping atmosphere rich
+    // Soft center vignette ensuring maximum contrast for editorial text and cards
     float centerDist = length(uv);
-    float vignette = smoothstep(1.4, 0.25, centerDist);
-    color = mix(colBase, color, clamp(vignette * 0.90 + 0.18, 0.0, 1.0));
+    float centerVignette = smoothstep(1.40, 0.30, centerDist);
+    color = mix(colGraphite, color, clamp(centerVignette * 0.85 + 0.15, 0.0, 1.0));
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -275,31 +264,31 @@ export function CosmicBackground() {
 
     const starLayersConfig: StarLayerConfig[] = [
       {
-        // Layer A: Distant background field
-        count: 650,
-        sizeRange: [1.2, 1.8],
-        alphaRange: [0.25, 0.55],
-        twinkleSpeedRange: [0.3, 0.8],
-        depthFactor: 0.012,
-        driftSpeed: { x: 0.00015, y: 0.00008 },
+        // Layer A: Distant background field (numerous tiny, faint stars)
+        count: 750,
+        sizeRange: [0.9, 1.4],
+        alphaRange: [0.18, 0.42],
+        twinkleSpeedRange: [0.25, 0.65],
+        depthFactor: 0.008,
+        driftSpeed: { x: 0.00010, y: 0.00005 },
       },
       {
-        // Layer B: Mid-depth stars with noticeable parallax drift
-        count: 280,
-        sizeRange: [2.0, 2.8],
-        alphaRange: [0.45, 0.75],
-        twinkleSpeedRange: [0.6, 1.4],
-        depthFactor: 0.032,
-        driftSpeed: { x: -0.00035, y: 0.00022 },
+        // Layer B: Mid-depth stars with gentle parallax drift
+        count: 240,
+        sizeRange: [1.6, 2.2],
+        alphaRange: [0.32, 0.62],
+        twinkleSpeedRange: [0.55, 1.2],
+        depthFactor: 0.024,
+        driftSpeed: { x: -0.00024, y: 0.00015 },
       },
       {
         // Layer C: Prominent twinkling celestial beacons
-        count: 45,
-        sizeRange: [3.2, 4.4],
-        alphaRange: [0.75, 1.0],
-        twinkleSpeedRange: [1.2, 2.2],
-        depthFactor: 0.065,
-        driftSpeed: { x: 0.00055, y: -0.00035 },
+        count: 35,
+        sizeRange: [2.6, 3.6],
+        alphaRange: [0.65, 0.85],
+        twinkleSpeedRange: [0.9, 1.8],
+        depthFactor: 0.048,
+        driftSpeed: { x: 0.00040, y: -0.00025 },
       },
     ];
 
