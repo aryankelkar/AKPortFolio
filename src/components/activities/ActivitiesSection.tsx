@@ -8,18 +8,18 @@ export function ActivitiesSection() {
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "Leadership":
-        return <Award className="w-4 h-4 text-[#9A94E8]" />;
+        return <Award className="w-4 h-4 text-[#8387C3]" />;
       case "Volunteering":
-        return <HeartHandshake className="w-4 h-4 text-[#9A94E8]" />;
+        return <HeartHandshake className="w-4 h-4 text-[#8387C3]" />;
       case "Technical Club":
-        return <Compass className="w-4 h-4 text-[#9A94E8]" />;
+        return <Compass className="w-4 h-4 text-[#8387C3]" />;
       default:
-        return <Users className="w-4 h-4 text-[#9A94E8]" />;
+        return <Users className="w-4 h-4 text-[#8387C3]" />;
     }
   };
 
   return (
-    <section id="activities" className="py-20 lg:py-28 bg-[#0B0B0D] relative border-t border-[rgba(168,163,154,0.12)]">
+    <section id="activities" className="py-20 lg:py-28 bg-[#0D152B] relative border-t border-[rgba(58,62,108,0.35)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           number="[ 06 ]"
@@ -32,48 +32,48 @@ export function ActivitiesSection() {
           {activitiesData.map((activity) => (
             <article
               key={activity.id}
-              className="rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.15)] hover:border-[rgba(154,148,232,0.35)] p-7 transition-all duration-300 flex flex-col justify-between"
+              className="rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)] hover:border-[rgba(131,135,195,0.45)] p-7 transition-all duration-300 flex flex-col justify-between"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded bg-[#1C1C22] border border-[rgba(168,163,154,0.12)]">
+                    <div className="p-1.5 rounded bg-[#162040] border border-[rgba(58,62,108,0.3)]">
                       {getCategoryIcon(activity.category)}
                     </div>
                     <Badge variant="status">{activity.category}</Badge>
                   </div>
-                  <span className="font-code text-xs text-[#A8A39A]">
+                  <span className="font-code text-xs text-[#8A8CAC]">
                     {activity.period}
                   </span>
                 </div>
 
                 <div>
-                  <h3 className="font-editorial text-2xl font-normal text-[#F7F5F0]">
+                  <h3 className="font-editorial text-2xl font-normal text-[#E7E7F0]">
                     {activity.title}
                   </h3>
                   <div className="flex flex-wrap items-center gap-2 mt-1">
-                    <span className="text-sm font-medium text-[#9A94E8]">
+                    <span className="text-sm font-medium text-[#8387C3]">
                       {activity.role}
                     </span>
-                    <span className="text-xs text-[#A8A39A]">•</span>
-                    <span className="text-xs text-[#A8A39A]">
+                    <span className="text-xs text-[#8A8CAC]">•</span>
+                    <span className="text-xs text-[#959BB5]">
                       {activity.organization}
                     </span>
                   </div>
                 </div>
 
-                <p className="text-sm text-[#A8A39A] leading-relaxed font-light">
+                <p className="text-sm text-[#959BB5] leading-relaxed font-light">
                   {activity.description}
                 </p>
 
-                <div className="pt-2 border-t border-[rgba(168,163,154,0.1)]">
-                  <span className="font-code text-[11px] text-[#9A94E8] uppercase tracking-wider block mb-2">
+                <div className="pt-2 border-t border-[rgba(58,62,108,0.25)]">
+                  <span className="font-code text-[11px] text-[#8387C3] uppercase tracking-wider block mb-2">
                     Direct Contributions:
                   </span>
-                  <ul className="space-y-1.5 text-xs text-[#A8A39A] font-light">
+                  <ul className="space-y-1.5 text-xs text-[#959BB5] font-light">
                     {activity.contributions.map((contribution, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <span className="text-[#C6F36A] shrink-0">•</span>
+                        <span className="text-[#8387C3] shrink-0">•</span>
                         <span>{contribution}</span>
                       </li>
                     ))}
@@ -82,9 +82,9 @@ export function ActivitiesSection() {
               </div>
 
               {activity.impactOutcome && (
-                <div className="mt-6 pt-4 border-t border-[rgba(168,163,154,0.12)] bg-[#0B0B0D]/80 -mx-7 -mb-7 px-7 py-3 rounded-b-xl flex items-center justify-between text-xs font-code">
-                  <span className="text-[#C6F36A] uppercase">OUTCOME:</span>
-                  <span className="text-[#F7F5F0] font-light truncate max-w-[280px]">
+                <div className="mt-6 pt-4 border-t border-[rgba(58,62,108,0.25)] bg-[#0A1123] -mx-7 -mb-7 px-7 py-3 rounded-b-xl flex items-center justify-between text-xs font-code">
+                  <span className="text-[#8387C3] uppercase font-semibold">OUTCOME:</span>
+                  <span className="text-[#E7E7F0] font-light truncate max-w-[280px]">
                     {activity.impactOutcome}
                   </span>
                 </div>

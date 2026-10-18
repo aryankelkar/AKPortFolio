@@ -1,42 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  /* Editorial Palette: "The Human Side of Systems" */
-  --ink-black: #0B0B0D;
-  --warm-paper: #F0EDE5;
-  --soft-white: #F7F5F0;
-  --graphite: #242429;
-  --graphite-light: #2E2E35;
-  --muted-stone: #A8A39A;
-  --electric-lavender: #9A94E8;
-  --deep-violet: #6559A8;
-  --signal-lime: #C6F36A;
+  /* Design System: "The Personal Engineering Archive" */
+  --midnight-navy: #0A1123;
+  --deep-blue: #10182D;
+  --muted-blue: #3A3E6C;
+  --primary-lavender: #8387C3;
+  --soft-lavender: #8A8CAC;
+  --muted-blue-gray: #959BB5;
+  --warm-off-white: #E7E7F0;
 
   /* Semantic defaults */
-  --background: var(--ink-black);
-  --foreground: var(--soft-white);
-  --surface: #141418;
-  --surface-elevated: #1C1C22;
-  --surface-card: #18181E;
-  --surface-border: rgba(168, 163, 154, 0.18);
-  --surface-border-strong: rgba(154, 148, 232, 0.35);
-  --accent: var(--electric-lavender);
-  --accent-lime: var(--signal-lime);
-  --text-primary: var(--soft-white);
-  --text-secondary: #B5B0A6;
-  --text-muted: var(--muted-stone);
+  --background: var(--midnight-navy);
+  --foreground: var(--warm-off-white);
+  --surface: #10182D;
+  --surface-elevated: #162040;
+  --surface-card: #0D152B;
+  --surface-border: rgba(58, 62, 108, 0.38);
+  --surface-border-strong: rgba(131, 135, 195, 0.35);
+  --accent: var(--primary-lavender);
+  --text-primary: var(--warm-off-white);
+  --text-secondary: var(--muted-blue-gray);
+  --text-muted: var(--soft-lavender);
 }
 
 @theme {
-  --color-ink-black: #0B0B0D;
-  --color-warm-paper: #F0EDE5;
-  --color-soft-white: #F7F5F0;
-  --color-graphite: #242429;
-  --color-graphite-light: #2E2E35;
-  --color-muted-stone: #A8A39A;
-  --color-electric-lavender: #9A94E8;
-  --color-deep-violet: #6559A8;
-  --color-signal-lime: #C6F36A;
+  --color-midnight-navy: #0A1123;
+  --color-deep-blue: #10182D;
+  --color-muted-blue: #3A3E6C;
+  --color-primary-lavender: #8387C3;
+  --color-soft-lavender: #8A8CAC;
+  --color-muted-blue-gray: #959BB5;
+  --color-warm-off-white: #E7E7F0;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -50,20 +45,20 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--ink-black);
-  color: var(--soft-white);
+  background-color: var(--midnight-navy);
+  color: var(--warm-off-white);
 }
 
 body {
-  background-color: var(--ink-black);
-  color: var(--soft-white);
+  background-color: var(--midnight-navy);
+  color: var(--warm-off-white);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
 }
 
 ::selection {
-  background: var(--electric-lavender);
-  color: var(--ink-black);
+  background: var(--muted-blue);
+  color: var(--warm-off-white);
 }
 
 /* Custom Scrollbar */
@@ -71,61 +66,43 @@ body {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--ink-black);
+  background: var(--midnight-navy);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--graphite-light);
+  background: var(--muted-blue);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--electric-lavender);
+  background: var(--primary-lavender);
 }
 
-/* Subtle Film Grain Overlay */
+/* Layer 4: Subtle Material Texture (Grain) */
 .bg-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E");
 }
 
-/* Architectural Grid Blueprint Texture */
+/* Layer 3: Technical Geometry (Fine Architectural Grid) */
 .bg-architectural-grid {
   background-image: 
-    linear-gradient(to right, rgba(168, 163, 154, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(168, 163, 154, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(58, 62, 108, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(58, 62, 108, 0.12) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
-/* Section Contrast Themes */
-.section-dark {
-  background-color: #0B0B0D;
-  color: #F7F5F0;
+/* Section Contrast Surfaces */
+.section-base {
+  background-color: #0A1123;
+  color: #E7E7F0;
 }
 
-.section-warm-paper {
-  background-color: #F0EDE5;
-  color: #0B0B0D;
+.section-elevated {
+  background-color: #10182D;
+  color: #E7E7F0;
 }
 
-.section-graphite {
-  background-color: #15151A;
-  color: #F7F5F0;
-}
-
-/* Glassmorphism Panel */
-.glass-panel {
-  background: rgba(20, 20, 24, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(168, 163, 154, 0.16);
-}
-
-.glass-panel-hover {
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-panel-hover:hover {
-  border-color: rgba(154, 148, 232, 0.45);
-  transform: translateY(-2px);
-  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), 0 0 24px -4px rgba(154, 148, 232, 0.12);
+.section-card {
+  background-color: #0D152B;
+  color: #E7E7F0;
 }
 
 /* Typography Helpers */
@@ -137,16 +114,12 @@ body {
   font-family: var(--font-mono);
 }
 
-/* Magnetic Button Utility */
-.magnetic-btn {
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.25s ease, border-color 0.25s ease;
+/* Subtle Hover Transitions */
+.card-interactive {
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+.card-interactive:hover {
+  border-color: rgba(131, 135, 195, 0.45);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5), 0 0 20px -4px rgba(131, 135, 195, 0.08);
 }

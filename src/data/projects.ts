@@ -227,19 +227,24 @@ export const projectsData: Project[] = [
       ],
       resultsAndMetrics: [
         {
-          metric: "Validation ROC-AUC",
-          value: "0.892",
-          context: "Evaluated across 5-fold stratified cross-validation on holdout data.",
+          metric: "Random Forest Baseline (Test Split)",
+          value: "0.7979 ROC-AUC",
+          context: "Documented evaluation on test split: Accuracy 0.8752, Precision 0.4677, Recall 0.4858, F1 0.4766, PR-AUC 0.4442.",
+        },
+        {
+          metric: "Tuned Ensemble Target (CV)",
+          value: "0.892 ROC-AUC",
+          context: "Experimental checkpoint with SMOTE balancing, hyperparameter tuning, and gradient boosting across 5-fold cross-validation.",
+        },
+        {
+          metric: "Dataset Scope",
+          value: "41,188 Records",
+          context: "UCI Bank Marketing benchmark dataset across 20 demographic, economic, and past campaign features.",
         },
         {
           metric: "Inference Latency",
           value: "< 25ms",
-          context: "Single-record prediction response time in containerized Flask runtime.",
-        },
-        {
-          metric: "Dataset Size",
-          value: "41,188 Records",
-          context: "Encompassing 20 features including client data, economic indicators, and past campaign outcomes.",
+          context: "Single-record prediction response time in containerized Flask microservice runtime.",
         },
       ],
       limitations: [

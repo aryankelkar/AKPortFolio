@@ -15,18 +15,18 @@ export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "Education":
-        return <GraduationCap className="w-4 h-4 text-[#9A94E8]" />;
+        return <GraduationCap className="w-4 h-4 text-[#8387C3]" />;
       case "Project":
-        return <Code className="w-4 h-4 text-[#9A94E8]" />;
+        return <Code className="w-4 h-4 text-[#8387C3]" />;
       case "Hackathon":
-        return <Trophy className="w-4 h-4 text-[#9A94E8]" />;
+        return <Trophy className="w-4 h-4 text-[#8387C3]" />;
       default:
-        return <GitCommit className="w-4 h-4 text-[#9A94E8]" />;
+        return <GitCommit className="w-4 h-4 text-[#8387C3]" />;
     }
   };
 
   return (
-    <section id="journey" className="py-20 lg:py-28 relative">
+    <section id="journey" className="py-20 lg:py-28 relative bg-[#0A1123]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <SectionHeading
@@ -40,7 +40,7 @@ export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
           {initialLimit && (
             <Link
               href="/journey"
-              className="font-code text-xs uppercase tracking-widest text-[#9A94E8] hover:text-[#F7F5F0] transition-colors shrink-0 pb-2"
+              className="font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#E7E7F0] transition-colors shrink-0 pb-2"
             >
               EXPLORE FULL TIMELINE →
             </Link>
@@ -48,50 +48,50 @@ export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
         </div>
 
         {/* Timeline Stream */}
-        <div className="relative border-l-2 border-[rgba(168,163,154,0.18)] ml-4 sm:ml-32 md:ml-40 space-y-12">
+        <div className="relative border-l-2 border-[rgba(58,62,108,0.4)] ml-4 sm:ml-32 md:ml-40 space-y-12">
           {displayed.map((milestone, idx) => (
             <div key={idx} className="relative pl-6 sm:pl-10 group">
               {/* Timeline Marker Dot */}
-              <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-[#0B0B0D] border-2 border-[#9A94E8] group-hover:bg-[#C6F36A] group-hover:border-[#C6F36A] group-hover:scale-125 transition-all shadow-[0_0_12px_rgba(154,148,232,0.3)]" />
+              <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-[#0A1123] border-2 border-[#8387C3] group-hover:bg-[#8387C3] group-hover:scale-125 transition-all shadow-[0_0_12px_rgba(131,135,195,0.4)]" />
 
               {/* Date callout (left side on sm/md screens) */}
-              <div className="sm:absolute sm:-left-36 sm:top-1 font-code text-xs font-semibold text-[#9A94E8] mb-2 sm:mb-0">
+              <div className="sm:absolute sm:-left-36 sm:top-1 font-code text-xs font-semibold text-[#8387C3] mb-2 sm:mb-0">
                 <span>{milestone.year}</span>
                 {milestone.quarterOrMonth && (
-                  <span className="block text-[10px] text-[#A8A39A] font-normal">
+                  <span className="block text-[10px] text-[#8A8CAC] font-normal">
                     {milestone.quarterOrMonth}
                   </span>
                 )}
               </div>
 
               {/* Content Card */}
-              <div className="rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.15)] hover:border-[rgba(154,148,232,0.35)] p-6 transition-all duration-300">
+              <div className="rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)] hover:border-[rgba(131,135,195,0.45)] p-6 transition-all duration-300">
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded bg-[#1C1C22] border border-[rgba(168,163,154,0.12)]">
+                    <div className="p-1.5 rounded bg-[#162040] border border-[rgba(58,62,108,0.3)]">
                       {getCategoryIcon(milestone.category)}
                     </div>
                     <Badge variant="status">{milestone.category}</Badge>
                   </div>
-                  <span className="font-code text-xs text-[#A8A39A]">
+                  <span className="font-code text-xs text-[#8A8CAC]">
                     {milestone.organizationOrContext}
                   </span>
                 </div>
 
-                <h3 className="font-editorial text-2xl font-normal text-[#F7F5F0] mt-2 mb-2">
+                <h3 className="font-editorial text-2xl font-normal text-[#E7E7F0] mt-2 mb-2">
                   {milestone.title}
                 </h3>
 
-                <p className="text-sm text-[#A8A39A] leading-relaxed font-light mb-4">
+                <p className="text-sm text-[#959BB5] leading-relaxed font-light mb-4">
                   {milestone.description}
                 </p>
 
                 {milestone.technologiesUsed && milestone.technologiesUsed.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[rgba(168,163,154,0.1)]">
+                  <div className="flex flex-wrap gap-1.5 pt-2 border-t border-[rgba(58,62,108,0.25)]">
                     {milestone.technologiesUsed.map((tech) => (
                       <span
                         key={tech}
-                        className="font-code text-[10px] text-[#F7F5F0] bg-[#0B0B0D] px-2 py-0.5 rounded border border-[rgba(168,163,154,0.12)]"
+                        className="font-code text-[10px] text-[#959BB5] bg-[#0A1123] px-2 py-0.5 rounded border border-[rgba(58,62,108,0.3)]"
                       >
                         {tech}
                       </span>
@@ -100,10 +100,10 @@ export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
                 )}
 
                 {milestone.link && (
-                  <div className="mt-4 pt-3 border-t border-[rgba(168,163,154,0.1)]">
+                  <div className="mt-4 pt-3 border-t border-[rgba(58,62,108,0.25)]">
                     <Link
                       href={milestone.link}
-                      className="inline-flex items-center gap-1 font-code text-xs text-[#C6F36A] hover:text-[#F7F5F0] transition-colors"
+                      className="inline-flex items-center gap-1 font-code text-xs text-[#8387C3] hover:text-[#E7E7F0] transition-colors"
                     >
                       <span>{milestone.linkLabel || "Inspect Reference"}</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />

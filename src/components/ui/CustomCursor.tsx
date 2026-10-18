@@ -78,14 +78,14 @@ export function CustomCursor() {
         }}
         animate={{
           scale: isHovered ? (cursorText ? 2.4 : 1.6) : 1,
-          borderColor: isHovered ? "#9A94E8" : "rgba(168, 163, 154, 0.4)",
-          backgroundColor: isHovered ? "rgba(154, 148, 232, 0.08)" : "rgba(154, 148, 232, 0)",
+          borderColor: isHovered ? "#8387C3" : "rgba(58, 62, 108, 0.4)",
+          backgroundColor: isHovered ? "rgba(131, 135, 195, 0.1)" : "rgba(131, 135, 195, 0)",
         }}
         transition={{ duration: 0.18, ease: "easeOut" }}
-        className="w-8 h-8 rounded-full border border-[rgba(168,163,154,0.4)] flex items-center justify-center transition-colors"
+        className="w-8 h-8 rounded-full border border-[rgba(58,62,108,0.4)] flex items-center justify-center transition-colors"
       >
         {cursorText && (
-          <span className="font-code text-[8px] uppercase tracking-widest text-[#9A94E8] font-bold select-none">
+          <span className="font-code text-[8px] uppercase tracking-widest text-[#8387C3] font-bold select-none">
             {cursorText}
           </span>
         )}
@@ -99,7 +99,7 @@ export function CustomCursor() {
           translateX: "-50%",
           translateY: "-50%",
         }}
-        className="w-1.5 h-1.5 rounded-full bg-[#9A94E8]"
+        className="w-1.5 h-1.5 rounded-full bg-[#8387C3]"
       />
     </div>
   );

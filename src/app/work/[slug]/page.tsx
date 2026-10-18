@@ -70,13 +70,13 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
     <>
       <CustomCursor />
       <Navbar />
-      <main className="flex-1 pt-28 pb-20 bg-[#0B0B0D]">
+      <main className="flex-1 pt-28 pb-20 bg-[#0A1123]">
         <article className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Breadcrumb & Return Link */}
-          <div className="flex items-center justify-between pb-8 border-b border-[rgba(168,163,154,0.15)] mb-10">
+          <div className="flex items-center justify-between pb-8 border-b border-[rgba(58,62,108,0.3)] mb-10">
             <Link
               href="/work"
-              className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#9A94E8] hover:text-[#F7F5F0] transition-colors"
+              className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#E7E7F0] transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>RETURN TO WORK ARCHIVE</span>
@@ -90,56 +90,56 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
 
           {/* Hero Header */}
           <header className="space-y-6 mb-14">
-            <span className="font-code text-xs uppercase tracking-widest text-[#9A94E8]">
+            <span className="font-code text-xs uppercase tracking-widest text-[#8387C3]">
               [ CASE STUDY // ARCHITECTURAL SPECIFICATION ]
             </span>
 
-            <h1 className="font-editorial text-4xl sm:text-6xl lg:text-7xl font-normal text-[#F7F5F0] tracking-tight leading-[1.05]">
+            <h1 className="font-editorial text-4xl sm:text-6xl lg:text-7xl font-normal text-[#E7E7F0] tracking-tight leading-[1.05]">
               {project.title}
             </h1>
 
-            <p className="font-serif italic text-xl sm:text-2xl text-[#9A94E8] max-w-3xl leading-relaxed">
+            <p className="font-serif italic text-xl sm:text-2xl text-[#8387C3] max-w-3xl leading-relaxed">
               {project.subtitle}
             </p>
 
-            <p className="text-base sm:text-lg text-[#A8A39A] leading-relaxed max-w-3xl font-light">
+            <p className="text-base sm:text-lg text-[#959BB5] leading-relaxed max-w-3xl font-light">
               {project.tagline}
             </p>
 
             {/* Quick Metadata Matrix */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.15)]">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)]">
               <div>
-                <span className="font-code text-[10px] uppercase text-[#A8A39A] block">
+                <span className="font-code text-[10px] uppercase text-[#8A8CAC] block">
                   Timeline
                 </span>
-                <span className="font-code text-xs text-[#F7F5F0] font-medium mt-0.5 block">
+                <span className="font-code text-xs text-[#E7E7F0] font-medium mt-0.5 block">
                   {project.timeline}
                 </span>
               </div>
 
               <div>
-                <span className="font-code text-[10px] uppercase text-[#A8A39A] block">
+                <span className="font-code text-[10px] uppercase text-[#8A8CAC] block">
                   Team Scope
                 </span>
-                <span className="font-code text-xs text-[#F7F5F0] font-medium mt-0.5 block">
+                <span className="font-code text-xs text-[#E7E7F0] font-medium mt-0.5 block">
                   {project.teamSize}
                 </span>
               </div>
 
               <div>
-                <span className="font-code text-[10px] uppercase text-[#A8A39A] block">
+                <span className="font-code text-[10px] uppercase text-[#8A8CAC] block">
                   My Primary Role
                 </span>
-                <span className="font-code text-xs text-[#9A94E8] font-medium mt-0.5 block truncate">
+                <span className="font-code text-xs text-[#8387C3] font-medium mt-0.5 block truncate">
                   {project.role}
                 </span>
               </div>
 
               <div>
-                <span className="font-code text-[10px] uppercase text-[#A8A39A] block">
+                <span className="font-code text-[10px] uppercase text-[#8A8CAC] block">
                   Status
                 </span>
-                <span className="font-code text-xs text-[#F7F5F0] font-medium mt-0.5 block">
+                <span className="font-code text-xs text-[#E7E7F0] font-medium mt-0.5 block">
                   {project.status}
                 </span>
               </div>
@@ -152,9 +152,9 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-wider text-[#F7F5F0] bg-[#1C1C22] hover:bg-[#2E2E35] px-5 py-2.5 rounded-full border border-[rgba(168,163,154,0.25)] transition-colors"
+                  className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-wider text-[#E7E7F0] bg-[#162040] hover:bg-[#1E2C58] px-5 py-2.5 rounded-full border border-[rgba(58,62,108,0.4)] transition-colors"
                 >
-                  <GithubIcon className="w-4 h-4 text-[#9A94E8]" />
+                  <GithubIcon className="w-4 h-4 text-[#8387C3]" />
                   <span>VIEW REPOSITORY</span>
                 </a>
               )}
@@ -164,7 +164,7 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
                   href={project.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-wider text-[#0B0B0D] bg-[#C6F36A] hover:bg-[#d6f78f] font-semibold px-5 py-2.5 rounded-full transition-colors"
+                  className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-wider text-[#0A1123] bg-[#8387C3] hover:bg-[#959BB5] font-semibold px-5 py-2.5 rounded-full transition-colors"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>OPEN DEPLOYMENT / DEMO</span>
@@ -177,32 +177,32 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
           <div className="space-y-16">
             {/* 1. Problem & Objectives */}
             <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(168,163,154,0.15)]">
-                <span className="font-code text-xs font-semibold text-[#9A94E8]">
+              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(58,62,108,0.25)]">
+                <span className="font-code text-xs font-semibold text-[#8387C3]">
                   01.
                 </span>
-                <h2 className="font-editorial text-2xl text-[#F7F5F0]">
+                <h2 className="font-editorial text-2xl text-[#E7E7F0]">
                   Problem Statement & Objectives
                 </h2>
               </div>
 
-              <div className="p-6 rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.15)]">
-                <p className="text-base text-[#A8A39A] leading-relaxed font-light">
+              <div className="p-6 rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)]">
+                <p className="text-base text-[#959BB5] leading-relaxed font-light">
                   {project.caseStudy.problemStatement}
                 </p>
               </div>
 
               <div className="space-y-3">
-                <h3 className="font-code text-xs uppercase tracking-widest text-[#9A94E8]">
+                <h3 className="font-code text-xs uppercase tracking-widest text-[#8387C3]">
                   [ KEY OBJECTIVES ]
                 </h3>
                 <ul className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {project.caseStudy.objectives.map((obj, i) => (
                     <li
                       key={i}
-                      className="p-4 rounded-lg bg-[#141418] border border-[rgba(168,163,154,0.12)] text-xs text-[#A8A39A] leading-relaxed font-light flex items-start gap-2.5"
+                      className="p-4 rounded-lg bg-[#10182D] border border-[rgba(58,62,108,0.3)] text-xs text-[#959BB5] leading-relaxed font-light flex items-start gap-2.5"
                     >
-                      <CheckCircle2 className="w-4 h-4 text-[#C6F36A] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#8387C3] shrink-0 mt-0.5" />
                       <span>{obj}</span>
                     </li>
                   ))}
@@ -212,11 +212,11 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
 
             {/* 2. My Contributions */}
             <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(168,163,154,0.15)]">
-                <span className="font-code text-xs font-semibold text-[#9A94E8]">
+              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(58,62,108,0.25)]">
+                <span className="font-code text-xs font-semibold text-[#8387C3]">
                   02.
                 </span>
-                <h2 className="font-editorial text-2xl text-[#F7F5F0]">
+                <h2 className="font-editorial text-2xl text-[#E7E7F0]">
                   Direct Engineering Contributions
                 </h2>
               </div>
@@ -225,12 +225,12 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
                 {project.caseStudy.myContribution.map((contribution, i) => (
                   <div
                     key={i}
-                    className="p-4 rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.15)] flex items-start gap-3.5"
+                    className="p-4 rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)] flex items-start gap-3.5"
                   >
-                    <div className="w-6 h-6 rounded bg-[#1C1C22] border border-[rgba(168,163,154,0.12)] text-[#9A94E8] flex items-center justify-center font-code text-xs shrink-0 mt-0.5">
+                    <div className="w-6 h-6 rounded bg-[#162040] border border-[rgba(58,62,108,0.3)] text-[#8387C3] flex items-center justify-center font-code text-xs shrink-0 mt-0.5">
                       {i + 1}
                     </div>
-                    <p className="text-sm text-[#F7F5F0] font-light leading-relaxed">
+                    <p className="text-sm text-[#E7E7F0] font-light leading-relaxed">
                       {contribution}
                     </p>
                   </div>
@@ -240,50 +240,50 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
 
             {/* 3. System Architecture */}
             <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(168,163,154,0.15)]">
-                <span className="font-code text-xs font-semibold text-[#9A94E8]">
+              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(58,62,108,0.25)]">
+                <span className="font-code text-xs font-semibold text-[#8387C3]">
                   03.
                 </span>
-                <h2 className="font-editorial text-2xl text-[#F7F5F0]">
+                <h2 className="font-editorial text-2xl text-[#E7E7F0]">
                   System Architecture & Stack
                 </h2>
               </div>
 
-              <div className="p-6 rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.18)] space-y-5">
-                <div className="flex items-center gap-2 text-[#9A94E8]">
+              <div className="p-6 rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)] space-y-5">
+                <div className="flex items-center gap-2 text-[#8387C3]">
                   <Layers className="w-4 h-4" />
                   <span className="font-code text-xs uppercase tracking-wider font-semibold">
                     ARCHITECTURAL BLUEPRINT
                   </span>
                 </div>
-                <p className="text-sm text-[#F7F5F0] font-light leading-relaxed">
+                <p className="text-sm text-[#E7E7F0] font-light leading-relaxed">
                   {project.caseStudy.architecture.overview}
                 </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[rgba(168,163,154,0.12)]">
-                  <div className="p-3.5 rounded-lg bg-[#0B0B0D] border border-[rgba(168,163,154,0.12)] space-y-1">
-                    <span className="font-code text-[11px] text-[#9A94E8] uppercase block">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[rgba(58,62,108,0.25)]">
+                  <div className="p-3.5 rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.25)] space-y-1">
+                    <span className="font-code text-[11px] text-[#8387C3] uppercase block">
                       Frontend
                     </span>
-                    <p className="text-xs text-[#A8A39A] font-light">
+                    <p className="text-xs text-[#959BB5] font-light">
                       {project.caseStudy.architecture.frontend}
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-lg bg-[#0B0B0D] border border-[rgba(168,163,154,0.12)] space-y-1">
-                    <span className="font-code text-[11px] text-[#9A94E8] uppercase block">
+                  <div className="p-3.5 rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.25)] space-y-1">
+                    <span className="font-code text-[11px] text-[#8387C3] uppercase block">
                       Backend & API
                     </span>
-                    <p className="text-xs text-[#A8A39A] font-light">
+                    <p className="text-xs text-[#959BB5] font-light">
                       {project.caseStudy.architecture.backend}
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-lg bg-[#0B0B0D] border border-[rgba(168,163,154,0.12)] space-y-1">
-                    <span className="font-code text-[11px] text-[#9A94E8] uppercase block">
+                  <div className="p-3.5 rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.25)] space-y-1">
+                    <span className="font-code text-[11px] text-[#8387C3] uppercase block">
                       Persistence Layer
                     </span>
-                    <p className="text-xs text-[#A8A39A] font-light">
+                    <p className="text-xs text-[#959BB5] font-light">
                       {project.caseStudy.architecture.database}
                     </p>
                   </div>
@@ -293,11 +293,11 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
 
             {/* 4. Engineering Decisions & Trade-offs */}
             <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(168,163,154,0.15)]">
-                <span className="font-code text-xs font-semibold text-[#9A94E8]">
+              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(58,62,108,0.25)]">
+                <span className="font-code text-xs font-semibold text-[#8387C3]">
                   04.
                 </span>
-                <h2 className="font-editorial text-2xl text-[#F7F5F0]">
+                <h2 className="font-editorial text-2xl text-[#E7E7F0]">
                   Key Engineering Decisions & Trade-offs
                 </h2>
               </div>
@@ -306,26 +306,26 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
                 {project.caseStudy.engineeringDecisions.map((item, i) => (
                   <div
                     key={i}
-                    className="p-5 rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.15)] space-y-3"
+                    className="p-5 rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)] space-y-3"
                   >
-                    <div className="flex items-center gap-2 text-[#F7F5F0] font-medium text-sm">
-                      <Lightbulb className="w-4 h-4 text-[#9A94E8] shrink-0" />
+                    <div className="flex items-center gap-2 text-[#E7E7F0] font-medium text-sm">
+                      <Lightbulb className="w-4 h-4 text-[#8387C3] shrink-0" />
                       <span>{item.decision}</span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-light pt-2">
-                      <div className="p-3 rounded bg-[#0B0B0D] border border-[rgba(168,163,154,0.1)]">
-                        <span className="font-code text-[10px] text-[#9A94E8] uppercase block mb-1">
+                      <div className="p-3 rounded bg-[#0A1123] border border-[rgba(58,62,108,0.25)]">
+                        <span className="font-code text-[10px] text-[#8387C3] uppercase block mb-1">
                           Why this choice:
                         </span>
-                        <p className="text-[#A8A39A]">{item.rationale}</p>
+                        <p className="text-[#959BB5]">{item.rationale}</p>
                       </div>
 
-                      <div className="p-3 rounded bg-[#0B0B0D] border border-[rgba(168,163,154,0.1)]">
-                        <span className="font-code text-[10px] text-[#A8A39A] uppercase block mb-1">
+                      <div className="p-3 rounded bg-[#0A1123] border border-[rgba(58,62,108,0.25)]">
+                        <span className="font-code text-[10px] text-[#8A8CAC] uppercase block mb-1">
                           Alternative Considered:
                         </span>
-                        <p className="text-[#A8A39A]">
+                        <p className="text-[#8A8CAC]">
                           {item.alternativeConsidered}
                         </p>
                       </div>
@@ -337,11 +337,11 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
 
             {/* 5. Challenges & Solutions */}
             <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(168,163,154,0.15)]">
-                <span className="font-code text-xs font-semibold text-[#9A94E8]">
+              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(58,62,108,0.25)]">
+                <span className="font-code text-xs font-semibold text-[#8387C3]">
                   05.
                 </span>
-                <h2 className="font-editorial text-2xl text-[#F7F5F0]">
+                <h2 className="font-editorial text-2xl text-[#E7E7F0]">
                   Technical Challenges & Solutions
                 </h2>
               </div>
@@ -350,16 +350,16 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
                 {project.caseStudy.challengesAndSolutions.map((item, i) => (
                   <div
                     key={i}
-                    className="p-5 rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.15)] space-y-2.5"
+                    className="p-5 rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)] space-y-2.5"
                   >
                     <div className="flex items-start gap-2.5 text-xs">
-                      <AlertTriangle className="w-4 h-4 text-[#9A94E8] shrink-0 mt-0.5" />
-                      <span className="text-[#F7F5F0] font-medium">
+                      <AlertTriangle className="w-4 h-4 text-[#8387C3] shrink-0 mt-0.5" />
+                      <span className="text-[#E7E7F0] font-medium">
                         {item.challenge}
                       </span>
                     </div>
-                    <div className="pl-6 text-xs text-[#A8A39A] font-light leading-relaxed">
-                      <span className="font-code text-[10px] text-[#9A94E8] uppercase block mb-0.5">
+                    <div className="pl-6 text-xs text-[#959BB5] font-light leading-relaxed">
+                      <span className="font-code text-[10px] text-[#8387C3] uppercase block mb-0.5">
                         Solution Implemented:
                       </span>
                       {item.solution}
@@ -371,28 +371,28 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
 
             {/* 6. Results & Metrics */}
             <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(168,163,154,0.15)]">
-                <span className="font-code text-xs font-semibold text-[#9A94E8]">
+              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(58,62,108,0.25)]">
+                <span className="font-code text-xs font-semibold text-[#8387C3]">
                   06.
                 </span>
-                <h2 className="font-editorial text-2xl text-[#F7F5F0]">
+                <h2 className="font-editorial text-2xl text-[#E7E7F0]">
                   Measurable Benchmarks & Results
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {project.caseStudy.resultsAndMetrics.map((item, i) => (
                   <div
                     key={i}
-                    className="p-5 rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.18)] text-center space-y-2"
+                    className="p-5 rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)] text-center space-y-2"
                   >
-                    <div className="font-editorial text-3xl sm:text-4xl font-normal text-[#C6F36A]">
+                    <div className="font-editorial text-2xl sm:text-3xl font-normal text-[#8387C3]">
                       {item.value}
                     </div>
-                    <div className="font-code text-xs uppercase tracking-wider text-[#F7F5F0]">
+                    <div className="font-code text-xs uppercase tracking-wider text-[#E7E7F0]">
                       {item.metric}
                     </div>
-                    <p className="text-[11px] text-[#A8A39A] font-light leading-snug">
+                    <p className="text-[11px] text-[#959BB5] font-light leading-snug">
                       {item.context}
                     </p>
                   </div>
@@ -402,38 +402,38 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
 
             {/* 7. Limitations & Future Roadmap */}
             <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(168,163,154,0.15)]">
-                <span className="font-code text-xs font-semibold text-[#9A94E8]">
+              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(58,62,108,0.25)]">
+                <span className="font-code text-xs font-semibold text-[#8387C3]">
                   07.
                 </span>
-                <h2 className="font-editorial text-2xl text-[#F7F5F0]">
+                <h2 className="font-editorial text-2xl text-[#E7E7F0]">
                   Limitations & Future Roadmap
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-5 rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.15)] space-y-3">
-                  <span className="font-code text-xs uppercase text-[#9A94E8] tracking-wider block font-semibold">
+                <div className="p-5 rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)] space-y-3">
+                  <span className="font-code text-xs uppercase text-[#8387C3] tracking-wider block font-semibold">
                     Known Limitations
                   </span>
-                  <ul className="space-y-2 text-xs text-[#A8A39A] font-light">
+                  <ul className="space-y-2 text-xs text-[#959BB5] font-light">
                     {project.caseStudy.limitations.map((lim, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <span className="text-[#9A94E8] shrink-0">•</span>
+                        <span className="text-[#8387C3] shrink-0">•</span>
                         <span>{lim}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="p-5 rounded-xl bg-[#141418] border border-[rgba(168,163,154,0.15)] space-y-3">
-                  <span className="font-code text-xs uppercase text-[#9A94E8] tracking-wider block font-semibold">
+                <div className="p-5 rounded-xl bg-[#10182D] border border-[rgba(58,62,108,0.35)] space-y-3">
+                  <span className="font-code text-xs uppercase text-[#8387C3] tracking-wider block font-semibold">
                     Planned Technical Improvements
                   </span>
-                  <ul className="space-y-2 text-xs text-[#A8A39A] font-light">
+                  <ul className="space-y-2 text-xs text-[#959BB5] font-light">
                     {project.caseStudy.futureImprovements.map((imp, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <span className="text-[#C6F36A] shrink-0">•</span>
+                        <span className="text-[#8387C3] shrink-0">•</span>
                         <span>{imp}</span>
                       </li>
                     ))}
@@ -444,20 +444,20 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
           </div>
 
           {/* Bottom Pagination Links */}
-          <div className="pt-16 mt-16 border-t border-[rgba(168,163,154,0.15)] flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="pt-16 mt-16 border-t border-[rgba(58,62,108,0.3)] flex flex-col sm:flex-row items-center justify-between gap-6">
             {prevProject ? (
               <Link
                 href={`/work/${prevProject.slug}`}
                 className="group flex items-center gap-3 text-left focus:outline-none"
               >
-                <div className="p-2.5 rounded-lg bg-[#141418] border border-[rgba(168,163,154,0.15)] group-hover:border-[rgba(154,148,232,0.4)] text-[#9A94E8] transition-colors">
+                <div className="p-2.5 rounded-lg bg-[#10182D] border border-[rgba(58,62,108,0.35)] group-hover:border-[rgba(131,135,195,0.45)] text-[#8387C3] transition-colors">
                   <ArrowLeft className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="font-code text-[10px] uppercase text-[#A8A39A] block">
+                  <span className="font-code text-[10px] uppercase text-[#8A8CAC] block">
                     PREVIOUS CASE STUDY
                   </span>
-                  <span className="font-editorial text-lg text-[#F7F5F0] group-hover:text-[#9A94E8] transition-colors">
+                  <span className="font-editorial text-lg text-[#E7E7F0] group-hover:text-[#8387C3] transition-colors">
                     {prevProject.title}
                   </span>
                 </div>
@@ -472,14 +472,14 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
                 className="group flex items-center gap-3 text-right focus:outline-none"
               >
                 <div>
-                  <span className="font-code text-[10px] uppercase text-[#A8A39A] block">
+                  <span className="font-code text-[10px] uppercase text-[#8A8CAC] block">
                     NEXT CASE STUDY
                   </span>
-                  <span className="font-editorial text-lg text-[#F7F5F0] group-hover:text-[#9A94E8] transition-colors">
+                  <span className="font-editorial text-lg text-[#E7E7F0] group-hover:text-[#8387C3] transition-colors">
                     {nextProject.title}
                   </span>
                 </div>
-                <div className="p-2.5 rounded-lg bg-[#141418] border border-[rgba(168,163,154,0.15)] group-hover:border-[rgba(154,148,232,0.4)] text-[#9A94E8] transition-colors">
+                <div className="p-2.5 rounded-lg bg-[#10182D] border border-[rgba(58,62,108,0.35)] group-hover:border-[rgba(131,135,195,0.45)] text-[#8387C3] transition-colors">
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </Link>
