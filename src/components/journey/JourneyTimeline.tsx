@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
 import { ArrowUpRight, GraduationCap, GitCommit, Trophy, Code } from "lucide-react";
 import { journeyData } from "@/data/journey";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -19,6 +19,27 @@ export function JourneyTimeline({
 }: JourneyTimelineProps) {
   const displayed = initialLimit ? journeyData.slice(0, initialLimit) : journeyData;
   const shouldReduceMotion = useReducedMotion();
+  const timelineRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 75%", "end 65%"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 180,
+    damping: 26,
+    mass: 0.3,
+    restDelta: 0.001,
+  });
+
+  const scaleY = shouldReduceMotion ? 1 : smoothProgress;
+  const lightTop = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
+  const lightOpacity = useTransform(
+    smoothProgress,
+    [0, 0.03, 0.97, 1],
+    shouldReduceMotion ? [0, 0, 0, 0] : [0, 1, 1, 0.6]
+  );
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -58,35 +79,72 @@ export function JourneyTimeline({
         )}
 
         {/* Timeline Stream */}
-        <div className="relative border-l-2 border-[rgba(255,255,255,0.08)] ml-4 sm:ml-32 md:ml-40 space-y-12">
+        <div ref={timelineRef} className="relative ml-4 sm:ml-32 md:ml-40 space-y-12">
+          {/* Timeline Spine Line (Base Guide Rail + Active Luminous Beam + Traveling Beacon) */}
+          <div
+            aria-hidden="true"
+            className="absolute left-0 top-3 bottom-6 w-[2px] pointer-events-none"
+          >
+            {/* 1. Base Guide Rail (Subtle background path) */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[rgba(255,255,255,0.12)] via-[rgba(255,255,255,0.06)] to-[rgba(255,255,255,0.10)] rounded-full" />
+
+            {/* 2. Fluid Active Luminous Energy Beam */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-b from-[#8387C3] via-[#A5A9E6] to-[#F0EEF4] origin-top rounded-full shadow-[0_0_12px_rgba(131,135,195,0.75)]"
+              style={{ scaleY }}
+            />
+
+            {/* 3. Traveling Fluid Light Beacon */}
+            <motion.div
+              className="absolute -left-[5px] w-3 h-3 -translate-y-1/2 rounded-full pointer-events-none z-10"
+              style={{
+                top: lightTop,
+                opacity: lightOpacity,
+              }}
+            >
+              <div className="w-full h-full rounded-full bg-[#F0EEF4] shadow-[0_0_10px_#A5A9E6,0_0_20px_#8387C3]" />
+              <div className="absolute -inset-1 rounded-full bg-[#8387C3]/50 blur-xs animate-pulse" />
+            </motion.div>
+          </div>
+
           {displayed.map((milestone, idx) => (
             <motion.div
               key={idx}
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{
-                duration: 0.42,
-                delay: Math.min(idx * 0.08, 0.28),
-                ease: [0.22, 1, 0.36, 1],
+                duration: 0.48,
+                delay: Math.min(idx * 0.07, 0.28),
+                ease: [0.16, 1, 0.3, 1],
               }}
               className="relative pl-6 sm:pl-10 group"
             >
-              {/* Timeline Marker Dot */}
-              <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-[#151720] border-2 border-[#8387C3] group-hover:bg-[#8387C3] group-hover:scale-125 transition-all shadow-[0_0_12px_rgba(131,135,195,0.4)]" />
+              {/* Timeline Marker Node (Centered on 2px spine) */}
+              <motion.div
+                initial={shouldReduceMotion ? false : { scale: 0.7, opacity: 0.4 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute -left-[7px] top-2 z-10 flex items-center justify-center pointer-events-none"
+              >
+                <div className="relative w-4 h-4 rounded-full bg-[#151720] border-2 border-[#8387C3]/60 group-hover:border-[#F0EEF4] group-hover:scale-125 transition-all duration-300 shadow-[0_0_8px_rgba(131,135,195,0.3)] group-hover:shadow-[0_0_16px_rgba(165,169,230,0.8)] flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#8387C3] group-hover:bg-[#F0EEF4] group-hover:scale-125 transition-all duration-300 shadow-[0_0_6px_rgba(131,135,195,0.9)]" />
+                </div>
+              </motion.div>
 
               {/* Date callout (left side on sm/md screens) */}
-              <div className="sm:absolute sm:-left-36 sm:top-1 font-code text-xs font-semibold text-[#8387C3] mb-2 sm:mb-0">
+              <div className="sm:absolute sm:-left-36 sm:top-1 font-code text-xs font-semibold text-[#8387C3] group-hover:text-[#F0EEF4] mb-2 sm:mb-0 transition-colors duration-300">
                 <span>{milestone.year}</span>
                 {milestone.quarterOrMonth && (
-                  <span className="block text-[10px] text-[#8A8CAC] font-normal">
+                  <span className="block text-[10px] text-[#8A8CAC] font-normal group-hover:text-[#959BB5] transition-colors duration-300">
                     {milestone.quarterOrMonth}
                   </span>
                 )}
               </div>
 
-              {/* Content Card */}
-              <div className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] card-interactive p-6 shadow-xl">
+              {/* Content Card with Fluid Micro-Interaction */}
+              <div className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] group-hover:border-[rgba(131,135,195,0.32)] group-hover:translate-x-1 p-6 shadow-xl transition-all duration-300 ease-out group-hover:shadow-[0_16px_32px_rgba(0,0,0,0.5),0_0_24px_rgba(131,135,195,0.12)]">
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-[#1E2030] border border-[rgba(255,255,255,0.08)]">
