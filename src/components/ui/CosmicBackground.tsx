@@ -181,6 +181,30 @@ const starFragmentShader = `
   }
 `;
 
+// Bounded Backing Store Engine: Prevents GPU fillrate stalls and memory exhaustion during zoom
+const MAX_RENDER_WIDTH = 1920;
+const MAX_RENDER_HEIGHT = 1080;
+
+function calculateBackingDimensions(vpWidth: number, vpHeight: number, dpr: number) {
+  const clampedDpr = Math.min(Math.max(dpr, 1.0), 1.25);
+  let rawW = Math.round(vpWidth * clampedDpr);
+  let rawH = Math.round(vpHeight * clampedDpr);
+
+  // When zooming out, viewport in CSS pixels expands dramatically (e.g. 3840x2160 at 50% zoom).
+  // Clamping to MAX_RENDER_WIDTH / MAX_RENDER_HEIGHT prevents catastrophic GPU fillrate explosions.
+  if (rawW > MAX_RENDER_WIDTH || rawH > MAX_RENDER_HEIGHT) {
+    const scale = Math.min(MAX_RENDER_WIDTH / rawW, MAX_RENDER_HEIGHT / rawH);
+    rawW = Math.round(rawW * scale);
+    rawH = Math.round(rawH * scale);
+  }
+
+  return {
+    width: Math.max(rawW, 320),
+    height: Math.max(rawH, 240),
+    effectiveDpr: rawW / Math.max(vpWidth, 1),
+  };
+}
+
 export function CosmicBackground() {
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -195,6 +219,10 @@ export function CosmicBackground() {
     if (!container) return;
 
     let animationFrameId: number | null = null;
+    let resizeDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+    let resizeRafId: number | null = null;
+    let lastAllocatedW = 0;
+    let lastAllocatedH = 0;
     let isDisposed = false;
 
     // 2. Setup Three.js Scene, Camera, and Renderer
@@ -209,9 +237,20 @@ export function CosmicBackground() {
       alpha: false,
     });
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    renderer.setPixelRatio(dpr);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const initialRes = calculateBackingDimensions(
+      window.innerWidth,
+      window.innerHeight,
+      window.devicePixelRatio || 1
+    );
+
+    lastAllocatedW = initialRes.width;
+    lastAllocatedH = initialRes.height;
+
+    // Decouple canvas backing store from CSS layout size:
+    // Passing `false` to setSize prevents Three.js from setting inline style.width/height in px.
+    // CSS classes (position: absolute; inset: 0; width: 100%; height: 100%) handle seamless scaling
+    renderer.setPixelRatio(1);
+    renderer.setSize(initialRes.width, initialRes.height, false);
     renderer.domElement.style.position = "absolute";
     renderer.domElement.style.inset = "0";
     renderer.domElement.style.width = "100%";
@@ -231,7 +270,7 @@ export function CosmicBackground() {
     // 3. Create Fullscreen Nebula Quad with Procedural GLSL Shader
     const nebulaUniforms = {
       u_time: { value: 0 },
-      u_resolution: { value: new THREE.Vector2(window.innerWidth * dpr, window.innerHeight * dpr) },
+      u_resolution: { value: new THREE.Vector2(initialRes.width, initialRes.height) },
       u_mouse: { value: new THREE.Vector2(0, 0) },
     };
 
@@ -356,7 +395,7 @@ export function CosmicBackground() {
 
       const uniforms = {
         u_time: { value: 0 },
-        u_pixelRatio: { value: dpr },
+        u_pixelRatio: { value: initialRes.effectiveDpr },
         u_mouse: { value: new THREE.Vector2(0, 0) },
         u_depthFactor: { value: cfg.depthFactor },
         u_driftSpeed: { value: new THREE.Vector2(cfg.driftSpeed.x, cfg.driftSpeed.y) },
@@ -400,20 +439,44 @@ export function CosmicBackground() {
       window.addEventListener("mousemove", handleMouseMove, { passive: true });
     }
 
-    // 6. Viewport Resize Handler
+    // 6. Viewport Resize Handler with Coalescing & Debouncing
+    const performResize = (force = false) => {
+      if (isDisposed) return;
+      const vpW = window.innerWidth;
+      const vpH = window.innerHeight;
+      const currentDpr = window.devicePixelRatio || 1;
+
+      const { width, height, effectiveDpr } = calculateBackingDimensions(vpW, vpH, currentDpr);
+
+      // Only reallocate WebGL drawing buffer if dimensions actually changed
+      if (!force && width === lastAllocatedW && height === lastAllocatedH) {
+        return;
+      }
+
+      lastAllocatedW = width;
+      lastAllocatedH = height;
+
+      // Passing `false` to setSize prevents Three.js from setting inline style.width/height in px.
+      // CSS width: 100%; height: 100% handles visual scaling without reflows.
+      renderer.setPixelRatio(1);
+      renderer.setSize(width, height, false);
+
+      nebulaUniforms.u_resolution.value.set(width, height);
+      starLayers.forEach((layer) => {
+        layer.uniforms.u_pixelRatio.value = effectiveDpr;
+      });
+    };
+
     const handleResize = () => {
       if (isDisposed) return;
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      const newDpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
-      renderer.setPixelRatio(newDpr);
-      renderer.setSize(w, h);
-
-      nebulaUniforms.u_resolution.value.set(w * newDpr, h * newDpr);
-      starLayers.forEach((layer) => {
-        layer.uniforms.u_pixelRatio.value = newDpr;
-      });
+      // Coalesce rapid zoom bursts: Debounce the heavy WebGL drawing buffer reallocation
+      // while allowing CSS (width: 100%; height: 100%) to instantly handle visual scaling
+      if (resizeDebounceTimer) clearTimeout(resizeDebounceTimer);
+      resizeDebounceTimer = setTimeout(() => {
+        if (resizeRafId) cancelAnimationFrame(resizeRafId);
+        resizeRafId = requestAnimationFrame(() => performResize(false));
+      }, 100);
     };
 
     window.addEventListener("resize", handleResize, { passive: true });
@@ -484,6 +547,8 @@ export function CosmicBackground() {
     return () => {
       isDisposed = true;
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      if (resizeDebounceTimer) clearTimeout(resizeDebounceTimer);
+      if (resizeRafId) cancelAnimationFrame(resizeRafId);
 
       window.removeEventListener("resize", handleResize);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
@@ -510,11 +575,11 @@ export function CosmicBackground() {
 
   return (
     <div
-      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#101116]"
+      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#101116] transform-gpu"
       aria-hidden="true"
     >
       {/* Permanent CSS fallback gradient (renders identically on SSR and client; sits behind WebGL canvas) */}
-      <div className="absolute inset-0 bg-[#101116] pointer-events-none">
+      <div className="absolute inset-0 bg-[#101116] pointer-events-none transform-gpu">
         <div className="absolute -top-[10%] -right-[15%] w-[850px] h-[850px] rounded-full bg-gradient-to-br from-[#2E2864]/40 via-[#1C1844]/25 to-transparent blur-[140px]" />
         <div className="absolute top-[35%] -left-[10%] w-[900px] h-[750px] rounded-full bg-gradient-to-tr from-[#1E1B4B]/35 via-[#161934]/20 to-transparent blur-[160px]" />
       </div>

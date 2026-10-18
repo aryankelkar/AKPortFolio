@@ -128,9 +128,19 @@ export function Navbar() {
       rafId = requestAnimationFrame(determineActiveSection);
     };
 
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+    let resizeRafId: number | null = null;
+
     const handleResize = () => {
-      measureSections();
-      handleScroll();
+      // Coalesce rapid zoom bursts: avoid forced synchronous layout thrashing (el.offsetTop) on intermediate zoom ticks
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (resizeRafId) cancelAnimationFrame(resizeRafId);
+        resizeRafId = requestAnimationFrame(() => {
+          measureSections();
+          determineActiveSection();
+        });
+      }, 100);
     };
 
     // Initial measurement and check on mount
@@ -142,6 +152,8 @@ export function Navbar() {
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
+      if (resizeRafId) cancelAnimationFrame(resizeRafId);
+      if (resizeTimer) clearTimeout(resizeTimer);
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
