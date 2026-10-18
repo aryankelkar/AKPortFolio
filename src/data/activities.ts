@@ -12,25 +12,41 @@ export interface ActivityItem {
 
 export const activitiesData: ActivityItem[] = [
   {
-    id: "act-tech-committee",
-    title: "Student Technical Committee & Coding Club",
-    organization: "Department of Information Technology",
-    role: "Technical Member & Peer Mentor",
+    id: "act-algorythm-head",
+    title: "Event Head — 'ALGORYTHM'",
+    organization: "Technical Council (Student Council of VIT), Vidyalankar Institute of Technology",
+    role: "Event Head & Technical Lead",
+    period: "2023 - Present",
+    category: "Leadership",
+    description:
+      "Spearheaded flagship technical events, algorithmic problem-solving contests, and competitive coding fixtures under 'ALGORYTHM' as part of the Technical Council (Student Council of VIT).",
+    contributions: [
+      "Conceptualized and structured event formats, judging criteria, and algorithmic challenges for 'ALGORYTHM'.",
+      "Directed cross-functional student teams managing stage logistics, participant triage, and technical operations.",
+      "Coordinated live scoring platforms and technical setups across campus computing laboratories.",
+    ],
+    impactOutcome: "Orchestrated high-impact technical events engaging collegiate engineering competitors across Mumbai.",
+  },
+  {
+    id: "act-itsa-creatives",
+    title: "Creatives Team Member",
+    organization: "Information Technology Student Association (ITSA), VIT Mumbai",
+    role: "Creatives & Visual Media Designer",
     period: "2023 - Present",
     category: "Technical Club",
     description:
-      "Active participant in departmental technical initiatives, conducting peer study sessions on data structures and organizing coding practice contests.",
+      "Active member of the Creatives Team at ITSA, shaping the visual communication, event branding, digital collateral, and creative media for the Department of Information Technology.",
     contributions: [
-      "Conducted weekly problem-solving walkthroughs for junior students on basic algorithms and Git version control.",
-      "Assisted in coordinating departmental coding competitions and technical quizzes during annual college festivals.",
-      "Contributed to building registration and scoring scripts for club activities.",
+      "Designed high-impact event posters, identity badges, and digital promotional collateral for technical symposiums.",
+      "Collaborated with technical leads to visually translate advanced software and ML themes for the student community.",
+      "Maintained aesthetic consistency across departmental newsletters, announcements, and digital media channels.",
     ],
-    impactOutcome: "Mentored 30+ junior students in foundational programming and Git basics.",
+    impactOutcome: "Enhanced visual identity and boosted student engagement across departmental workshops and bootcamps.",
   },
   {
     id: "act-hackathon-team",
     title: "Hackathon Team Captain & Technical Lead",
-    organization: "Collegiate Innovation Group",
+    organization: "Collegiate Innovation Group, VIT Mumbai",
     role: "Project Lead & Architect",
     period: "2023 - 2024",
     category: "Leadership",
@@ -42,20 +58,6 @@ export const activitiesData: ActivityItem[] = [
       "Delivered live architecture pitches to judges and industry panelists.",
     ],
     impactOutcome: "Led team to Finalist recognition in National Tech Hackathon with JanAarogya.",
-  },
-  {
-    id: "act-campus-events",
-    title: "Annual Technical Symposium Coordination",
-    organization: "College Engineering Festival",
-    role: "Logistics & Tech Operations Volunteer",
-    period: "2023",
-    category: "Event Organizing",
-    description:
-      "Volunteered for technical festival operations, ensuring smooth lab workstation setups, network stability, and participant registration desks.",
-    contributions: [
-      "Configured lab workstation environments with necessary compilers and developer SDKs for 100+ participants.",
-      "Managed live scoreboard updates and display monitors during coding tournament rounds.",
-    ],
   },
   {
     id: "act-social-outreach",

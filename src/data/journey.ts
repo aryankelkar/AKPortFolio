@@ -14,6 +14,16 @@ export const journeyData: JourneyMilestone[] = [
   {
     year: "2024 - Present",
     quarterOrMonth: "Mid 2024",
+    title: "Event Head — 'ALGORYTHM' & Technical Council",
+    organizationOrContext: "Technical Council (Student Council of VIT), Mumbai",
+    category: "Milestone",
+    description:
+      "Selected as Event Head for 'ALGORYTHM' under the Technical Council (part of Student Council of VIT), steering flagship algorithmic challenges, coding competitions, and technical logistics across collegiate fixtures.",
+    technologiesUsed: ["Event Leadership", "Algorithmic Contests", "Technical Operations", "Team Coordination"],
+  },
+  {
+    year: "2024 - Present",
+    quarterOrMonth: "Mid 2024",
     title: "ReDevice & Advanced Full-Stack Systems",
     organizationOrContext: "Independent Engineering Initiative",
     category: "Project",
@@ -36,16 +46,14 @@ export const journeyData: JourneyMilestone[] = [
     linkLabel: "View Case Study",
   },
   {
-    year: "2024",
-    quarterOrMonth: "Hackathon Season",
-    title: "JanAarogya at National Tech Hackathon",
-    organizationOrContext: "36-Hour Hackathon Finalist",
-    category: "Hackathon",
+    year: "2023 - Present",
+    quarterOrMonth: "Mid 2023",
+    title: "Creatives Team — ITSA",
+    organizationOrContext: "Information Technology Student Association (ITSA), VIT Mumbai",
+    category: "Milestone",
     description:
-      "Collaborated in a 4-person team to build an offline-first rural health management platform. Engineered client-side IndexedDB caching and conflict-resolution synchronization protocols under low-bandwidth network assumptions.",
-    technologiesUsed: ["React", "Node.js", "MySQL", "IndexedDB", "Tailwind CSS"],
-    link: "/work/janaarogya",
-    linkLabel: "View Case Study",
+      "Active member of the Creatives Team at ITSA, shaping the visual communication, event branding, digital collateral, and creative media for the Department of Information Technology at Vidyalankar Institute of Technology.",
+    technologiesUsed: ["Brand Identity", "Visual Media", "Digital Design", "UI/UX"],
   },
   {
     year: "2023",
@@ -60,25 +68,13 @@ export const journeyData: JourneyMilestone[] = [
     linkLabel: "View Case Study",
   },
   {
-    year: "2023",
-    quarterOrMonth: "Early 2023",
-    title: "Core Computer Science & Graph Algorithms",
-    organizationOrContext: "Academic Systems Engineering",
-    category: "Education",
-    description:
-      "Deepened foundational knowledge of data structures, dynamic programming, and systems programming. Built the Smart Evacuation Router using modified graph pathfinding algorithms with hazard weight penalties.",
-    technologiesUsed: ["C", "Java", "Graph Algorithms", "Data Structures"],
-    link: "/work/smart-evacuation-router",
-    linkLabel: "View Case Study",
-  },
-  {
-    year: "2022",
+    year: "2022 - Present",
     quarterOrMonth: "Autumn 2022",
-    title: "Commenced B.Tech in Information Technology",
-    organizationOrContext: "Undergraduate Degree",
+    title: "B.Tech in Information Technology (Third Year)",
+    organizationOrContext: "Vidyalankar Institute of Technology, Mumbai",
     category: "Education",
     description:
-      "Embarked on engineering degree with a focus on Information Technology, software development paradigms, logic design, and algorithmic problem solving.",
-    technologiesUsed: ["C", "Algorithms", "Mathematics", "Logic Design"],
+      "Pursuing Bachelor of Technology in Information Technology. Rigorous coursework spanning Data Structures & Algorithms, Operating Systems, Database Management Systems, Computer Networks, and Software Engineering.",
+    technologiesUsed: ["C", "Java", "Python", "Data Structures", "DBMS", "Operating Systems"],
   },
 ];

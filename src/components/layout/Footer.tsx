@@ -25,10 +25,9 @@ export function Footer() {
               <span className="font-code text-xs text-[#8387C3]">2026 ARCHIVE</span>
             </div>
             <p className="text-sm leading-relaxed text-[#959BB5] max-w-md font-light">
-              Information Technology student focused on software engineering,
-              applied machine learning, and civic technology. Committed to
-              accessible, high-performance web systems that address real-world
-              needs.
+              Third Year Information Technology student at Vidyalankar Institute of
+              Technology (VIT), Mumbai, focused on software engineering, applied
+              machine learning, and human-centered systems.
             </p>
             <div className="flex items-center gap-2 pt-2">
               <span className="relative flex h-2 w-2">

@@ -33,7 +33,7 @@ export function AboutSection() {
           >
             <div className="space-y-4 text-base sm:text-lg text-[#959BB5] leading-relaxed font-light">
               <p>
-                I&apos;m Aryan Kelkar, an Information Technology student interested in building useful digital products, exploring artificial intelligence, and turning complex problems into practical solutions.
+                {profileData.bio.full[0]}
               </p>
               <p className="text-sm sm:text-base text-[#8A8CAC]">
                 {profileData.bio.full[1]}

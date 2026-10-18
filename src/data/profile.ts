@@ -54,15 +54,15 @@ export interface ProfileData {
 export const profileData: ProfileData = {
   name: "Aryan Kelkar",
   motto: "INDEPENDENTLY CURIOUS. INTENTIONALLY BUILDING.",
-  tagline: "Information Technology Student & Systems Builder",
+  tagline: "Third Year Information Technology Student & Builder",
   headline: "I build digital products, explore intelligent systems, and turn complex problems into practical experiences.",
   supportingStatement:
-    "An Information Technology student who moves between software engineering, applied machine learning, and clean architectural design. Building with purpose, intellectual rigor, and an abiding curiosity about how complex systems interact with human needs.",
+    "A Third Year Information Technology student at Vidyalankar Institute of Technology (VIT), Mumbai. Building across software engineering, applied machine learning, and human-centered design with purpose, technical rigor, and curiosity.",
   email: "aryan.kelkar@example.com", // Configurable direct email
   github: "https://github.com/aryankelkar",
   linkedin: "https://linkedin.com/in/aryankelkar",
   resumeUrl: "/resume.pdf",
-  location: "India",
+  location: "Mumbai, Maharashtra, India",
   disciplines: [
     {
       name: "SOFTWARE ENGINEERING",
@@ -118,15 +118,16 @@ export const profileData: ProfileData = {
     },
   },
   education: {
-    degree: "Bachelor of Technology / Engineering",
+    degree: "Bachelor of Technology (B.Tech)",
     field: "Information Technology",
-    institution: "University Engineering Institute", // Documented editable placeholder
-    status: "Undergraduate Student",
+    institution: "Vidyalankar Institute of Technology, Mumbai",
+    status: "Third Year Undergraduate",
     expectedGraduation: "2026",
     highlights: [
-      "Rigorous foundations in Data Structures, Discrete Math, Operating Systems & DBMS",
-      "Applied machine learning modeling and high-performance full-stack architectures",
-      "Active participant in technical hackathons and competitive problem-solving leagues",
+      "Third Year B.Tech student in Information Technology at Vidyalankar Institute of Technology (VIT), Mumbai",
+      "Event Head for 'ALGORYTHM' under the Technical Council (part of Student Council of VIT)",
+      "Core member of Creatives Team at Information Technology Student Association (ITSA)",
+      "Rigorous foundations in Data Structures, Operating Systems, DBMS, Computer Networks & Software Architecture",
     ],
   },
   focusAreas: [
@@ -147,11 +148,11 @@ export const profileData: ProfileData = {
   ],
   bio: {
     short:
-      "I'm Aryan Kelkar, an Information Technology student interested in building useful digital products, exploring artificial intelligence, and turning complex problems into practical solutions.",
+      "I'm Aryan Kelkar, a Third Year Information Technology student at Vidyalankar Institute of Technology (VIT), Mumbai, interested in building useful digital products, exploring artificial intelligence, and turning complex problems into practical solutions.",
     full: [
-      "I'm Aryan Kelkar, an Information Technology student interested in building useful digital products, exploring artificial intelligence, and turning complex problems into practical solutions.",
+      "I'm Aryan Kelkar, a Third Year Information Technology student at Vidyalankar Institute of Technology (VIT), Mumbai, interested in building useful digital products, exploring artificial intelligence, and turning complex problems into practical solutions.",
+      "At VIT, I serve as an Event Head for 'ALGORYTHM' under the Technical Council (part of the Student Council of VIT), organizing competitive technical events and tournaments, while also shaping visual media and branding as part of the Creatives Team at ITSA (Information Technology Student Association).",
       "I enjoy moving between software engineering, machine learning, and product design. What interests me most is understanding a problem deeply enough to build something that genuinely helps.",
-      "I learn by experimenting, building, breaking things, and improving them. Rather than treating code as abstract syntax, I view engineering as a practical medium for reducing friction, expanding opportunity, and solving real human challenges.",
     ],
     philosophy:
       "Good systems are invisible when they work, honest when they fail, and built with empathy for the people who rely on them.",

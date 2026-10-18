@@ -42,15 +42,20 @@ export const metadata: Metadata = {
     template: "%s | Aryan Kelkar",
   },
   description:
-    "Personal portfolio of Aryan Kelkar, an Information Technology student building digital experiences, intelligent systems, and technology that solves real-world problems.",
+    "Personal engineering portfolio of Aryan Kelkar, Third Year B.Tech Information Technology student at Vidyalankar Institute of Technology (VIT), Mumbai. Systems builder, Event Head for ALGORYTHM (Technical Council), and ITSA Creatives team member.",
   keywords: [
     "Aryan Kelkar",
+    "Vidyalankar Institute of Technology",
+    "VIT Mumbai",
+    "Information Technology",
+    "Technical Council",
+    "ALGORYTHM",
+    "ITSA",
     "Software Engineer",
     "Full Stack Developer",
     "Artificial Intelligence",
     "Machine Learning",
     "Portfolio",
-    "Information Technology",
   ],
   authors: [{ name: "Aryan Kelkar" }],
   creator: "Aryan Kelkar",
@@ -60,7 +65,7 @@ export const metadata: Metadata = {
     url: "https://aryankelkar.dev",
     title: "Aryan Kelkar — Personal Portfolio & Technical Archive",
     description:
-      "Information Technology student, full-stack builder, and AI/ML practitioner.",
+      "Third Year B.Tech Information Technology student at Vidyalankar Institute of Technology (VIT), Mumbai.",
     siteName: "Aryan Kelkar Portfolio",
   },
   twitter: {

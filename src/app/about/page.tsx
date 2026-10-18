@@ -9,7 +9,7 @@ import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 export const metadata: Metadata = {
   title: "About Me & Engineering Philosophy",
   description:
-    "Learn about Aryan Kelkar's background as an Information Technology student, engineering philosophy, academic journey, and technological interests.",
+    "Learn about Aryan Kelkar's background as a Third Year B.Tech Information Technology student at Vidyalankar Institute of Technology, Mumbai, engineering philosophy, academic journey, and technological interests.",
 };
 
 export default function AboutPage() {
@@ -115,16 +115,16 @@ export default function AboutPage() {
                     </div>
                     <div>
                       <h3 className="font-editorial text-xl text-[#F0EEF4]">
-                        {profileData.education.degree}
+                        {profileData.education.degree} — {profileData.education.field}
                       </h3>
                       <p className="font-code text-xs text-[#8387C3]">
-                        {profileData.education.field}
+                        {profileData.education.institution}
                       </p>
                     </div>
                   </div>
 
                   <p className="text-xs text-[#959BB5] leading-relaxed font-light">
-                    Currently pursuing undergraduate studies in Information Technology with strong emphasis on algorithmic efficiency, operating systems principles, and software architecture.
+                    Currently a Third Year B.Tech student in Information Technology at Vidyalankar Institute of Technology (VIT), Mumbai, with strong emphasis on software architecture, algorithmic efficiency, operating systems, and intelligent systems.
                   </p>
 
                   <div className="pt-3 border-t border-[rgba(255,255,255,0.08)] flex justify-between text-xs font-code text-[#8A8CAC]">
