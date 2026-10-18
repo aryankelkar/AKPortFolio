@@ -152,7 +152,8 @@ export function Hero() {
                   alt={profileData.photos.heroPortrait.alt}
                   fill
                   priority
-                  sizes="(max-width: 768px) 100vw, 420px"
+                  quality={92}
+                  sizes="(max-width: 768px) 100vw, 550px"
                   className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
                 />
 
@@ -179,7 +180,8 @@ export function Hero() {
                   src={profileData.photos.floatingPortrait.src}
                   alt={profileData.photos.floatingPortrait.alt}
                   fill
-                  sizes="(max-width: 640px) 128px, 176px"
+                  quality={92}
+                  sizes="(max-width: 640px) 140px, 200px"
                   className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-60 pointer-events-none" />

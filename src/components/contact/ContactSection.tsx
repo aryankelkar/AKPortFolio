@@ -29,7 +29,8 @@ export function ContactSection() {
                   src={photo.src}
                   alt={photo.alt}
                   fill
-                  sizes="(max-width: 768px) 100vw, 420px"
+                  quality={92}
+                  sizes="(max-width: 768px) 100vw, 500px"
                   className="object-cover object-top filter grayscale contrast-110 group-hover:grayscale-0 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#151720] via-transparent to-transparent opacity-85" />

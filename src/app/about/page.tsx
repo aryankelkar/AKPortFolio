@@ -90,7 +90,8 @@ export default function AboutPage() {
                     src={photoPersonal.src}
                     alt={photoPersonal.alt}
                     fill
-                    sizes="(max-width: 1024px) 100vw, 400px"
+                    quality={92}
+                    sizes="(max-width: 1024px) 100vw, 550px"
                     className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 transition-all duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85" />

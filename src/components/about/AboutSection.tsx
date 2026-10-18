@@ -107,7 +107,8 @@ export function AboutSection() {
                   src={docPhoto.src}
                   alt={docPhoto.alt}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 600px"
+                  quality={92}
+                  sizes="(max-width: 1024px) 100vw, 750px"
                   className="object-cover object-center filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85 pointer-events-none" />
