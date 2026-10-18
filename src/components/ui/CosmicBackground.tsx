@@ -80,8 +80,8 @@ const nebulaFragmentShader = `
     // Aspect-ratio normalized coordinates centered at 0,0
     vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
 
-    // Subtle pointer parallax offset
-    uv += u_mouse * 0.025;
+    // Subtle pointer parallax offset (calm, grounded depth)
+    uv += u_mouse * 0.012;
 
     float t = u_time;
 
@@ -138,6 +138,7 @@ const starVertexShader = `
   uniform float u_pixelRatio;
   uniform vec2 u_mouse;
   uniform float u_depthFactor;
+  uniform vec2 u_driftSpeed;
 
   varying float vAlpha;
   varying vec3 vColor;
@@ -145,15 +146,19 @@ const starVertexShader = `
   void main() {
     vColor = aColor;
 
-    // Independent sinusoidal twinkle breathing per star
-    float twinkle = sin(u_time * aTwinkleSpeed + aTwinkleOffset) * 0.35;
-    vAlpha = clamp(aAlpha + twinkle, 0.08, 1.0);
+    // Stable brightness for steady stars; gentle sinusoidal breathing for selected stars
+    float twinkle = aTwinkleSpeed > 0.0 ? sin(u_time * aTwinkleSpeed + aTwinkleOffset) * 0.30 : 0.0;
+    vAlpha = clamp(aAlpha + twinkle, 0.06, 1.0);
 
-    // Subtle parallax translation along X/Y
-    vec3 pos = position;
-    pos.xy += u_mouse * u_depthFactor * 35.0;
+    // GPU-accelerated continuous drift with seamless modular boundary wrapping
+    // Total coordinate domain is [-1.25, 1.25] (span = 2.50)
+    vec2 basePos = position.xy + u_driftSpeed * u_time;
+    vec2 wrappedPos = mod(basePos + vec2(1.25), vec2(2.50)) - vec2(1.25);
 
-    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+    // Subtle pointer parallax translation
+    wrappedPos += u_mouse * u_depthFactor;
+
+    vec4 mvPosition = modelViewMatrix * vec4(wrappedPos, position.z, 1.0);
     gl_Position = projectionMatrix * mvPosition;
 
     // Size scaled by DPR
@@ -242,9 +247,9 @@ export function CosmicBackground() {
     scene.add(nebulaQuad);
 
     // 4. Starfield Generation Across 3 Distinct Depth Layers
-    // Layer A: 650 Distant Faint Stars (very slow subtle drift)
-    // Layer B: 280 Mid-depth Stars (moderate drift communicating depth)
-    // Layer C: 45 Prominent Twinkling Stars (slow individual opacity pulsing)
+    // Layer A: 750 Distant Faint Stars (85% steady, very slow drift)
+    // Layer B: 220 Mid-depth Stars (40% subtle twinkle, moderate drift)
+    // Layer C: 30 Prominent Celestial Beacons (organic breathing opacity)
     const starPalette = [
       new THREE.Color("#FFFFFF"),
       new THREE.Color("#E0E7FF"),
@@ -258,37 +263,41 @@ export function CosmicBackground() {
       sizeRange: [number, number];
       alphaRange: [number, number];
       twinkleSpeedRange: [number, number];
+      twinkleRatio: number;
       depthFactor: number;
       driftSpeed: { x: number; y: number };
     }
 
     const starLayersConfig: StarLayerConfig[] = [
       {
-        // Layer A: Distant background field (numerous tiny, faint stars)
+        // Layer A: Distant background field (numerous tiny, faint stars; 85% steady)
         count: 750,
-        sizeRange: [0.9, 1.4],
-        alphaRange: [0.18, 0.42],
-        twinkleSpeedRange: [0.25, 0.65],
-        depthFactor: 0.008,
-        driftSpeed: { x: 0.00010, y: 0.00005 },
+        sizeRange: [0.85, 1.35],
+        alphaRange: [0.15, 0.38],
+        twinkleSpeedRange: [0.20, 0.50],
+        twinkleRatio: 0.15,
+        depthFactor: 0.006,
+        driftSpeed: { x: 0.0006, y: 0.0003 },
       },
       {
-        // Layer B: Mid-depth stars with gentle parallax drift
-        count: 240,
-        sizeRange: [1.6, 2.2],
-        alphaRange: [0.32, 0.62],
-        twinkleSpeedRange: [0.55, 1.2],
-        depthFactor: 0.024,
-        driftSpeed: { x: -0.00024, y: 0.00015 },
+        // Layer B: Mid-depth stars with gentle parallax drift (220 stars; 40% subtle twinkle)
+        count: 220,
+        sizeRange: [1.5, 2.1],
+        alphaRange: [0.28, 0.58],
+        twinkleSpeedRange: [0.45, 1.0],
+        twinkleRatio: 0.40,
+        depthFactor: 0.016,
+        driftSpeed: { x: -0.0016, y: 0.0010 },
       },
       {
-        // Layer C: Prominent twinkling celestial beacons
-        count: 35,
-        sizeRange: [2.6, 3.6],
-        alphaRange: [0.65, 0.85],
-        twinkleSpeedRange: [0.9, 1.8],
-        depthFactor: 0.048,
-        driftSpeed: { x: 0.00040, y: -0.00025 },
+        // Layer C: Prominent twinkling celestial beacons (30 stars; individual organic breathing)
+        count: 30,
+        sizeRange: [2.5, 3.5],
+        alphaRange: [0.60, 0.85],
+        twinkleSpeedRange: [0.75, 1.5],
+        twinkleRatio: 1.0,
+        depthFactor: 0.032,
+        driftSpeed: { x: 0.0028, y: -0.0018 },
       },
     ];
 
@@ -301,6 +310,7 @@ export function CosmicBackground() {
         u_pixelRatio: { value: number };
         u_mouse: { value: THREE.Vector2 };
         u_depthFactor: { value: number };
+        u_driftSpeed: { value: THREE.Vector2 };
       };
     }
 
@@ -316,16 +326,19 @@ export function CosmicBackground() {
       const colors = new Float32Array(cfg.count * 3);
 
       for (let i = 0; i < cfg.count; i++) {
-        // Orthographic space coordinates [-1, 1]
-        positions[i * 3 + 0] = (Math.random() * 2 - 1) * 1.1;
-        positions[i * 3 + 1] = (Math.random() * 2 - 1) * 1.1;
+        // Orthographic space coordinates [-1.2, 1.2]
+        positions[i * 3 + 0] = (Math.random() * 2 - 1) * 1.2;
+        positions[i * 3 + 1] = (Math.random() * 2 - 1) * 1.2;
         positions[i * 3 + 2] = 0;
 
         sizes[i] = cfg.sizeRange[0] + Math.random() * (cfg.sizeRange[1] - cfg.sizeRange[0]);
         alphas[i] = cfg.alphaRange[0] + Math.random() * (cfg.alphaRange[1] - cfg.alphaRange[0]);
-        twinkleSpeeds[i] =
-          cfg.twinkleSpeedRange[0] +
-          Math.random() * (cfg.twinkleSpeedRange[1] - cfg.twinkleSpeedRange[0]);
+
+        const shouldTwinkle = Math.random() < cfg.twinkleRatio;
+        twinkleSpeeds[i] = shouldTwinkle
+          ? cfg.twinkleSpeedRange[0] +
+            Math.random() * (cfg.twinkleSpeedRange[1] - cfg.twinkleSpeedRange[0])
+          : 0.0;
         twinkleOffsets[i] = Math.random() * Math.PI * 2;
 
         const col = starPalette[Math.floor(Math.random() * starPalette.length)];
@@ -346,6 +359,7 @@ export function CosmicBackground() {
         u_pixelRatio: { value: dpr },
         u_mouse: { value: new THREE.Vector2(0, 0) },
         u_depthFactor: { value: cfg.depthFactor },
+        u_driftSpeed: { value: new THREE.Vector2(cfg.driftSpeed.x, cfg.driftSpeed.y) },
       };
 
       const material = new THREE.ShaderMaterial({
@@ -410,9 +424,14 @@ export function CosmicBackground() {
 
     const handleVisibilityChange = () => {
       isTabVisible = !document.hidden;
-      if (isTabVisible && !isDisposed && !animationFrameId) {
+      if (isTabVisible && !isDisposed) {
         lastTime = performance.now();
-        animationFrameId = requestAnimationFrame(animate);
+        if (!animationFrameId && !shouldReduceMotion) {
+          animationFrameId = requestAnimationFrame(animate);
+        }
+      } else if (!isTabVisible && animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
       }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -423,47 +442,26 @@ export function CosmicBackground() {
         return;
       }
 
-      const delta = (currentTime - lastTime) * 0.001;
+      // Delta time calculation clamped to 64ms (~15fps floor) to prevent jumps on tab resume/stalls
+      const rawDelta = (currentTime - lastTime) * 0.001;
       lastTime = currentTime;
+      const delta = Math.min(Math.max(rawDelta, 0.0), 0.064);
 
       // When reduced motion is preferred, pause evolution to respect user settings
       const timeScale = shouldReduceMotion ? 0 : 1;
 
-      // Update Mouse Lerp
-      currentMouse.x += (targetMouse.x - currentMouse.x) * 0.04;
-      currentMouse.y += (targetMouse.y - currentMouse.y) * 0.04;
+      // Update Mouse Lerp with gentle dampening
+      currentMouse.x += (targetMouse.x - currentMouse.x) * 0.035;
+      currentMouse.y += (targetMouse.y - currentMouse.y) * 0.035;
 
       // Update Nebula Shader Uniforms
       nebulaUniforms.u_time.value += delta * timeScale;
       nebulaUniforms.u_mouse.value.set(currentMouse.x, currentMouse.y);
 
-      // Update Star Layers (Positions wrap smoothly at bounds)
+      // Update Star Layers (100% GPU-accelerated drift & twinkle - Zero CPU buffer thrashing!)
       starLayers.forEach((layer) => {
         layer.uniforms.u_time.value += delta * timeScale;
         layer.uniforms.u_mouse.value.set(currentMouse.x, currentMouse.y);
-
-        if (!shouldReduceMotion) {
-          const posAttr = layer.points.geometry.attributes.position as THREE.BufferAttribute;
-          const posArray = posAttr.array as Float32Array;
-          const dx = layer.config.driftSpeed.x * (delta * 60);
-          const dy = layer.config.driftSpeed.y * (delta * 60);
-
-          for (let i = 0; i < layer.config.count; i++) {
-            let px = posArray[i * 3 + 0] + dx;
-            let py = posArray[i * 3 + 1] + dy;
-
-            // Wrap bounds [-1.15, 1.15] smoothly
-            if (px > 1.15) px = -1.15;
-            else if (px < -1.15) px = 1.15;
-
-            if (py > 1.15) py = -1.15;
-            else if (py < -1.15) py = 1.15;
-
-            posArray[i * 3 + 0] = px;
-            posArray[i * 3 + 1] = py;
-          }
-          posAttr.needsUpdate = true;
-        }
       });
 
       // Render Scene

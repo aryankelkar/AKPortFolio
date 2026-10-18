@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
+import { motion, AnimatePresence, useScroll, useSpring, useReducedMotion } from "motion/react";
 import { Menu, X, ArrowUpRight, FileText } from "lucide-react";
 import { profileData } from "@/data/profile";
 
@@ -40,6 +40,7 @@ export function Navbar() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const shouldReduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -207,9 +208,13 @@ export function Navbar() {
                   {/* Subtle active pill backlight */}
                   {isActive && (
                     <motion.div
-                      layoutId="nav-active-capsule"
+                      layoutId={shouldReduceMotion ? undefined : "nav-active-capsule"}
                       className="absolute inset-0 bg-[#8387C3]/15 rounded-full border border-[rgba(131,135,195,0.28)] shadow-[0_0_12px_rgba(131,135,195,0.2)] pointer-events-none"
-                      transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                      transition={
+                        shouldReduceMotion
+                          ? { duration: 0 }
+                          : { type: "spring", stiffness: 420, damping: 32 }
+                      }
                     />
                   )}
 
@@ -218,9 +223,13 @@ export function Navbar() {
                   {/* Refined luminous underline bar with precision optic diamond */}
                   {isActive && (
                     <motion.div
-                      layoutId="nav-active-underline"
+                      layoutId={shouldReduceMotion ? undefined : "nav-active-underline"}
                       className="absolute -bottom-2 inset-x-2 flex flex-col items-center pointer-events-none"
-                      transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                      transition={
+                        shouldReduceMotion
+                          ? { duration: 0 }
+                          : { type: "spring", stiffness: 420, damping: 32 }
+                      }
                     >
                       <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#8387C3] to-transparent rounded-full shadow-[0_0_8px_rgba(131,135,195,0.9)]" />
                       <div className="w-1.5 h-1.5 rotate-45 bg-[#F0EEF4] -mt-[3.5px] shadow-[0_0_6px_rgba(240,238,244,1)]" />
@@ -270,10 +279,10 @@ export function Navbar() {
             role="dialog"
             aria-modal="true"
             aria-label="Site Navigation"
-            initial={{ opacity: 0, y: -10 }}
+            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
+            transition={{ duration: shouldReduceMotion ? 0.05 : 0.22, ease: [0.22, 1, 0.36, 1] }}
             className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#101116]/98 backdrop-blur-xl border-t border-[rgba(255,255,255,0.10)] px-6 py-8 flex flex-col justify-between overflow-y-auto z-50"
           >
             <div className="space-y-4">

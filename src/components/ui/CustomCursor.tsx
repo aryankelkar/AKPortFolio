@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 
 export function CustomCursor() {
@@ -12,6 +12,8 @@ export function CustomCursor() {
 
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
+
+  const isVisibleRef = useRef(false);
 
   // High-stiffness, low-mass spring for fluid follower that never drifts into misalignment
   const springConfig = { damping: 28, stiffness: 420, mass: 0.12 };
@@ -32,14 +34,19 @@ export function CustomCursor() {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
-      if (!isVisible) setIsVisible(true);
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true;
+        setIsVisible(true);
+      }
     };
 
     const handleMouseLeave = () => {
+      isVisibleRef.current = false;
       setIsVisible(false);
     };
 
     const handleMouseEnter = () => {
+      isVisibleRef.current = true;
       setIsVisible(true);
     };
 
@@ -93,7 +100,7 @@ export function CustomCursor() {
       document.removeEventListener("mouseenter", handleMouseEnter);
       document.removeEventListener("mouseover", handleMouseOver);
     };
-  }, [mouseX, mouseY, isVisible]);
+  }, [mouseX, mouseY]);
 
   if (!isVisible) return null;
 
