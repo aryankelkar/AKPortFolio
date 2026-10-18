@@ -76,14 +76,14 @@ export function CustomCursor() {
         }}
         animate={{
           scale: isHovered ? (cursorText ? 2.4 : 1.6) : 1,
-          borderColor: isHovered ? "#A39AFF" : "rgba(160, 170, 210, 0.4)",
-          backgroundColor: isHovered ? "rgba(163, 154, 255, 0.12)" : "rgba(163, 154, 255, 0)",
+          borderColor: isHovered ? "#8387C3" : "rgba(131, 135, 195, 0.45)",
+          backgroundColor: isHovered ? "rgba(131, 135, 195, 0.15)" : "rgba(131, 135, 195, 0)",
         }}
         transition={{ duration: 0.18, ease: "easeOut" }}
-        className="fixed top-0 left-0 -ml-4 -mt-4 w-8 h-8 rounded-full border border-[rgba(160,170,210,0.4)] flex items-center justify-center transition-colors pointer-events-none will-change-transform z-50"
+        className="fixed top-0 left-0 -ml-4 -mt-4 w-8 h-8 rounded-full border border-[rgba(131,135,195,0.45)] flex items-center justify-center transition-colors pointer-events-none will-change-transform z-50"
       >
         {cursorText && (
-          <span className="font-code text-[8px] uppercase tracking-widest text-[#A39AFF] font-bold select-none">
+          <span className="font-code text-[8px] uppercase tracking-widest text-[#8387C3] font-bold select-none">
             {cursorText}
           </span>
         )}
@@ -95,7 +95,7 @@ export function CustomCursor() {
           x: mouseX,
           y: mouseY,
         }}
-        className="fixed top-0 left-0 -ml-[3px] -mt-[3px] w-1.5 h-1.5 rounded-full bg-[#A39AFF] pointer-events-none will-change-transform z-50"
+        className="fixed top-0 left-0 -ml-[3px] -mt-[3px] w-1.5 h-1.5 rounded-full bg-[#8387C3] pointer-events-none will-change-transform z-50"
       />
     </div>
   );

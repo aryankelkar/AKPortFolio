@@ -64,30 +64,30 @@ export function ContactForm() {
   };
 
   return (
-    <div className="rounded-2xl bg-[#10182D] border border-[rgba(160,170,210,0.16)] p-6 sm:p-8 shadow-xl">
-      <div className="flex items-center justify-between pb-6 border-b border-[rgba(160,170,210,0.12)] mb-6">
+    <div className="rounded-2xl bg-[#101830] border border-[rgba(58,62,108,0.28)] p-6 sm:p-8 shadow-xl">
+      <div className="flex items-center justify-between pb-6 border-b border-[rgba(58,62,108,0.25)] mb-6">
         <div>
-          <span className="font-code text-[11px] text-[#A39AFF] uppercase tracking-widest block">
+          <span className="font-code text-[11px] text-[#8387C3] uppercase tracking-widest block">
             [ DIRECT TRANSMISSION ]
           </span>
-          <h3 className="font-editorial text-2xl text-[#F0EEF4] font-medium mt-1">
+          <h3 className="font-editorial text-2xl text-[#E7E7F0] font-medium mt-1">
             Send an Inquiry
           </h3>
         </div>
-        <div className="p-2 rounded bg-[#162040] text-[#A39AFF] border border-[rgba(160,170,210,0.16)]">
+        <div className="p-2 rounded bg-[#162040] text-[#8387C3] border border-[rgba(58,62,108,0.35)]">
           <Mail className="w-4 h-4" />
         </div>
       </div>
 
       {status === "success" ? (
         <div className="py-8 text-center space-y-4">
-          <div className="w-12 h-12 rounded-full bg-[#162040] border border-[#A39AFF] flex items-center justify-center mx-auto text-[#A39AFF]">
+          <div className="w-12 h-12 rounded-full bg-[#162040] border border-[#8387C3] flex items-center justify-center mx-auto text-[#8387C3]">
             <CheckCircle2 className="w-6 h-6" />
           </div>
-          <h4 className="font-editorial text-2xl text-[#F0EEF4]">
+          <h4 className="font-editorial text-2xl text-[#E7E7F0]">
             Message Received & Staged
           </h4>
-          <p className="text-sm text-[#B0AEB8] max-w-md mx-auto leading-relaxed font-light">
+          <p className="text-sm text-[#959BB5] max-w-md mx-auto leading-relaxed font-light">
             Thank you for reaching out. Your communication has been validated. You can also open your mail client directly to ensure prompt delivery.
           </p>
 
@@ -95,7 +95,7 @@ export function ContactForm() {
             <div className="pt-4">
               <a
                 href={mailtoUrl}
-                className="inline-flex items-center gap-1.5 font-code text-xs uppercase tracking-wider text-[#0B1020] bg-[#A39AFF] hover:bg-[#F0EEF4] font-semibold px-5 py-2.5 rounded-full transition-colors"
+                className="inline-flex items-center gap-1.5 font-code text-xs uppercase tracking-wider text-[#0A1123] bg-[#8387C3] hover:bg-[#E7E7F0] font-semibold px-5 py-2.5 rounded-full transition-colors"
               >
                 <span>OPEN EMAIL CLIENT TO SEND</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -109,7 +109,7 @@ export function ContactForm() {
               setStatus("idle");
               setFormData({ name: "", email: "", subject: "", message: "" });
             }}
-            className="block mx-auto mt-4 font-code text-xs text-[#85879B] hover:text-[#F0EEF4] underline"
+            className="block mx-auto mt-4 font-code text-xs text-[#8A8CAC] hover:text-[#E7E7F0] underline"
           >
             Send another message
           </button>
@@ -127,9 +127,9 @@ export function ContactForm() {
             <div>
               <label
                 htmlFor="name"
-                className="block font-code text-xs uppercase text-[#B0AEB8] tracking-wider mb-1.5"
+                className="block font-code text-xs uppercase text-[#959BB5] tracking-wider mb-1.5"
               >
-                Your Name <span className="text-[#A39AFF]">*</span>
+                Your Name <span className="text-[#8387C3]">*</span>
               </label>
               <input
                 id="name"
@@ -139,16 +139,16 @@ export function ContactForm() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Jane Doe"
-                className="w-full rounded-lg bg-[#0B1020] border border-[rgba(160,170,210,0.14)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#85879B]/50 focus:outline-none focus:border-[#A39AFF] transition-colors font-sans"
+                className="w-full rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.28)] px-4 py-2.5 text-sm text-[#E7E7F0] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] transition-colors font-sans"
               />
             </div>
 
             <div>
               <label
                 htmlFor="email"
-                className="block font-code text-xs uppercase text-[#B0AEB8] tracking-wider mb-1.5"
+                className="block font-code text-xs uppercase text-[#959BB5] tracking-wider mb-1.5"
               >
-                Email Address <span className="text-[#A39AFF]">*</span>
+                Email Address <span className="text-[#8387C3]">*</span>
               </label>
               <input
                 id="email"
@@ -158,7 +158,7 @@ export function ContactForm() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="jane@example.com"
-                className="w-full rounded-lg bg-[#0B1020] border border-[rgba(160,170,210,0.14)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#85879B]/50 focus:outline-none focus:border-[#A39AFF] transition-colors font-sans"
+                className="w-full rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.28)] px-4 py-2.5 text-sm text-[#E7E7F0] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] transition-colors font-sans"
               />
             </div>
           </div>
@@ -166,7 +166,7 @@ export function ContactForm() {
           <div>
             <label
               htmlFor="subject"
-              className="block font-code text-xs uppercase text-[#B0AEB8] tracking-wider mb-1.5"
+              className="block font-code text-xs uppercase text-[#959BB5] tracking-wider mb-1.5"
             >
               Subject / Topic
             </label>
@@ -177,16 +177,16 @@ export function ContactForm() {
               value={formData.subject}
               onChange={handleChange}
               placeholder="Collaboration / Project Inquiry / Engineering Discussion"
-              className="w-full rounded-lg bg-[#0B1020] border border-[rgba(160,170,210,0.14)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#85879B]/50 focus:outline-none focus:border-[#A39AFF] transition-colors font-sans"
+              className="w-full rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.28)] px-4 py-2.5 text-sm text-[#E7E7F0] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] transition-colors font-sans"
             />
           </div>
 
           <div>
             <label
               htmlFor="message"
-              className="block font-code text-xs uppercase text-[#B0AEB8] tracking-wider mb-1.5"
+              className="block font-code text-xs uppercase text-[#959BB5] tracking-wider mb-1.5"
             >
-              Message Details <span className="text-[#A39AFF]">*</span>
+              Message Details <span className="text-[#8387C3]">*</span>
             </label>
             <textarea
               id="message"
@@ -197,7 +197,7 @@ export function ContactForm() {
               value={formData.message}
               onChange={handleChange}
               placeholder="Tell me about your project, idea, or challenge..."
-              className="w-full rounded-lg bg-[#0B1020] border border-[rgba(160,170,210,0.14)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#85879B]/50 focus:outline-none focus:border-[#A39AFF] transition-colors font-sans resize-y"
+              className="w-full rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.28)] px-4 py-2.5 text-sm text-[#E7E7F0] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] transition-colors font-sans resize-y"
             />
           </div>
 
@@ -205,7 +205,7 @@ export function ContactForm() {
             <button
               type="submit"
               disabled={status === "submitting"}
-              className="w-full inline-flex items-center justify-center gap-2 font-code text-xs uppercase tracking-widest text-[#0B1020] bg-[#F0EEF4] hover:bg-[#A39AFF] disabled:opacity-50 font-semibold px-6 py-3 rounded-lg shadow-lg shadow-black/40 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A39AFF]"
+              className="w-full inline-flex items-center justify-center gap-2 font-code text-xs uppercase tracking-widest text-[#0A1123] bg-[#E7E7F0] hover:bg-[#8387C3] disabled:opacity-50 font-semibold px-6 py-3 rounded-lg shadow-lg shadow-black/40 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
             >
               {status === "submitting" ? (
                 <span>PROCESSING...</span>

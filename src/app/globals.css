@@ -3,38 +3,51 @@
 :root {
   /* ==========================================================================
      Design System: "The Personal Engineering Archive"
-     Navy-Blue Visual Identity Palette
+     Core Authentic Palette (from user specifications & design archive):
+     - Chinese Black: #0A1123 (RGB: 10, 17, 35)
+     - American Blue: #3A3E6C (RGB: 58, 62, 108)
+     - Ube / Lavender: #8387C3 (RGB: 131, 135, 195)
+     - Cool Grey: #8A8CAC (RGB: 138, 140, 172)
+     - Cadet Grey: #959BB5 (RGB: 149, 155, 181)
+     - Warm Lavender-White: #E7E7F0
      ========================================================================== */
-  --background-primary: #0B1020;     /* Layer 1: Midnight Navy Base */
-  --background-secondary: #0D1427;   /* Layer 5: Alternating Section Navy */
-  --background-tertiary: #10182D;    /* Elevated Surface Navy */
+  --chinese-black: #0A1123;
+  --american-blue: #3A3E6C;
+  --ube: #8387C3;
+  --cool-grey: #8A8CAC;
+  --cadet-grey: #959BB5;
+  --lavender-white: #E7E7F0;
 
-  --surface-primary: #12172A;
+  /* Semantic Variables */
+  --background-primary: #0A1123;     /* True Chinese Black */
+  --background-secondary: #0E1528;   /* Subtle Editorial Section Contrast */
+  --background-tertiary: #101830;    /* Elevated Surfaces / Cards */
+
+  --surface-primary: #101830;
   --surface-elevated: #162040;
   --surface-card: #0E1528;
 
-  --border-subtle: rgba(160, 170, 210, 0.12);
-  --border-medium: rgba(160, 170, 210, 0.20);
-  --border-accent: rgba(163, 154, 255, 0.35);
+  --border-subtle: rgba(58, 62, 108, 0.35);
+  --border-medium: rgba(131, 135, 195, 0.22);
+  --border-accent: rgba(131, 135, 195, 0.45);
 
-  --accent-lavender: #A39AFF;
-  --accent-lavender-muted: #827BCB;
+  --accent-lavender: #8387C3;
+  --accent-lavender-muted: #8A8CAC;
   --accent-ube: #8387C3;
 
-  --text-primary: #F0EEF4;
-  --text-secondary: #B0AEB8;
-  --text-muted: #85879B;
+  --text-primary: #E7E7F0;
+  --text-secondary: #959BB5;
+  --text-muted: #8A8CAC;
 
   /* Backward compatibility aliases */
   --midnight-navy: var(--background-primary);
   --deep-blue: var(--background-tertiary);
-  --muted-blue: #3A3E6C;
-  --primary-lavender: var(--accent-lavender);
-  --soft-lavender: var(--accent-lavender-muted);
-  --muted-blue-gray: var(--text-secondary);
-  --warm-off-white: var(--text-primary);
+  --muted-blue: var(--american-blue);
+  --primary-lavender: var(--ube);
+  --soft-lavender: var(--cool-grey);
+  --muted-blue-gray: var(--cadet-grey);
+  --warm-off-white: var(--lavender-white);
 
-  /* Semantic defaults */
   --background: var(--background-primary);
   --foreground: var(--text-primary);
   --surface: var(--background-tertiary);
@@ -43,22 +56,29 @@
 }
 
 @theme {
-  --color-background-primary: #0B1020;
-  --color-background-secondary: #0D1427;
-  --color-background-tertiary: #10182D;
-  --color-surface-primary: #12172A;
+  --color-chinese-black: #0A1123;
+  --color-american-blue: #3A3E6C;
+  --color-ube: #8387C3;
+  --color-cool-grey: #8A8CAC;
+  --color-cadet-grey: #959BB5;
+  --color-lavender-white: #E7E7F0;
+
+  --color-background-primary: #0A1123;
+  --color-background-secondary: #0E1528;
+  --color-background-tertiary: #101830;
+  --color-surface-primary: #101830;
   --color-surface-elevated: #162040;
   --color-surface-card: #0E1528;
 
-  --color-midnight-navy: #0B1020;
-  --color-deep-blue: #10182D;
+  --color-midnight-navy: #0A1123;
+  --color-deep-blue: #101830;
   --color-muted-blue: #3A3E6C;
-  --color-accent-lavender: #A39AFF;
-  --color-accent-lavender-muted: #827BCB;
-  --color-primary-lavender: #A39AFF;
-  --color-soft-lavender: #827BCB;
-  --color-muted-blue-gray: #B0AEB8;
-  --color-warm-off-white: #F0EEF4;
+  --color-accent-lavender: #8387C3;
+  --color-accent-lavender-muted: #8A8CAC;
+  --color-primary-lavender: #8387C3;
+  --color-soft-lavender: #8A8CAC;
+  --color-muted-blue-gray: #959BB5;
+  --color-warm-off-white: #E7E7F0;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -72,20 +92,20 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #0B1020;
-  color: #F0EEF4;
+  background-color: #0A1123;
+  color: #E7E7F0;
 }
 
 body {
-  background-color: #0B1020;
-  color: #F0EEF4;
+  background-color: #0A1123;
+  color: #E7E7F0;
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
 }
 
 ::selection {
   background: #3A3E6C;
-  color: #F0EEF4;
+  color: #E7E7F0;
 }
 
 /* Custom Scrollbar */
@@ -93,74 +113,56 @@ body {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B1020;
+  background: #0A1123;
 }
 ::-webkit-scrollbar-thumb {
   background: #3A3E6C;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #827BCB;
+  background: #8387C3;
 }
 
 /* ==========================================================================
-   5-Layer Atmospheric & Architectural Texture System
+   Architectural Blueprint Grid & Organic Texture (Subtle & Restrained)
    ========================================================================== */
 
-/* Layer 2: Subtle Asymmetrical Atmospheric Radial Lighting */
-.bg-atmospheric-canvas {
-  background-image:
-    radial-gradient(1100px 750px at 85% 10%, rgba(58, 62, 108, 0.16), transparent 70%),
-    radial-gradient(950px 700px at 15% 45%, rgba(26, 38, 74, 0.22), transparent 70%),
-    radial-gradient(1200px 850px at 80% 85%, rgba(130, 123, 203, 0.05), transparent 75%);
-}
-
-/* Layer 3: Technical Blueprint Dual-Grid (Standard) */
-/* Minor: 40px (opacity 0.022) | Major: 160px (opacity 0.045) */
+/* Technical Blueprint Dual-Grid on Chinese Black (Subtle, doesn't wash out) */
 .bg-blueprint-grid {
   background-image: 
-    linear-gradient(to right, rgba(160, 170, 210, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(160, 170, 210, 0.045) 1px, transparent 1px),
-    linear-gradient(to right, rgba(160, 170, 210, 0.022) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(160, 170, 210, 0.022) 1px, transparent 1px);
+    /* Major grid lines (160px) */
+    linear-gradient(to right, rgba(58, 62, 108, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(58, 62, 108, 0.16) 1px, transparent 1px),
+    /* Minor grid lines (40px) */
+    linear-gradient(to right, rgba(58, 62, 108, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(58, 62, 108, 0.08) 1px, transparent 1px);
   background-size: 160px 160px, 160px 160px, 40px 40px, 40px 40px;
 }
 
-/* Layer 3 (Hero Variant): Sharper Architectural Precision */
-/* Minor: 40px (opacity 0.032) | Major: 160px (opacity 0.065) */
-.bg-blueprint-grid-hero {
-  background-image: 
-    linear-gradient(to right, rgba(160, 170, 210, 0.065) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(160, 170, 210, 0.065) 1px, transparent 1px),
-    linear-gradient(to right, rgba(160, 170, 210, 0.032) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(160, 170, 210, 0.032) 1px, transparent 1px);
-  background-size: 160px 160px, 160px 160px, 40px 40px, 40px 40px;
-}
-
-/* Layer 4: Organic Monochromatic Film Grain Texture */
+/* Organic Monochromatic Film Grain Texture */
 .bg-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.022'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
 }
 
-/* Layer 5: Section Depth Classes */
+/* Section Depth Classes */
 .section-primary {
-  background-color: #0B1020;
-  color: #F0EEF4;
+  background-color: #0A1123;
+  color: #E7E7F0;
 }
 
 .section-secondary {
-  background-color: #0D1427;
-  color: #F0EEF4;
+  background-color: #0E1528;
+  color: #E7E7F0;
 }
 
 .section-elevated {
-  background-color: #10182D;
-  color: #F0EEF4;
+  background-color: #101830;
+  color: #E7E7F0;
 }
 
 .section-card {
   background-color: #0E1528;
-  color: #F0EEF4;
+  color: #E7E7F0;
 }
 
 /* Typography Helpers */
@@ -178,8 +180,8 @@ body {
 }
 
 .card-interactive:hover {
-  border-color: rgba(163, 154, 255, 0.45);
-  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5), 0 0 20px -4px rgba(163, 154, 255, 0.1);
+  border-color: rgba(131, 135, 195, 0.45);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5), 0 0 20px -4px rgba(131, 135, 195, 0.1);
 }
 
 @media (prefers-reduced-motion: reduce) {

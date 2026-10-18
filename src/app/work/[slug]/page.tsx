@@ -70,7 +70,7 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
     <>
       <CustomCursor />
       <Navbar />
-      <main className="flex-1 pt-28 pb-20 bg-[#0B1020]">
+      <main className="flex-1 pt-28 pb-20 bg-[#0A1123]">
         <article className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Breadcrumb & Return Link */}
           <div className="flex items-center justify-between pb-8 border-b border-[rgba(160,170,210,0.14)] mb-10">
@@ -164,7 +164,7 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
                   href={project.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-wider text-[#0B1020] bg-[#F0EEF4] hover:bg-[#A39AFF] font-semibold px-5 py-2.5 rounded-full transition-colors"
+                  className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-wider text-[#0A1123] bg-[#E7E7F0] hover:bg-[#8387C3] font-semibold px-5 py-2.5 rounded-full transition-colors"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>OPEN DEPLOYMENT / DEMO</span>
@@ -260,30 +260,30 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
                   {project.caseStudy.architecture.overview}
                 </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[rgba(160,170,210,0.12)]">
-                  <div className="p-3.5 rounded-lg bg-[#0B1020] border border-[rgba(160,170,210,0.12)] space-y-1">
-                    <span className="font-code text-[11px] text-[#A39AFF] uppercase block">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[rgba(58,62,108,0.25)]">
+                  <div className="p-3.5 rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.25)] space-y-1">
+                    <span className="font-code text-[11px] text-[#8387C3] uppercase block">
                       Frontend
                     </span>
-                    <p className="text-xs text-[#B0AEB8] font-light">
+                    <p className="text-xs text-[#959BB5] font-light">
                       {project.caseStudy.architecture.frontend}
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-lg bg-[#0B1020] border border-[rgba(160,170,210,0.12)] space-y-1">
-                    <span className="font-code text-[11px] text-[#A39AFF] uppercase block">
+                  <div className="p-3.5 rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.25)] space-y-1">
+                    <span className="font-code text-[11px] text-[#8387C3] uppercase block">
                       Backend & API
                     </span>
-                    <p className="text-xs text-[#B0AEB8] font-light">
+                    <p className="text-xs text-[#959BB5] font-light">
                       {project.caseStudy.architecture.backend}
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-lg bg-[#0B1020] border border-[rgba(160,170,210,0.12)] space-y-1">
-                    <span className="font-code text-[11px] text-[#A39AFF] uppercase block">
+                  <div className="p-3.5 rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.25)] space-y-1">
+                    <span className="font-code text-[11px] text-[#8387C3] uppercase block">
                       Persistence Layer
                     </span>
-                    <p className="text-xs text-[#B0AEB8] font-light">
+                    <p className="text-xs text-[#959BB5] font-light">
                       {project.caseStudy.architecture.database}
                     </p>
                   </div>
@@ -293,11 +293,11 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
 
             {/* 4. Engineering Decisions & Trade-offs */}
             <section className="space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(160,170,210,0.12)]">
-                <span className="font-code text-xs font-semibold text-[#A39AFF]">
+              <div className="flex items-center gap-2 pb-2 border-b border-[rgba(58,62,108,0.25)]">
+                <span className="font-code text-xs font-semibold text-[#8387C3]">
                   04.
                 </span>
-                <h2 className="font-editorial text-2xl text-[#F0EEF4]">
+                <h2 className="font-editorial text-2xl text-[#E7E7F0]">
                   Key Engineering Decisions & Trade-offs
                 </h2>
               </div>
@@ -306,26 +306,26 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
                 {project.caseStudy.engineeringDecisions.map((item, i) => (
                   <div
                     key={i}
-                    className="p-5 rounded-xl bg-[#10182D] border border-[rgba(160,170,210,0.14)] space-y-3 shadow-md"
+                    className="p-5 rounded-xl bg-[#101830] border border-[rgba(58,62,108,0.28)] space-y-3 shadow-md"
                   >
-                    <div className="flex items-center gap-2 text-[#F0EEF4] font-medium text-sm">
-                      <Lightbulb className="w-4 h-4 text-[#A39AFF] shrink-0" />
+                    <div className="flex items-center gap-2 text-[#E7E7F0] font-medium text-sm">
+                      <Lightbulb className="w-4 h-4 text-[#8387C3] shrink-0" />
                       <span>{item.decision}</span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-light pt-2">
-                      <div className="p-3 rounded bg-[#0B1020] border border-[rgba(160,170,210,0.12)]">
-                        <span className="font-code text-[10px] text-[#A39AFF] uppercase block mb-1">
+                      <div className="p-3 rounded bg-[#0A1123] border border-[rgba(58,62,108,0.25)]">
+                        <span className="font-code text-[10px] text-[#8387C3] uppercase block mb-1">
                           Why this choice:
                         </span>
-                        <p className="text-[#B0AEB8]">{item.rationale}</p>
+                        <p className="text-[#959BB5]">{item.rationale}</p>
                       </div>
 
-                      <div className="p-3 rounded bg-[#0B1020] border border-[rgba(160,170,210,0.12)]">
-                        <span className="font-code text-[10px] text-[#85879B] uppercase block mb-1">
+                      <div className="p-3 rounded bg-[#0A1123] border border-[rgba(58,62,108,0.25)]">
+                        <span className="font-code text-[10px] text-[#8A8CAC] uppercase block mb-1">
                           Alternative Considered:
                         </span>
-                        <p className="text-[#85879B]">
+                        <p className="text-[#8A8CAC]">
                           {item.alternativeConsidered}
                         </p>
                       </div>
