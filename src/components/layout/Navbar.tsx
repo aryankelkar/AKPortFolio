@@ -57,6 +57,7 @@ export function Navbar() {
       return () => window.removeEventListener("scroll", handleScroll);
     }
 
+    let rafId: number | null = null;
     // Cache section boundaries to eliminate DOM query layout thrashing during scroll
     let cachedSections: { navId: string; top: number; height: number }[] = [];
 
