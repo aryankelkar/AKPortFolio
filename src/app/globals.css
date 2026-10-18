@@ -715,6 +715,40 @@ body {
   will-change: top, opacity;
 }
 
+/* ==========================================================================
+   Hero Photographic Composition: Breathing & Floating Drift
+   ========================================================================== */
+
+/* 10. Primary Portrait Cinematic Breathing (16s cycle) */
+@keyframes portraitBreathing {
+  0%, 100% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.018) translate3d(0, -3px, 0);
+  }
+}
+
+.portrait-cinematic-breath {
+  animation: portraitBreathing 16s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 11. Secondary Photograph Subtle Archival Drift (11s cycle) */
+@keyframes floatingPhotoDrift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -5px, 0) rotate(0.6deg);
+  }
+}
+
+.floating-photo-drift {
+  animation: floatingPhotoDrift 11s ease-in-out infinite;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
@@ -724,7 +758,10 @@ body {
   }
   .card-interactive:hover,
   .btn-fluid:active,
-  .img-reveal-settle:hover {
+  .img-reveal-settle:hover,
+  .portrait-cinematic-breath,
+  .floating-photo-drift {
+    animation: none !important;
     transform: none !important;
   }
 }

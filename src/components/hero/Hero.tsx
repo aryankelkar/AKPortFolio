@@ -122,64 +122,100 @@ export function Hero() {
           </div>
 
           {/* 6. Right Column: THE PHOTOGRAPHIC HERO COMPOSITION (Expanded Grand Diptych) */}
-          <motion.div
-            initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-6 xl:col-span-6 relative flex justify-center lg:justify-end"
-          >
+          <div className="lg:col-span-6 xl:col-span-6 relative flex justify-center lg:justify-end">
             {/* Composition Framing Container: Generous bounds allowing the portrait to command the hero */}
             <div className="relative pt-2 pb-10 pl-6 sm:pl-10 pr-2 w-full max-w-[460px] sm:max-w-[500px] md:max-w-[560px] lg:max-w-[600px] xl:max-w-[650px] 2xl:max-w-[680px]">
               
               {/* PRIMARY PORTRAIT FRAME */}
               <motion.div
                 style={{ y: photoY }}
-                className="relative rounded-2xl overflow-hidden bg-[#151720] border border-[rgba(255,255,255,0.12)] shadow-[0_25px_60px_rgba(0,0,0,0.85)] aspect-[3/4] group"
+                className="relative"
               >
-                <Image
-                  src={profileData.photos.heroPortrait.src}
-                  alt={profileData.photos.heroPortrait.alt}
-                  fill
-                  priority
-                  quality={95}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 750px"
-                  className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"
-                />
+                <motion.div
+                  initial={
+                    shouldReduceMotion
+                      ? { opacity: 1, y: 0, scale: 1 }
+                      : { opacity: 0, y: 20, scale: 1.045 }
+                  }
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 1.15, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative rounded-2xl overflow-hidden bg-[#151720] border border-[rgba(255,255,255,0.12)] hover:border-[#8387C3]/40 shadow-[0_25px_60px_rgba(0,0,0,0.85)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.92),0_0_35px_rgba(131,135,195,0.18)] aspect-[3/4] group transition-all duration-700"
+                >
+                  {/* Elegant upward image reveal mask curtain */}
+                  <motion.div
+                    initial={shouldReduceMotion ? { scaleY: 0 } : { scaleY: 1 }}
+                    animate={{ scaleY: 0 }}
+                    transition={{ duration: 1.05, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-0 bg-[#101116] origin-top pointer-events-none z-30"
+                  />
 
-                {/* Cinematic Vignette */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85 pointer-events-none" />
+                  {/* Top-Edge Specular Rim Highlight */}
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.3)] to-transparent pointer-events-none z-20" />
 
-                {/* Bottom-Right Signature Watermark — Authentic Professional Identity */}
-                <div className="absolute bottom-5 right-5 text-right pointer-events-none z-10 max-w-[240px]">
-                  <p className="font-editorial italic text-2xl sm:text-3xl text-[#F0EEF4] font-medium leading-none drop-shadow-lg tracking-wide">
-                    Aryan Kelkar
-                  </p>
-                  <p className="font-code text-[10px] sm:text-[11px] text-[#959BB5] mt-1.5 tracking-wider uppercase">
-                    Information Technology Student & Builder
-                  </p>
-                </div>
+                  {/* Cinematic Breathing Image Layer */}
+                  <div className={`relative w-full h-full ${shouldReduceMotion ? "" : "portrait-cinematic-breath"}`}>
+                    <Image
+                      src={profileData.photos.heroPortrait.src}
+                      alt={profileData.photos.heroPortrait.alt}
+                      fill
+                      priority
+                      quality={95}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 750px"
+                      className="object-cover object-top filter grayscale contrast-105 group-hover:contrast-110 group-hover:brightness-105 group-hover:scale-[1.02] transition-all duration-700 ease-out"
+                    />
+                  </div>
+
+                  {/* Cinematic Bottom Vignette Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-[#101116]/35 to-transparent opacity-90 pointer-events-none z-10" />
+
+                  {/* Bottom-Right Signature Watermark — Authentic Professional Identity */}
+                  <div className="absolute bottom-5 right-5 text-right pointer-events-none z-20 max-w-[240px]">
+                    <p className="font-editorial italic text-2xl sm:text-3xl text-[#F0EEF4] font-medium leading-none drop-shadow-lg tracking-wide">
+                      Aryan Kelkar
+                    </p>
+                    <p className="font-code text-[10px] sm:text-[11px] text-[#959BB5] mt-1.5 tracking-wider uppercase">
+                      Information Technology Student &amp; Builder
+                    </p>
+                  </div>
+                </motion.div>
               </motion.div>
 
               {/* SECONDARY FLOATING ACCENT PORTRAIT */}
               <motion.div
                 style={{ y: floatingPhotoY }}
-                className="absolute -bottom-5 -left-3 sm:-bottom-7 sm:-left-7 md:-left-8 w-40 sm:w-52 md:w-56 lg:w-60 xl:w-64 aspect-[4/5] rounded-xl overflow-hidden bg-[#151720] border-2 border-[#8387C3]/80 shadow-[0_20px_50px_rgba(0,0,0,0.95)] rotate-[-3deg] hover:rotate-0 transition-transform duration-500 z-20 group"
+                initial={
+                  shouldReduceMotion
+                    ? { opacity: 1, y: 0, rotate: -3, scale: 1 }
+                    : { opacity: 0, y: 22, rotate: -5.5, scale: 0.95 }
+                }
+                animate={{ opacity: 1, y: 0, rotate: -3, scale: 1 }}
+                transition={{ duration: 0.95, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute -bottom-5 -left-3 sm:-bottom-7 sm:-left-7 md:-left-8 w-40 sm:w-52 md:w-56 lg:w-60 xl:w-64 aspect-[4/5] z-20 group"
               >
-                <Image
-                  src={profileData.photos.floatingPortrait.src}
-                  alt={profileData.photos.floatingPortrait.alt}
-                  fill
-                  priority
-                  loading="eager"
-                  quality={95}
-                  sizes="(max-width: 640px) 200px, 300px"
-                  className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-60 pointer-events-none" />
+                <div
+                  className={`relative w-full h-full rounded-xl overflow-hidden bg-[#151720] border-2 border-[#8387C3]/80 group-hover:border-[#A5A9E6] shadow-[0_20px_50px_rgba(0,0,0,0.95)] group-hover:shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_30px_rgba(131,135,195,0.30)] group-hover:rotate-0 group-hover:scale-[1.025] transition-all duration-500 ease-out ${
+                    shouldReduceMotion ? "" : "floating-photo-drift"
+                  }`}
+                >
+                  {/* Top-Edge Lavender Rim Highlight */}
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#8387C3]/60 to-transparent pointer-events-none z-10" />
+
+                  <Image
+                    src={profileData.photos.floatingPortrait.src}
+                    alt={profileData.photos.floatingPortrait.alt}
+                    fill
+                    priority
+                    loading="eager"
+                    quality={95}
+                    sizes="(max-width: 640px) 200px, 300px"
+                    className="object-cover object-center filter grayscale contrast-110 group-hover:contrast-115 group-hover:brightness-105 group-hover:scale-[1.02] transition-all duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-60 pointer-events-none z-10" />
+                </div>
               </motion.div>
 
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 
