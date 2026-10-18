@@ -161,12 +161,12 @@ export function Hero() {
                       priority
                       quality={95}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 750px"
-                      className="object-cover object-top filter grayscale contrast-105 group-hover:contrast-110 group-hover:brightness-105 group-hover:scale-[1.02] transition-all duration-700 ease-out"
+                      className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-105 group-hover:scale-[1.02] transition-all duration-700 ease-out"
                     />
                   </div>
 
                   {/* Cinematic Bottom Vignette Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-[#101116]/35 to-transparent opacity-90 pointer-events-none z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-[#101116]/35 to-transparent opacity-90 group-hover:opacity-75 pointer-events-none z-10 transition-opacity duration-700" />
 
                   {/* Bottom-Right Signature Watermark — Authentic Professional Identity */}
                   <div className="absolute bottom-5 right-5 text-right pointer-events-none z-20 max-w-[240px]">
@@ -208,9 +208,9 @@ export function Hero() {
                     loading="eager"
                     quality={95}
                     sizes="(max-width: 640px) 200px, 300px"
-                    className="object-cover object-center filter grayscale contrast-110 group-hover:contrast-115 group-hover:brightness-105 group-hover:scale-[1.02] transition-all duration-700 ease-out"
+                    className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 hover:grayscale-0 group-hover:contrast-105 group-hover:brightness-105 group-hover:scale-[1.02] transition-all duration-700 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-60 pointer-events-none z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-60 group-hover:opacity-40 pointer-events-none z-10 transition-opacity duration-700" />
                 </div>
               </motion.div>
 
