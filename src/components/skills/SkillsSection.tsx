@@ -11,7 +11,6 @@ import {
   Wrench,
   Layers,
   ChevronDown,
-  ArrowUpRight,
   Server,
   Cloud,
   Box,
@@ -172,7 +171,7 @@ export function SkillsSection() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredCategories.map((categoryGroup, idx) => (
+                {filteredCategories.map((categoryGroup) => (
                   <div
                     key={categoryGroup.category}
                     className="rounded-xl bg-[#171924]/90 border border-[rgba(255,255,255,0.08)] p-6 flex flex-col justify-between shadow-xl"

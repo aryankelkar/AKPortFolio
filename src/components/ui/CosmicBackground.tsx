@@ -184,12 +184,13 @@ const starFragmentShader = `
 export function CosmicBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
-  const [hasWebGL, setHasWebGL] = useState<boolean>(true);
+  const [hasWebGL, setHasWebGL] = useState<boolean>(() => {
+    return checkWebGLSupport();
+  });
 
   useEffect(() => {
     // 1. Initial WebGL Compatibility Check
-    if (!checkWebGLSupport()) {
-      setHasWebGL(false);
+    if (!hasWebGL) {
       return;
     }
 
@@ -506,7 +507,7 @@ export function CosmicBackground() {
       }
       renderer.dispose();
     };
-  }, [shouldReduceMotion]);
+  }, [shouldReduceMotion, hasWebGL]);
 
   return (
     <div

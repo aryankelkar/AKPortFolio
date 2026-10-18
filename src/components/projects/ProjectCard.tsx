@@ -10,13 +10,9 @@ import {
   Cpu,
   CheckCircle2,
   RefreshCw,
-  GitBranch,
-  WifiOff,
   Navigation,
   Eye,
-  CalendarCheck,
-  ChevronRight,
-  Sliders
+  CalendarCheck
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/Icons";
 import { Project } from "@/data/projects";
@@ -126,7 +122,7 @@ function ReDeviceExhibit() {
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-code font-semibold text-[#8387C3]">
-              PHASE: {stages[activeStage].name} // {stages[activeStage].action}
+              {`PHASE: ${stages[activeStage].name} // ${stages[activeStage].action}`}
             </span>
             <span className="text-[10px] font-code text-[#F0EEF4] bg-[#111218] px-2 py-0.5 rounded border border-[rgba(255,255,255,0.06)]">
               {stages[activeStage].telemetry}

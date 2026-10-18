@@ -52,13 +52,24 @@ export function Navbar() {
   // High-precision scroll position and active section detection for landing page
   useEffect(() => {
     if (!isHome) {
-      setActiveSection("");
       const handleScroll = () => setIsScrolled(window.scrollY > 20);
       window.addEventListener("scroll", handleScroll, { passive: true });
       return () => window.removeEventListener("scroll", handleScroll);
     }
 
-    let rafId: number | null = null;
+    // Cache section boundaries to eliminate DOM query layout thrashing during scroll
+    let cachedSections: { navId: string; top: number; height: number }[] = [];
+
+    const measureSections = () => {
+      cachedSections = HOME_SECTIONS.map((item) => {
+        const el = document.getElementById(item.id);
+        return {
+          navId: item.navId,
+          top: el ? el.offsetTop : 0,
+          height: el ? el.offsetHeight : 0,
+        };
+      }).filter((s) => s.top > 0);
+    };
 
     const determineActiveSection = () => {
       const scrollY = window.scrollY;
@@ -82,25 +93,19 @@ export function Navbar() {
       const focalPoint = scrollY + windowHeight * 0.35;
       let matchedNavId = "";
 
-      // Find section currently crossing the focal line
-      for (const item of HOME_SECTIONS) {
-        const el = document.getElementById(item.id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (focalPoint >= top && focalPoint < top + height) {
-            matchedNavId = item.navId;
-            break;
-          }
+      // Find section currently crossing the focal line using cached layout bounds
+      for (const item of cachedSections) {
+        if (focalPoint >= item.top && focalPoint < item.top + item.height) {
+          matchedNavId = item.navId;
+          break;
         }
       }
 
       // Fallback: If between sections, select the most recent section passed
       if (!matchedNavId) {
-        for (let i = HOME_SECTIONS.length - 1; i >= 0; i--) {
-          const el = document.getElementById(HOME_SECTIONS[i].id);
-          if (el && focalPoint >= el.offsetTop) {
-            matchedNavId = HOME_SECTIONS[i].navId;
+        for (let i = cachedSections.length - 1; i >= 0; i--) {
+          if (focalPoint >= cachedSections[i].top) {
+            matchedNavId = cachedSections[i].navId;
             break;
           }
         }
@@ -114,16 +119,22 @@ export function Navbar() {
       rafId = requestAnimationFrame(determineActiveSection);
     };
 
-    // Initial check on mount
+    const handleResize = () => {
+      measureSections();
+      handleScroll();
+    };
+
+    // Initial measurement and check on mount
+    measureSections();
     determineActiveSection();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, [isHome]);
 
