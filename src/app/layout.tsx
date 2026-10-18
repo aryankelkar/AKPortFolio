@@ -83,9 +83,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${serifFont.variable} ${sansFont.variable} ${monoFont.variable} scroll-smooth`}
     >
-      <body className="min-h-screen bg-[#101116] text-[#F0EEF4] font-sans antialiased selection:bg-[#252838] selection:text-[#F0EEF4] flex flex-col relative">
+      <body
+        suppressHydrationWarning
+        className="min-h-screen bg-[#101116] text-[#F0EEF4] font-sans antialiased selection:bg-[#252838] selection:text-[#F0EEF4] flex flex-col relative"
+      >
         {/* Living Deep-Space Cosmic Environment */}
         <CosmicBackground />
         

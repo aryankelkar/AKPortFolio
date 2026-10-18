@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { useReducedMotion } from "motion/react";
 
@@ -182,19 +182,16 @@ const starFragmentShader = `
 `;
 
 export function CosmicBackground() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
-  const [hasWebGL, setHasWebGL] = useState<boolean>(() => {
-    return checkWebGLSupport();
-  });
 
   useEffect(() => {
     // 1. Initial WebGL Compatibility Check
-    if (!hasWebGL) {
+    if (!checkWebGLSupport()) {
       return;
     }
 
-    const container = containerRef.current;
+    const container = canvasContainerRef.current;
     if (!container) return;
 
     let animationFrameId: number | null = null;
@@ -225,7 +222,9 @@ export function CosmicBackground() {
     // Context loss handler
     const handleContextLost = (e: Event) => {
       e.preventDefault();
-      setHasWebGL(false);
+      if (renderer.domElement) {
+        renderer.domElement.style.display = "none";
+      }
     };
     renderer.domElement.addEventListener("webglcontextlost", handleContextLost, false);
 
@@ -507,37 +506,37 @@ export function CosmicBackground() {
       }
       renderer.dispose();
     };
-  }, [shouldReduceMotion, hasWebGL]);
+  }, [shouldReduceMotion]);
 
   return (
     <div
-      ref={containerRef}
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#101116]"
       aria-hidden="true"
     >
-      {/* Fallback CSS gradient background if WebGL is unsupported or disabled */}
-      {!hasWebGL && (
-        <div className="absolute inset-0 bg-[#101116]">
-          <div className="absolute -top-[10%] -right-[15%] w-[850px] h-[850px] rounded-full bg-gradient-to-br from-[#2E2864]/40 via-[#1C1844]/25 to-transparent blur-[140px]" />
-          <div className="absolute top-[35%] -left-[10%] w-[900px] h-[750px] rounded-full bg-gradient-to-tr from-[#1E1B4B]/35 via-[#161934]/20 to-transparent blur-[160px]" />
-        </div>
-      )}
+      {/* Permanent CSS fallback gradient (renders identically on SSR and client; sits behind WebGL canvas) */}
+      <div className="absolute inset-0 bg-[#101116] pointer-events-none">
+        <div className="absolute -top-[10%] -right-[15%] w-[850px] h-[850px] rounded-full bg-gradient-to-br from-[#2E2864]/40 via-[#1C1844]/25 to-transparent blur-[140px]" />
+        <div className="absolute top-[35%] -left-[10%] w-[900px] h-[750px] rounded-full bg-gradient-to-tr from-[#1E1B4B]/35 via-[#161934]/20 to-transparent blur-[160px]" />
+      </div>
+
+      {/* WebGL Canvas Mount Container */}
+      <div ref={canvasContainerRef} className="absolute inset-0 pointer-events-none z-0" />
 
       {/* Celestial Horizon Curve (Atmospheric Planetary Limb on the Right) */}
-      <div className="absolute top-[6%] -right-[260px] sm:-right-[220px] lg:-right-[180px] w-[580px] sm:w-[680px] lg:w-[780px] aspect-square rounded-full pointer-events-none opacity-45 sm:opacity-55 lg:opacity-65 select-none">
+      <div className="absolute top-[6%] -right-[260px] sm:-right-[220px] lg:-right-[180px] w-[580px] sm:w-[680px] lg:w-[780px] aspect-square rounded-full pointer-events-none opacity-45 sm:opacity-55 lg:opacity-65 select-none z-10">
         <div className="absolute inset-0 rounded-full bg-[#0D0E14] border border-[rgba(131,135,195,0.18)] shadow-[inset_-30px_-30px_90px_rgba(0,0,0,0.95)]" />
         <div className="absolute inset-0 rounded-full bg-gradient-to-l from-[#8387C3]/35 via-[#4E5296]/15 to-transparent blur-md" />
         <div className="absolute -inset-1 rounded-full bg-gradient-to-l from-[#A5A9E6]/25 to-transparent blur-xl" />
       </div>
 
       {/* Architectural Engineering Grid (2.5% subtle overlay) */}
-      <div className="absolute inset-0 bg-blueprint-grid opacity-45 pointer-events-none" />
+      <div className="absolute inset-0 bg-blueprint-grid opacity-45 pointer-events-none z-10" />
 
       {/* Fine Film Grain Texture */}
-      <div className="absolute inset-0 bg-grain opacity-80 pointer-events-none" />
+      <div className="absolute inset-0 bg-grain opacity-80 pointer-events-none z-10" />
 
       {/* Vignette Overlay for Content Readability */}
-      <div className="absolute inset-0 bg-radial-gradient-to-c from-transparent via-[#101116]/40 to-[#101116]/80 pointer-events-none" />
+      <div className="absolute inset-0 bg-radial-gradient-to-c from-transparent via-[#101116]/40 to-[#101116]/80 pointer-events-none z-10" />
     </div>
   );
 }
