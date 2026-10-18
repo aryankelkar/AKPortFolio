@@ -6,67 +6,192 @@ import { useReducedMotion } from "motion/react";
 const LINE_1 = ["A", "R", "Y", "A", "N"];
 const LINE_2 = ["K", "E", "L", "K", "A", "R", "."];
 
+export type HeroAnimPhase =
+  | "IDLE"
+  | "INTRO"
+  | "TYPING_ARYAN"
+  | "WORD_PAUSE"
+  | "TYPING_KELKAR"
+  | "GLITCH_BURST"
+  | "COMPLETE";
+
+export const TIMING = {
+  INTRO_DELAY: 320,          // ms before typing 'A' begins (Phase 1)
+  CHAR_INTERVAL_ARYAN: 95,   // ms per character in "ARYAN" (Phase 2)
+  WORD_PAUSE: 300,           // ms pause between ARYAN and KELKAR (Phase 3)
+  CHAR_INTERVAL_KELKAR: 95,  // ms per character in "KELKAR." (Phase 4)
+  PRE_GLITCH_PAUSE: 220,     // ms pause after typing completes before glitch burst
+  GLITCH_DURATION: 550,      // ms duration of glitch burst (Phase 5)
+  LIGHT_SWEEP_DURATION: 750, // ms duration of lavender specular sweep
+  HOVER_COOLDOWN: 1200,      // ms cooldown between hover interactions
+} as const;
+
+interface AnimState {
+  phase: HeroAnimPhase;
+  chars1: number;
+  chars2: number;
+  cursorLine: 1 | 2;
+  showCursor: boolean;
+  isGlitching: boolean;
+}
+
 export function HeroName() {
   const shouldReduceMotion = useReducedMotion();
-  const [glitchActive, setGlitchActive] = useState(false);
+
+  const [animState, setAnimState] = useState<AnimState>(() => ({
+    phase: shouldReduceMotion ? "COMPLETE" : "INTRO",
+    chars1: shouldReduceMotion ? LINE_1.length : 0,
+    chars2: shouldReduceMotion ? LINE_2.length : 0,
+    cursorLine: 1,
+    showCursor: !shouldReduceMotion,
+    isGlitching: false,
+  }));
+
   const [sweepActive, setSweepActive] = useState(false);
-  const [introComplete, setIntroComplete] = useState(false);
-
   const cooldownRef = useRef(false);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
+  const hoverTimersRef = useRef<NodeJS.Timeout[]>([]);
 
-  const addTimer = useCallback((fn: () => void, ms: number) => {
-    const timer = setTimeout(fn, ms);
-    timersRef.current.push(timer);
-    return timer;
-  }, []);
-
-  const isReadyForHover = shouldReduceMotion || introComplete;
-
+  // Sequential, deterministic animation scheduler
   useEffect(() => {
     if (shouldReduceMotion) {
       return;
     }
 
-    // 1. Initial Glitch: Fires briefly at 1020ms right as characters settle
-    addTimer(() => {
-      setGlitchActive(true);
-      addTimer(() => setGlitchActive(false), 220);
-    }, 1020);
+    let isCancelled = false;
+    const timers: NodeJS.Timeout[] = [];
 
-    // 2. Initial Light Sweep: Fires at 1220ms as specular reflection across the typography
-    addTimer(() => {
-      setSweepActive(true);
-      addTimer(() => setSweepActive(false), 850);
-    }, 1220);
-
-    // 3. Complete intro phase at 2100ms
-    addTimer(() => {
-      setIntroComplete(true);
-    }, 2100);
-
-    const activeTimers = timersRef.current;
-    return () => {
-      activeTimers.forEach((t) => clearTimeout(t));
+    const schedule = (fn: () => void, ms: number) => {
+      const t = setTimeout(() => {
+        if (!isCancelled) fn();
+      }, ms);
+      timers.push(t);
+      return t;
     };
-  }, [shouldReduceMotion, addTimer]);
 
-  // Restrained interactive response on pointer hover
+    let elapsed = TIMING.INTRO_DELAY;
+
+    // PHASE 2: Type "ARYAN" character by character
+    for (let i = 1; i <= LINE_1.length; i++) {
+      const count = i;
+      schedule(() => {
+        setAnimState((prev) => ({
+          ...prev,
+          phase: "TYPING_ARYAN",
+          cursorLine: 1,
+          showCursor: true,
+          chars1: count,
+        }));
+      }, elapsed);
+      elapsed += TIMING.CHAR_INTERVAL_ARYAN;
+    }
+
+    // PHASE 3: Noticeable Word Pause (Anticipation)
+    schedule(() => {
+      setAnimState((prev) => ({
+        ...prev,
+        phase: "WORD_PAUSE",
+        cursorLine: 1,
+        showCursor: true,
+        chars1: LINE_1.length,
+      }));
+    }, elapsed);
+    elapsed += TIMING.WORD_PAUSE;
+
+    // PHASE 4: Type "KELKAR." character by character
+    for (let i = 1; i <= LINE_2.length; i++) {
+      const count = i;
+      schedule(() => {
+        setAnimState((prev) => ({
+          ...prev,
+          phase: "TYPING_KELKAR",
+          cursorLine: 2,
+          showCursor: true,
+          chars2: count,
+        }));
+      }, elapsed);
+      elapsed += TIMING.CHAR_INTERVAL_KELKAR;
+    }
+
+    // Typing Finished: Fade out cursor before glitch
+    schedule(() => {
+      setAnimState((prev) => ({
+        ...prev,
+        showCursor: false,
+      }));
+    }, elapsed);
+    elapsed += TIMING.PRE_GLITCH_PAUSE;
+
+    // PHASE 5: Controlled Cinematic Glitch Burst (550ms)
+    schedule(() => {
+      setAnimState((prev) => ({
+        ...prev,
+        phase: "GLITCH_BURST",
+        isGlitching: true,
+      }));
+    }, elapsed);
+
+    // Specular Lavender Light Sweep
+    schedule(() => {
+      setSweepActive(true);
+    }, elapsed + 200);
+
+    schedule(() => {
+      setSweepActive(false);
+    }, elapsed + 200 + TIMING.LIGHT_SWEEP_DURATION);
+
+    elapsed += TIMING.GLITCH_DURATION;
+
+    // PHASE 6: Final Settle into crisp, stable typography
+    schedule(() => {
+      setAnimState((prev) => ({
+        ...prev,
+        phase: "COMPLETE",
+        isGlitching: false,
+        showCursor: false,
+      }));
+    }, elapsed);
+
+    return () => {
+      isCancelled = true;
+      timers.forEach((t) => clearTimeout(t));
+    };
+  }, [shouldReduceMotion]);
+
+  // Clean up hover interaction timers on unmount
+  useEffect(() => {
+    const timers = hoverTimersRef.current;
+    return () => {
+      timers.forEach((t) => clearTimeout(t));
+    };
+  }, []);
+
+  // Restrained interactive response on pointer hover / focus
   const handleInteraction = useCallback(() => {
-    if (shouldReduceMotion || !isReadyForHover || cooldownRef.current) {
+    if (shouldReduceMotion || animState.phase !== "COMPLETE" || cooldownRef.current) {
       return;
     }
 
     cooldownRef.current = true;
-    setGlitchActive(true);
+    setAnimState((prev) => ({ ...prev, isGlitching: true }));
     setSweepActive(true);
 
-    addTimer(() => setGlitchActive(false), 180);
-    addTimer(() => setSweepActive(false), 700);
-    addTimer(() => {
+    const t1 = setTimeout(() => {
+      setAnimState((prev) => ({ ...prev, isGlitching: false }));
+    }, 240);
+
+    const t2 = setTimeout(() => {
+      setSweepActive(false);
+    }, 700);
+
+    const t3 = setTimeout(() => {
       cooldownRef.current = false;
-    }, 1200);
-  }, [shouldReduceMotion, isReadyForHover, addTimer]);
+    }, TIMING.HOVER_COOLDOWN);
+
+    hoverTimersRef.current.push(t1, t2, t3);
+  }, [shouldReduceMotion, animState.phase]);
+
+  const showCursor = animState.showCursor && !shouldReduceMotion;
+  const cursorLine = animState.cursorLine;
 
   return (
     <h1
@@ -74,7 +199,9 @@ export function HeroName() {
       onMouseEnter={handleInteraction}
       onFocus={handleInteraction}
       tabIndex={0}
-      className="font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[6.2rem] xl:text-[7.2rem] 2xl:text-[7.8rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none relative group cursor-default outline-none focus-visible:ring-1 focus-visible:ring-[#8387C3]/40 rounded-sm"
+      className={`font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[6.2rem] xl:text-[7.2rem] 2xl:text-[7.8rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none relative group cursor-default outline-none focus-visible:ring-1 focus-visible:ring-[#8387C3]/40 rounded-sm transition-all duration-300 ${
+        animState.isGlitching && !shouldReduceMotion ? "hero-glitch-active" : ""
+      }`}
     >
       {/* Screen-reader only accessible label */}
       <span className="sr-only">Aryan Kelkar.</span>
@@ -85,68 +212,76 @@ export function HeroName() {
         className="block relative transition-all duration-500 group-hover:drop-shadow-[0_0_30px_rgba(131,135,195,0.40)]"
       >
         {/* Line 1: ARYAN */}
-        <span className="block whitespace-nowrap overflow-visible">
-          {LINE_1.map((char, index) => (
-            <span
-              key={`line1-${index}`}
-              className={`inline-block ${
-                shouldReduceMotion ? "opacity-100" : "hero-char-animate"
-              }`}
-              style={
-                shouldReduceMotion
-                  ? undefined
-                  : { animationDelay: `${0.18 + index * 0.035}s` }
-              }
-            >
-              {char}
+        <span
+          className="hero-glitch-line block whitespace-nowrap overflow-visible"
+          data-text="ARYAN"
+        >
+          {/* Cursor at position 0 before typing begins */}
+          {showCursor && cursorLine === 1 && animState.chars1 === 0 && (
+            <span className="inline-block w-0 relative align-baseline">
+              <span className="absolute left-0 bottom-[0.08em] h-[0.82em] w-[2px] sm:w-[3px] lg:w-[4px] bg-[#8387C3] shadow-[0_0_8px_rgba(131,135,195,0.7)] hero-cursor-blink pointer-events-none" />
             </span>
-          ))}
+          )}
+
+          {LINE_1.map((char, index) => {
+            const isRevealed = shouldReduceMotion || index < animState.chars1;
+            const hasCursor = showCursor && cursorLine === 1 && animState.chars1 === index + 1;
+            return (
+              <span key={`l1-${index}`} className="inline-block relative">
+                <span
+                  className={`inline-block transition-all duration-120 ${
+                    isRevealed
+                      ? "opacity-100 translate-y-0 filter-none"
+                      : "opacity-0 translate-y-1.5 blur-[1px]"
+                  }`}
+                >
+                  {char}
+                </span>
+                {hasCursor && (
+                  <span className="absolute left-full bottom-[0.08em] h-[0.82em] w-[2px] sm:w-[3px] lg:w-[4px] bg-[#8387C3] shadow-[0_0_8px_rgba(131,135,195,0.7)] hero-cursor-blink pointer-events-none" />
+                )}
+              </span>
+            );
+          })}
         </span>
 
         {/* Line 2: KELKAR. */}
-        <span className="block whitespace-nowrap overflow-visible italic font-light text-[#8387C3] transition-colors duration-400 group-hover:text-[#F0EEF4]">
-          {LINE_2.map((char, index) => (
-            <span
-              key={`line2-${index}`}
-              className={`inline-block ${
-                shouldReduceMotion ? "opacity-100" : "hero-char-animate"
-              }`}
-              style={
-                shouldReduceMotion
-                  ? undefined
-                  : { animationDelay: `${0.48 + index * 0.035}s` }
-              }
-            >
-              {char}
+        <span
+          className="hero-glitch-line block whitespace-nowrap overflow-visible italic font-light text-[#8387C3] transition-colors duration-400 group-hover:text-[#F0EEF4]"
+          data-text="KELKAR."
+        >
+          {/* Cursor at position 0 before typing begins on line 2 */}
+          {showCursor && cursorLine === 2 && animState.chars2 === 0 && (
+            <span className="inline-block w-0 relative align-baseline">
+              <span className="absolute left-0 bottom-[0.08em] h-[0.82em] w-[2px] sm:w-[3px] lg:w-[4px] bg-[#8387C3] shadow-[0_0_8px_rgba(131,135,195,0.7)] hero-cursor-blink pointer-events-none" />
             </span>
-          ))}
+          )}
+
+          {LINE_2.map((char, index) => {
+            const isRevealed = shouldReduceMotion || index < animState.chars2;
+            const hasCursor = showCursor && cursorLine === 2 && animState.chars2 === index + 1;
+            return (
+              <span key={`l2-${index}`} className="inline-block relative">
+                <span
+                  className={`inline-block transition-all duration-120 ${
+                    isRevealed
+                      ? "opacity-100 translate-y-0 filter-none"
+                      : "opacity-0 translate-y-1.5 blur-[1px]"
+                  }`}
+                >
+                  {char}
+                </span>
+                {hasCursor && (
+                  <span className="absolute left-full bottom-[0.08em] h-[0.82em] w-[2px] sm:w-[3px] lg:w-[4px] bg-[#8387C3] shadow-[0_0_8px_rgba(131,135,195,0.7)] hero-cursor-blink pointer-events-none" />
+                )}
+              </span>
+            );
+          })}
         </span>
       </span>
 
-      {/* Restrained Digital Glitch Layer 1: Lavender Offset Slice */}
-      {glitchActive && !shouldReduceMotion && (
-        <span
-          aria-hidden="true"
-          className="absolute inset-0 pointer-events-none select-none hero-glitch-1 text-[#8387C3] z-20"
-        >
-          <span className="block whitespace-nowrap">ARYAN</span>
-          <span className="block whitespace-nowrap italic font-light">KELKAR.</span>
-        </span>
-      )}
-
-      {/* Restrained Digital Glitch Layer 2: Soft White Counter-Shift */}
-      {glitchActive && !shouldReduceMotion && (
-        <span
-          aria-hidden="true"
-          className="absolute inset-0 pointer-events-none select-none hero-glitch-2 text-[#F0EEF4] z-20"
-        >
-          <span className="block whitespace-nowrap">ARYAN</span>
-          <span className="block whitespace-nowrap italic font-light">KELKAR.</span>
-        </span>
-      )}
-
       {/* Archival Micro-Scan Line during Glitch */}
-      {glitchActive && !shouldReduceMotion && (
+      {animState.isGlitching && !shouldReduceMotion && (
         <div
           aria-hidden="true"
           className="absolute inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#A5A9E6]/75 to-transparent pointer-events-none hero-scan-line z-30"

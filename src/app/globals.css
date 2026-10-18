@@ -318,86 +318,188 @@ body {
 }
 
 /* ==========================================================================
-   Hero Typography Motion: Cinematic Reveal, Restrained Glitch, & Light Sweep
+   Hero Typography Motion: Cinematic Typewriter, Glitch & Light Sweep
    ========================================================================== */
-@keyframes heroCharReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-    filter: blur(1.5px);
+
+/* 1. Refined Typewriter Cursor Blink (550ms period) */
+@keyframes heroCursorBlink {
+  0%, 45% {
+    opacity: 1;
   }
-  65% {
-    opacity: 0.92;
-    filter: blur(0px);
+  50%, 95% {
+    opacity: 0;
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
-    filter: blur(0px);
   }
 }
 
-@keyframes editorialGlitch1 {
+.hero-cursor-blink {
+  animation: heroCursorBlink 0.55s ease-in-out infinite;
+  will-change: opacity;
+}
+
+/* 2. Pseudo-Element Chromatic Glitch Layer 1: Lavender + Cyan Aberration */
+@keyframes cinematicGlitchBurst1 {
   0% {
-    clip-path: inset(22% 0 58% 0);
-    transform: translate3d(-3px, 0, 0);
-    opacity: 0.8;
-  }
-  20% {
-    clip-path: inset(62% 0 12% 0);
-    transform: translate3d(2.5px, -1px, 0);
+    clip-path: inset(20% 0 55% 0);
+    transform: translate3d(-3.5px, 0, 0);
     opacity: 0.9;
   }
-  40% {
-    clip-path: inset(12% 0 74% 0);
-    transform: translate3d(-2px, 1px, 0);
-    opacity: 0.75;
-  }
-  65% {
-    clip-path: inset(44% 0 32% 0);
-    transform: translate3d(2px, 0, 0);
+  10% {
+    clip-path: inset(65% 0 10% 0);
+    transform: translate3d(3px, 0, 0);
     opacity: 0.85;
   }
-  85% {
-    clip-path: inset(78% 0 6% 0);
-    transform: translate3d(-1px, 0, 0);
-    opacity: 0.6;
-  }
-  100% {
-    clip-path: inset(0 0 100% 0);
+  16% {
+    clip-path: inset(100% 0 0 0);
     transform: translate3d(0, 0, 0);
     opacity: 0;
   }
-}
-
-@keyframes editorialGlitch2 {
-  0% {
-    clip-path: inset(52% 0 18% 0);
-    transform: translate3d(2px, 1px, 0);
-    opacity: 0.7;
-  }
-  25% {
-    clip-path: inset(16% 0 64% 0);
-    transform: translate3d(-2.5px, -1px, 0);
-    opacity: 0.85;
-  }
-  50% {
-    clip-path: inset(68% 0 14% 0);
-    transform: translate3d(1.5px, 0, 0);
+  30% {
+    clip-path: inset(10% 0 75% 0);
+    transform: translate3d(-2px, 0, 0);
     opacity: 0.8;
   }
-  75% {
-    clip-path: inset(32% 0 48% 0);
-    transform: translate3d(-1.5px, 1px, 0);
+  42% {
+    clip-path: inset(45% 0 35% 0);
+    transform: translate3d(2.5px, 0, 0);
+    opacity: 0.85;
+  }
+  48% {
+    clip-path: inset(100% 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  62% {
+    clip-path: inset(75% 0 8% 0);
+    transform: translate3d(-3px, 0, 0);
+    opacity: 0.9;
+  }
+  74% {
+    clip-path: inset(28% 0 52% 0);
+    transform: translate3d(2px, 0, 0);
+    opacity: 0.75;
+  }
+  80% {
+    clip-path: inset(100% 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  88% {
+    clip-path: inset(52% 0 24% 0);
+    transform: translate3d(-1.5px, 0, 0);
     opacity: 0.7;
   }
+  94% {
+    clip-path: inset(100% 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
   100% {
-    clip-path: inset(0 0 100% 0);
+    clip-path: inset(100% 0 0 0);
     transform: translate3d(0, 0, 0);
     opacity: 0;
   }
 }
 
+/* 3. Pseudo-Element Chromatic Glitch Layer 2: White + Red Aberration */
+@keyframes cinematicGlitchBurst2 {
+  0% {
+    clip-path: inset(55% 0 20% 0);
+    transform: translate3d(3px, 0, 0);
+    opacity: 0.85;
+  }
+  10% {
+    clip-path: inset(15% 0 68% 0);
+    transform: translate3d(-2.5px, 0, 0);
+    opacity: 0.8;
+  }
+  16% {
+    clip-path: inset(100% 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  30% {
+    clip-path: inset(68% 0 12% 0);
+    transform: translate3d(2px, 0, 0);
+    opacity: 0.8;
+  }
+  42% {
+    clip-path: inset(25% 0 55% 0);
+    transform: translate3d(-2px, 0, 0);
+    opacity: 0.75;
+  }
+  48% {
+    clip-path: inset(100% 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  62% {
+    clip-path: inset(18% 0 62% 0);
+    transform: translate3d(2.5px, 0, 0);
+    opacity: 0.85;
+  }
+  74% {
+    clip-path: inset(60% 0 18% 0);
+    transform: translate3d(-2px, 0, 0);
+    opacity: 0.8;
+  }
+  80% {
+    clip-path: inset(100% 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  88% {
+    clip-path: inset(32% 0 45% 0);
+    transform: translate3d(1.5px, 0, 0);
+    opacity: 0.7;
+  }
+  94% {
+    clip-path: inset(100% 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  100% {
+    clip-path: inset(100% 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+}
+
+/* 4. Glitch Line Pseudo-Element Bindings */
+.hero-glitch-line {
+  position: relative;
+  display: block;
+}
+
+.hero-glitch-line::before,
+.hero-glitch-line::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+}
+
+.hero-glitch-active .hero-glitch-line::before {
+  color: #8387C3;
+  text-shadow: -2px 0 rgba(0, 229, 255, 0.85);
+  animation: cinematicGlitchBurst1 0.55s steps(1, end) forwards;
+  will-change: transform, clip-path, opacity;
+  z-index: 10;
+}
+
+.hero-glitch-active .hero-glitch-line::after {
+  color: #F0EEF4;
+  text-shadow: 2px 0 rgba(255, 51, 102, 0.85);
+  animation: cinematicGlitchBurst2 0.55s steps(1, end) forwards;
+  will-change: transform, clip-path, opacity;
+  z-index: 11;
+}
+
+/* 5. Specular Lavender Light Sweep */
 @keyframes lavenderSweep {
   0% {
     transform: translateX(-115%) skewX(-18deg);
@@ -415,6 +517,12 @@ body {
   }
 }
 
+.hero-light-sweep-beam {
+  animation: lavenderSweep 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* 6. Archival Downward Micro-Scan Line */
 @keyframes archivalScan {
   0% {
     top: 0%;
@@ -430,29 +538,6 @@ body {
     top: 100%;
     opacity: 0;
   }
-}
-
-.hero-char-animate {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: heroCharReveal 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  will-change: transform, opacity;
-}
-
-.hero-glitch-1 {
-  animation: editorialGlitch1 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  will-change: transform, clip-path, opacity;
-}
-
-.hero-glitch-2 {
-  animation: editorialGlitch2 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  will-change: transform, clip-path, opacity;
-}
-
-.hero-light-sweep-beam {
-  animation: lavenderSweep 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  will-change: transform, opacity;
 }
 
 .hero-scan-line {
