@@ -144,17 +144,21 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-code text-[#8A8CAC]">
-          <div>
-            &copy; 2026 Aryan Kelkar. The Personal Engineering Archive.
+        {/* Bottom bar with reference quote */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-code text-[#8A8CAC]">
+          <div className="flex items-center gap-3">
+            <span className="text-[#F0EEF4] font-medium">ARYAN KELKAR // 2026 ARCHIVE</span>
+            <span className="text-[rgba(255,255,255,0.2)]">|</span>
+            <span>Engineering at the intersection of curiosity and impact.</span>
           </div>
 
           <div className="flex items-center gap-6">
-            <span>Next.js App Router &bull; TypeScript &bull; Tailwind</span>
+            <span className="italic font-serif text-sm text-[#959BB5] hidden lg:inline">
+              &ldquo;A small step in code towards a kinder, more connected world.&rdquo;
+            </span>
             <button
               onClick={scrollToTop}
-              className="btn-fluid group inline-flex items-center gap-1.5 text-[#8387C3] hover:text-[#E7E7F0] focus:outline-none"
+              className="btn-fluid group inline-flex items-center gap-1.5 text-[#8387C3] hover:text-[#F0EEF4] focus:outline-none"
               aria-label="Back to top of page"
             >
               <span>TOP</span>

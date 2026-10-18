@@ -4,7 +4,6 @@ import { Hero } from "@/components/hero/Hero";
 import { ProjectGallery } from "@/components/projects/ProjectGallery";
 import { AboutSection } from "@/components/about/AboutSection";
 import { SkillsSection } from "@/components/skills/SkillsSection";
-import { DocumentaryBreak } from "@/components/ui/DocumentaryBreak";
 import { AchievementsArchive } from "@/components/achievements/AchievementsArchive";
 import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { ActivitiesSection } from "@/components/activities/ActivitiesSection";
@@ -19,11 +18,10 @@ export default function HomePage() {
       <Navbar />
       <main className="flex-1">
         <Hero />
-        <ProjectGallery initialLimit={4} title="Selected Works & Case Studies" />
+        <ProjectGallery initialLimit={3} title="Selected Works & Case Studies" />
         <AboutSection />
         <SkillsSection />
-        <DocumentaryBreak />
-        <AchievementsArchive initialLimit={4} />
+        <AchievementsArchive initialLimit={3} />
         <JourneyTimeline initialLimit={4} />
         <ActivitiesSection />
         <ContactSection />

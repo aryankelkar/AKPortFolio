@@ -85,17 +85,44 @@ export function ProjectGallery({
           </div>
         )}
 
-        {/* Featured Projects Stack */}
-        <div className="space-y-8 sm:space-y-12">
-          {displayedProjects.map((project, idx) => (
-            <ProjectCard
-              key={project.slug}
-              project={project}
-              layout={project.featured ? "featured" : "compact"}
-              index={idx}
-            />
-          ))}
-        </div>
+        {/* Projects Layout: 3-column exhibition grid on homepage matching reference design, full list on /work */}
+        {initialLimit ? (
+          <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+              {displayedProjects.map((project, idx) => (
+                <ProjectCard
+                  key={project.slug}
+                  project={project}
+                  layout="compact"
+                  index={idx}
+                />
+              ))}
+            </div>
+
+            {/* Carousel navigation indicators (< • • • • >) matching reference design */}
+            <div className="pt-10 flex items-center justify-center gap-4 text-xs font-code text-[#8A8CAC]">
+              <span className="cursor-pointer hover:text-[#F0EEF4] transition-colors p-1">&larr;</span>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#8387C3]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
+              </div>
+              <span className="cursor-pointer hover:text-[#F0EEF4] transition-colors p-1">&rarr;</span>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-8 sm:space-y-12">
+            {displayedProjects.map((project, idx) => (
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                layout={project.featured ? "featured" : "compact"}
+                index={idx}
+              />
+            ))}
+          </div>
+        )}
 
         {displayedProjects.length === 0 && (
           <div className="text-center py-16 bg-[#171924] rounded-xl border border-[rgba(255,255,255,0.08)]">

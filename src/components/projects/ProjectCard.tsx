@@ -704,10 +704,20 @@ export function ProjectCard({
     >
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <span className="font-code text-xs font-semibold text-[#8387C3]">
-            [ {projectNumber} ]
+          <span className="font-code text-[11px] font-semibold text-[#8387C3] tracking-wider">
+            [ SPEC // {projectNumber} ] {project.category.toUpperCase()}
           </span>
-          <Badge variant="status">{project.category}</Badge>
+          <span
+            className={`font-code text-[9px] uppercase px-2 py-0.5 rounded-full font-bold tracking-wider ${
+              project.slug === "redevice"
+                ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
+                : project.slug === "banksense-ai"
+                ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30"
+                : "bg-[#8387C3]/15 text-[#8387C3] border border-[#8387C3]/30"
+            }`}
+          >
+            {project.slug === "redevice" ? "LIVE" : project.slug === "banksense-ai" ? "RESEARCH" : "IMPACT"}
+          </span>
         </div>
 
         <div>

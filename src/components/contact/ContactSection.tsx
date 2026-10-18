@@ -10,13 +10,13 @@ export function ContactSection() {
   const photo = profileData.photos.signaturePortrait;
 
   return (
-    <section id="contact" className="py-24 lg:py-32 relative bg-[#151720] border-t border-[rgba(255,255,255,0.08)]">
+    <section id="contact" className="py-24 lg:py-32 relative bg-[#151720]/80 backdrop-blur-sm border-t border-[rgba(255,255,255,0.08)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          number="[ 07 ]"
-          tag="CLOSING // TRANSMISSION"
-          title={profileData.closing.headline}
-          description={profileData.closing.supporting}
+          number="[ 06 ]"
+          tag="CONTACT / COLLABORATION"
+          title="Have something worth building?"
+          description="Open to interesting ideas, meaningful problems, and collaborative engineering."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">

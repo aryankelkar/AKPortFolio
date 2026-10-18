@@ -4,7 +4,7 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
-import { ArrowDownRight, ArrowRight, CornerDownRight } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, CornerDownRight } from "lucide-react";
 import { profileData } from "@/data/profile";
 
 export function Hero() {
@@ -23,15 +23,12 @@ export function Hero() {
     <section
       ref={containerRef}
       id="hero"
-      className="relative min-h-[92vh] flex flex-col justify-between pt-24 sm:pt-28 pb-8 sm:pb-10 border-b border-[rgba(255,255,255,0.08)] bg-[#101116]"
+      className="relative min-h-[92vh] flex flex-col justify-between pt-24 sm:pt-28 pb-8 sm:pb-10 border-b border-[rgba(255,255,255,0.08)] bg-transparent"
     >
-      {/* Restrained Background Atmosphere on Deep Graphite-Black (#101116) */}
+      {/* Soft Vignette Overlay strictly behind text to preserve crisp readability */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        {/* Soft, diffused graphite ambient rim strictly behind photographic composition */}
-        <div className="absolute top-1/4 right-0 w-[460px] h-[460px] bg-[#1E202E]/30 rounded-full blur-[140px]" />
-        
-        {/* Soft bottom transition into Graphite-Black */}
-        <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-[#101116] to-transparent" />
+        <div className="absolute top-1/4 -left-1/4 w-[600px] h-[600px] bg-[#101116]/80 rounded-full blur-[140px]" />
+        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#101116] to-transparent" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 my-auto">
@@ -49,10 +46,10 @@ export function Hero() {
             </span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-6 text-[#8A8CAC]">
-            <span>THE PERSONAL ENGINEERING ARCHIVE</span>
-            <span className="text-[rgba(255,255,255,0.15)]">|</span>
-            <span>SPEC REF: AK-2026</span>
+          <div className="hidden sm:flex items-center gap-4 text-[#8A8CAC]">
+            <span className="text-[#959BB5]">SYSTEM ARCHIVE // 2026</span>
+            <span className="text-[rgba(255,255,255,0.2)]">|</span>
+            <span className="text-[#8387C3]">INDEX REF: AK-SYS-01</span>
           </div>
         </motion.div>
 
@@ -122,7 +119,7 @@ export function Hero() {
                 className="btn-fluid group relative inline-flex items-center gap-2.5 font-code text-xs uppercase tracking-widest bg-[#F0EEF4] hover:bg-[#8387C3] text-[#101116] font-semibold px-7 py-3.5 rounded-full shadow-xl shadow-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
               >
                 <span>EXPLORE SELECTED WORK</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
 
               <Link
@@ -175,13 +172,13 @@ export function Hero() {
                   </div>
                 </div>
 
-                {/* Bottom-Right Identity Watermark — Positioned safely away from the floating card */}
-                <div className="absolute bottom-4 right-4 text-right pointer-events-none z-10 max-w-[190px]">
-                  <p className="font-editorial text-lg sm:text-xl text-[#F0EEF4] font-medium leading-tight drop-shadow-md">
+                {/* Bottom-Right Signature Watermark — Matches Reference Concept */}
+                <div className="absolute bottom-4 right-4 text-right pointer-events-none z-10 max-w-[210px]">
+                  <p className="font-editorial italic text-2xl text-[#F0EEF4] font-medium leading-none drop-shadow-lg tracking-wide">
                     Aryan Kelkar
                   </p>
-                  <p className="font-code text-[10px] text-[#8387C3] mt-0.5 tracking-wider uppercase font-medium">
-                    Systems Builder
+                  <p className="font-code text-[9.5px] text-[#959BB5] mt-1 tracking-wider uppercase">
+                    Information Technology Student & Builder
                   </p>
                 </div>
               </motion.div>
@@ -189,7 +186,7 @@ export function Hero() {
               {/* SECONDARY FLOATING ACCENT EXHIBIT (FIG. 02) */}
               <motion.div
                 style={{ y: floatingPhotoY }}
-                className="absolute -bottom-4 -left-2 sm:-bottom-6 sm:-left-6 w-32 sm:w-44 aspect-[4/5] rounded-xl overflow-hidden bg-[#151720] border-2 border-[#8387C3]/60 shadow-[0_20px_50px_rgba(0,0,0,0.95)] rotate-[-3deg] hover:rotate-0 transition-transform duration-500 z-20 group"
+                className="absolute -bottom-4 -left-2 sm:-bottom-6 sm:-left-6 w-32 sm:w-44 aspect-[4/5] rounded-xl overflow-hidden bg-[#151720] border-2 border-[#8387C3]/70 shadow-[0_20px_50px_rgba(0,0,0,0.95)] rotate-[-3deg] hover:rotate-0 transition-transform duration-500 z-20 group"
               >
                 <Image
                   src={profileData.photos.floatingPortrait.src}
@@ -204,7 +201,7 @@ export function Hero() {
                     FIG. 02 // DETAIL
                   </span>
                   <span className="font-code text-[10px] text-[#F0EEF4] font-medium truncate block">
-                    Analytical View
+                    Analytical View OPTICAL
                   </span>
                 </div>
               </motion.div>

@@ -24,12 +24,12 @@ export function ActivitiesSection() {
   };
 
   return (
-    <section id="activities" className="py-20 lg:py-28 bg-[#101116] relative border-t border-[rgba(255,255,255,0.08)]">
+    <section id="activities" className="py-20 lg:py-28 bg-transparent relative border-t border-[rgba(255,255,255,0.08)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          number="[ 06 ]"
-          tag="COMMUNITY & LEADERSHIP"
-          title="Extracurricular Engagements & Initiatives."
+          number="[ 05 ]"
+          tag="EXTRACURRICULARS"
+          title="Beyond the classroom."
           description="Documenting student collaboration, peer mentorship, tech symposium logistics, and community outreach beyond code repositories."
         />
 

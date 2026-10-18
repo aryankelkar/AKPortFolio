@@ -37,11 +37,11 @@ export function AchievementsArchive({
   const displayed = initialLimit ? filtered.slice(0, initialLimit) : filtered;
 
   return (
-    <section id="achievements" className="py-20 lg:py-28 bg-[#101116] relative border-t border-[rgba(255,255,255,0.08)]">
+    <section id="achievements" className="py-20 lg:py-28 bg-transparent relative border-t border-[rgba(255,255,255,0.06)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <SectionHeading
-            number="[ 04 ]"
+            number="[ ARCHIVE ]"
             tag="CREDENTIALS & RECOGNITION"
             title="Achievements, Certifications & Hackathons."
             description="Verified certifications, competitive hackathon defenses, and academic milestones grounded in factual student work."
