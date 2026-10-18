@@ -34,6 +34,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://aryankelkar.dev"
+  ),
   title: {
     default: "Aryan Kelkar — Personal Portfolio & Technical Archive",
     template: "%s | Aryan Kelkar",

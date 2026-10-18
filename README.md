@@ -33,7 +33,8 @@ Designed with **"The Personal Archive"** aesthetic: combining editorial design, 
 │   ├── /work/smart-evacuation-router
 │   ├── /work/campusplay
 │   └── /work/krishimitra
-├── /achievements         -> Filterable certifications, hackathons & academic honors
+├── /archive              -> Filterable certifications, hackathons & academic honors (canonical)
+├── /achievements         -> Automatic HTTP 307 redirect to /archive
 ├── /journey              -> Chronological education & systems engineering timeline
 ├── /activities           -> Extracurricular student leadership & civic initiatives
 ├── /contact              -> Direct transmission form & verified communication links
@@ -41,6 +42,36 @@ Designed with **"The Personal Archive"** aesthetic: combining editorial design, 
 ├── /sitemap.xml          -> Automated dynamic search crawler sitemap
 ├── /robots.txt           -> Search engine indexing directives
 └── /resume.pdf           -> Verified Curriculum Vitae document download
+```
+
+---
+
+## ☁️ Vercel Deployment Guide
+
+This portfolio is built on **Next.js 16 (App Router)** and is 100% pre-configured for Vercel deployment with zero custom server hacks.
+
+### Method 1: Git Integration (Recommended)
+1. Push your repository to **GitHub** or **GitLab**.
+2. Go to [vercel.com/new](https://vercel.com/new) and import the repository.
+3. Vercel automatically detects **Next.js**:
+   - **Framework Preset:** `Next.js`
+   - **Build Command:** `next build` (or `npm run build`)
+   - **Output Directory:** `.next`
+   - **Install Command:** `npm install`
+4. Under **Environment Variables**, optionally set:
+   - `NEXT_PUBLIC_SITE_URL`: `https://aryankelkar.dev` (or your custom domain)
+5. Click **Deploy**. Vercel will build all static pages and deploy the serverless contact endpoint in ~1 minute.
+
+### Method 2: Vercel CLI
+```bash
+# Login to Vercel account
+npx vercel login
+
+# Link and deploy preview
+npx vercel
+
+# Deploy directly to production
+npx vercel --prod
 ```
 
 ---
