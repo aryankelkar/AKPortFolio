@@ -68,21 +68,19 @@ export function CustomCursor() {
 
   return (
     <div className="hidden lg:block pointer-events-none fixed inset-0 z-50 overflow-hidden">
-      {/* Outer Follower Ring */}
+      {/* Outer Follower Ring - centered via -ml-4 -mt-4 for exact 32px concentricity */}
       <motion.div
         style={{
           x: smoothX,
           y: smoothY,
-          translateX: "-50%",
-          translateY: "-50%",
         }}
         animate={{
           scale: isHovered ? (cursorText ? 2.4 : 1.6) : 1,
-          borderColor: isHovered ? "#A39AFF" : "rgba(160, 170, 210, 0.35)",
+          borderColor: isHovered ? "#A39AFF" : "rgba(160, 170, 210, 0.4)",
           backgroundColor: isHovered ? "rgba(163, 154, 255, 0.12)" : "rgba(163, 154, 255, 0)",
         }}
         transition={{ duration: 0.18, ease: "easeOut" }}
-        className="w-8 h-8 rounded-full border border-[rgba(160,170,210,0.35)] flex items-center justify-center transition-colors"
+        className="fixed top-0 left-0 -ml-4 -mt-4 w-8 h-8 rounded-full border border-[rgba(160,170,210,0.4)] flex items-center justify-center transition-colors pointer-events-none will-change-transform z-50"
       >
         {cursorText && (
           <span className="font-code text-[8px] uppercase tracking-widest text-[#A39AFF] font-bold select-none">
@@ -91,15 +89,13 @@ export function CustomCursor() {
         )}
       </motion.div>
 
-      {/* Center Precision Dot */}
+      {/* Center Precision Dot - centered via -ml-[3px] -mt-[3px] for exact 6px concentricity */}
       <motion.div
         style={{
           x: mouseX,
           y: mouseY,
-          translateX: "-50%",
-          translateY: "-50%",
         }}
-        className="w-1.5 h-1.5 rounded-full bg-[#A39AFF]"
+        className="fixed top-0 left-0 -ml-[3px] -mt-[3px] w-1.5 h-1.5 rounded-full bg-[#A39AFF] pointer-events-none will-change-transform z-50"
       />
     </div>
   );
