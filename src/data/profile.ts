@@ -77,7 +77,7 @@ export const profileData: ProfileData = {
     {
       name: "HUMAN-CENTERED TECHNOLOGY",
       description: "Accessible interfaces, civic utility platforms, and circular sustainability tooling.",
-      tag: "HUMANITY + SYSTEMS",
+      tag: "HUMAN-CENTERED",
     },
   ],
   photos: {

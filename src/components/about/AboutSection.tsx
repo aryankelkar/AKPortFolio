@@ -92,7 +92,7 @@ export function AboutSection() {
             </div>
           </motion.div>
 
-          {/* Right Column: FIG. 03 // PERSPECTIVE (Documentary Photograph & Academic Badge) */}
+          {/* Right Column: Documentary Photograph & Academic Credentials */}
           <motion.div
             initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}

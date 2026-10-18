@@ -142,7 +142,7 @@ export function Hero() {
             {/* Composition Framing Container: Dedicated margins and padding so NO element clips */}
             <div className="relative pt-2 pb-8 pl-4 sm:pl-8 pr-2 w-full max-w-[360px] sm:max-w-[390px] lg:max-w-[410px]">
               
-              {/* PRIMARY EXHIBIT FRAME (FIG. 01) */}
+              {/* PRIMARY PORTRAIT FRAME */}
               <motion.div
                 style={{ y: photoY }}
                 className="relative rounded-2xl overflow-hidden bg-[#151720] border border-[rgba(255,255,255,0.12)] shadow-[0_25px_60px_rgba(0,0,0,0.85)] aspect-[3/4] group"
