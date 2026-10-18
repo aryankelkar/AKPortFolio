@@ -1,10 +1,15 @@
+"use client";
+
 import React from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { Users, HeartHandshake, Compass, Award } from "lucide-react";
 import { activitiesData } from "@/data/activities";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 
 export function ActivitiesSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "Leadership":
@@ -29,10 +34,18 @@ export function ActivitiesSection() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {activitiesData.map((activity) => (
-            <article
+          {activitiesData.map((activity, idx) => (
+            <motion.article
               key={activity.id}
-              className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.5)] p-7 transition-all duration-300 flex flex-col justify-between shadow-xl"
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                duration: 0.42,
+                delay: Math.min(idx * 0.08, 0.24),
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] card-interactive p-7 flex flex-col justify-between shadow-xl group"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -48,7 +61,7 @@ export function ActivitiesSection() {
                 </div>
 
                 <div>
-                  <h3 className="font-editorial text-2xl font-normal text-[#F0EEF4]">
+                  <h3 className="font-editorial text-2xl font-normal text-[#F0EEF4] group-hover:text-[#8387C3] transition-colors">
                     {activity.title}
                   </h3>
                   <div className="flex flex-wrap items-center gap-2 mt-1">
@@ -71,8 +84,8 @@ export function ActivitiesSection() {
                     Direct Contributions:
                   </span>
                   <ul className="space-y-1.5 text-xs text-[#959BB5] font-light">
-                    {activity.contributions.map((contribution, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
+                    {activity.contributions.map((contribution, i) => (
+                      <li key={i} className="flex items-start gap-2">
                         <span className="text-[#8387C3] shrink-0">•</span>
                         <span>{contribution}</span>
                       </li>
@@ -89,7 +102,7 @@ export function ActivitiesSection() {
                   </span>
                 </div>
               )}
-            </article>
+            </motion.article>
           ))}
         </div>
       </div>

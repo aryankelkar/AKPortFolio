@@ -139,7 +139,7 @@ export function ContactForm() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Jane Doe"
-                className="w-full rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.08)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] transition-colors font-sans"
+                className="w-full rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.08)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] focus:ring-1 focus:ring-[#8387C3] transition-all font-sans"
               />
             </div>
 
@@ -158,7 +158,7 @@ export function ContactForm() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="jane@example.com"
-                className="w-full rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.08)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] transition-colors font-sans"
+                className="w-full rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.08)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] focus:ring-1 focus:ring-[#8387C3] transition-all font-sans"
               />
             </div>
           </div>
@@ -177,7 +177,7 @@ export function ContactForm() {
               value={formData.subject}
               onChange={handleChange}
               placeholder="Collaboration / Project Inquiry / Engineering Discussion"
-              className="w-full rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.08)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] transition-colors font-sans"
+              className="w-full rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.08)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] focus:ring-1 focus:ring-[#8387C3] transition-all font-sans"
             />
           </div>
 
@@ -197,7 +197,7 @@ export function ContactForm() {
               value={formData.message}
               onChange={handleChange}
               placeholder="Tell me about your project, idea, or challenge..."
-              className="w-full rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.08)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] transition-colors font-sans resize-y"
+              className="w-full rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.08)] px-4 py-2.5 text-sm text-[#F0EEF4] placeholder-[#8A8CAC]/50 focus:outline-none focus:border-[#8387C3] focus:ring-1 focus:ring-[#8387C3] transition-all font-sans resize-y"
             />
           </div>
 
@@ -205,13 +205,16 @@ export function ContactForm() {
             <button
               type="submit"
               disabled={status === "submitting"}
-              className="w-full inline-flex items-center justify-center gap-2 font-code text-xs uppercase tracking-widest text-[#101116] bg-[#F0EEF4] hover:bg-[#8387C3] disabled:opacity-50 font-semibold px-6 py-3 rounded-lg shadow-lg shadow-black/40 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+              className="btn-fluid group w-full inline-flex items-center justify-center gap-2 font-code text-xs uppercase tracking-widest text-[#101116] bg-[#F0EEF4] hover:bg-[#8387C3] disabled:opacity-50 font-semibold px-6 py-3.5 rounded-lg shadow-lg shadow-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
             >
               {status === "submitting" ? (
-                <span>PROCESSING...</span>
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#101116] animate-ping" />
+                  PROCESSING...
+                </span>
               ) : (
                 <>
-                  <Send className="w-3.5 h-3.5" />
+                  <Send className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   <span>TRANSMIT MESSAGE</span>
                 </>
               )}

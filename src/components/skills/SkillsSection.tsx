@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { Terminal, Database, Code, Globe, Cpu, Wrench, Filter } from "lucide-react";
 import { skillCategories } from "@/data/skills";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function SkillsSection() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const shouldReduceMotion = useReducedMotion();
 
   const categories = [
     "All",
@@ -63,7 +65,7 @@ export function SkillsSection() {
               key={cat}
               type="button"
               onClick={() => setActiveCategory(cat)}
-              className={`font-code text-xs px-3.5 py-1.5 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] ${
+              className={`btn-fluid font-code text-xs px-3.5 py-1.5 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] ${
                 activeCategory === cat
                   ? "bg-[#8387C3] text-[#101116] font-semibold shadow-md"
                   : "bg-[#171924] text-[#959BB5] hover:text-[#F0EEF4] border border-[rgba(255,255,255,0.08)]"
@@ -75,10 +77,18 @@ export function SkillsSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCategories.map((categoryGroup) => (
-            <div
+          {filteredCategories.map((categoryGroup, idx) => (
+            <motion.div
               key={categoryGroup.category}
-              className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] p-6 transition-all duration-300 flex flex-col justify-between shadow-xl"
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                duration: 0.4,
+                delay: Math.min(idx * 0.06, 0.24),
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] card-interactive p-6 flex flex-col justify-between shadow-xl"
             >
               <div>
                 <div className="flex items-center gap-3 pb-4 border-b border-[rgba(255,255,255,0.08)]">
@@ -100,7 +110,7 @@ export function SkillsSection() {
                   {categoryGroup.skills.map((skill) => (
                     <div
                       key={skill.name}
-                      className="p-3 rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.06)] group hover:border-[rgba(131,135,195,0.35)] transition-colors"
+                      className="p-3 rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.06)] hover:border-[rgba(131,135,195,0.35)] transition-all duration-200"
                     >
                       <div className="flex items-baseline justify-between gap-2">
                         <span className="font-code text-xs font-medium text-[#F0EEF4]">
@@ -129,7 +139,7 @@ export function SkillsSection() {
                   APPLIED REPERTOIRE
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

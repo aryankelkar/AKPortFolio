@@ -37,9 +37,9 @@ export function Hero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 my-auto">
         {/* 1. Top Technical Metadata Bar */}
         <motion.div
-          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
+          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+          transition={{ duration: 0.35, delay: 0.04, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[rgba(255,255,255,0.08)] text-[11px] font-code text-[#8A8CAC]"
         >
           <div className="flex items-center gap-2">
@@ -62,24 +62,24 @@ export function Hero() {
           <div className="lg:col-span-7 space-y-8">
             {/* 2. Headline Reveal */}
             <motion.div
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.45, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
             >
               <h1 className="font-editorial text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.88] select-none">
                 ARYAN
                 <br />
-                <span className="italic font-light text-[#8387C3] hover:text-[#F0EEF4] transition-colors duration-500">
+                <span className="italic font-light text-[#8387C3] hover:text-[#F0EEF4] transition-colors duration-300">
                   KELKAR.
                 </span>
               </h1>
             </motion.div>
 
-            {/* 4. Supporting Statement */}
+            {/* 3. Supporting Statement */}
             <motion.p
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
               className="font-serif italic text-xl sm:text-2xl text-[#959BB5] max-w-xl leading-relaxed"
             >
               &ldquo;{profileData.headline}&rdquo;
@@ -90,9 +90,9 @@ export function Hero() {
               {profileData.disciplines.map((d, idx) => (
                 <motion.div
                   key={d.name}
-                  initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                  initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.55 + idx * 0.08, ease: "easeOut" }}
+                  transition={{ duration: 0.38, delay: 0.34 + idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
                   className="group flex flex-col sm:flex-row sm:items-baseline justify-between py-2 border-b border-[rgba(255,255,255,0.06)] hover:border-[rgba(131,135,195,0.4)] transition-colors"
                 >
                   <div className="flex items-center gap-2.5">
@@ -112,15 +112,14 @@ export function Hero() {
 
             {/* Actions */}
             <motion.div
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.52, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-wrap items-center gap-5 pt-4"
             >
               <Link
                 href="/work"
-                data-cursor="EXPLORE"
-                className="group relative inline-flex items-center gap-2.5 font-code text-xs uppercase tracking-widest bg-[#F0EEF4] hover:bg-[#8387C3] text-[#101116] font-semibold px-7 py-4 rounded-full transition-all duration-300 shadow-xl shadow-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+                className="btn-fluid group relative inline-flex items-center gap-2.5 font-code text-xs uppercase tracking-widest bg-[#F0EEF4] hover:bg-[#8387C3] text-[#101116] font-semibold px-7 py-4 rounded-full shadow-xl shadow-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
               >
                 <span>EXPLORE SELECTED WORK</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -128,8 +127,7 @@ export function Hero() {
 
               <Link
                 href="/about"
-                data-cursor="ABOUT"
-                className="group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#F0EEF4] hover:text-[#8387C3] py-4 px-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+                className="btn-fluid group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#F0EEF4] hover:text-[#8387C3] py-4 px-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
               >
                 <span>A LITTLE ABOUT ME</span>
                 <ArrowDownRight className="w-4 h-4 text-[#8387C3] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" />
@@ -137,11 +135,15 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* 3. Right Column: THE PHOTOGRAPHIC HERO COMPOSITION */}
+          {/* 4. Right Column: THE PHOTOGRAPHIC HERO COMPOSITION (Magazine Cover Unmasking) */}
           <motion.div
-            initial={shouldReduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            initial={
+              shouldReduceMotion
+                ? { opacity: 1, scale: 1 }
+                : { opacity: 0, scale: 1.03, clipPath: "inset(8% 0% 0% 0%)" }
+            }
+            animate={{ opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)" }}
+            transition={{ duration: 0.58, delay: 0.20, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-5 relative flex justify-center lg:justify-end"
           >
             <div className="relative w-full max-w-[380px] sm:max-w-[420px]">
@@ -156,16 +158,16 @@ export function Hero() {
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, 420px"
-                  className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 transition-all duration-700"
+                  className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
                 />
 
                 {/* Editorial Vignette & Technical Watermark */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85 pointer-events-none" />
                 <div className="absolute top-4 left-4 font-code text-[10px] text-[#F0EEF4] bg-[#101116]/85 backdrop-blur-md px-2.5 py-1 rounded border border-[rgba(255,255,255,0.12)]">
                   FIG. 01 // IDENTITY
                 </div>
 
-                <div className="absolute bottom-4 left-4 right-4">
+                <div className="absolute bottom-4 left-4 right-4 pointer-events-none">
                   <p className="font-editorial text-lg text-[#F0EEF4] font-medium leading-tight">
                     Aryan Kelkar
                   </p>
@@ -185,10 +187,10 @@ export function Hero() {
                   alt={profileData.photos.floatingPortrait.alt}
                   fill
                   sizes="192px"
-                  className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 transition-all duration-700"
+                  className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-75" />
-                <div className="absolute bottom-2.5 left-2.5 right-2.5">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-75 pointer-events-none" />
+                <div className="absolute bottom-2.5 left-2.5 right-2.5 pointer-events-none">
                   <span className="font-code text-[9px] uppercase tracking-wider text-[#8387C3] block">
                     FIG. 02 // DETAIL
                   </span>

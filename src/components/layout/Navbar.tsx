@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useScroll, useSpring } from "motion/react";
+import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
 import { Menu, X, ArrowUpRight, FileText } from "lucide-react";
 import { profileData } from "@/data/profile";
 
@@ -32,8 +32,8 @@ export function Navbar() {
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 120,
+    damping: 32,
     restDelta: 0.001,
   });
 
@@ -165,7 +165,7 @@ export function Navbar() {
                     <motion.span
                       layoutId="nav-active-indicator"
                       className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#8387C3] rounded-full"
-                      transition={{ duration: 0.22, ease: "easeOut" }}
+                      transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                     />
                   )}
                 </Link>
@@ -177,11 +177,11 @@ export function Navbar() {
               href={profileData.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-code text-xs tracking-wider text-[#F0EEF4] bg-[#1A1C28] hover:bg-[#222534] px-4 py-2 rounded-full border border-[rgba(255,255,255,0.12)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+              className="btn-fluid group inline-flex items-center gap-1.5 font-code text-xs tracking-wider text-[#F0EEF4] bg-[#1A1C28] hover:bg-[#222534] px-4 py-2 rounded-full border border-[rgba(255,255,255,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
             >
               <FileText className="w-3.5 h-3.5 text-[#8387C3]" />
               <span>RÉSUMÉ</span>
-              <ArrowUpRight className="w-3 h-3 text-[#8A8CAC]" />
+              <ArrowUpRight className="w-3 h-3 text-[#8A8CAC] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
           </nav>
 
@@ -204,62 +204,69 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div
-          id="mobile-navigation"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Site Navigation"
-          className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#101116]/98 backdrop-blur-xl border-t border-[rgba(255,255,255,0.10)] px-6 py-8 flex flex-col justify-between overflow-y-auto z-50"
-        >
-          <div className="space-y-4">
-            <p className="font-code text-[11px] uppercase tracking-widest text-[#8387C3] mb-4">
-              [ DIRECTORY NAVIGATION ]
-            </p>
-            {NAV_LINKS.map((link) => {
-              const isSectionActive = isHome && activeSection === link.sectionId;
-              const isRouteActive = !isHome && pathname.startsWith(link.href);
-              const isActive = isSectionActive || isRouteActive;
+      {/* Mobile Drawer with Fluid AnimatePresence Transition */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            id="mobile-navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site Navigation"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#101116]/98 backdrop-blur-xl border-t border-[rgba(255,255,255,0.10)] px-6 py-8 flex flex-col justify-between overflow-y-auto z-50"
+          >
+            <div className="space-y-4">
+              <p className="font-code text-[11px] uppercase tracking-widest text-[#8387C3] mb-4">
+                [ DIRECTORY NAVIGATION ]
+              </p>
+              {NAV_LINKS.map((link) => {
+                const isSectionActive = isHome && activeSection === link.sectionId;
+                const isRouteActive = !isHome && pathname.startsWith(link.href);
+                const isActive = isSectionActive || isRouteActive;
 
-              return (
-                <Link
-                  key={link.label}
-                  href={isHome ? `#${link.sectionId}` : link.href}
-                  onClick={(e) => {
-                    handleLinkClick(e, link);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`block py-3 font-editorial text-2xl tracking-wide border-b border-[rgba(255,255,255,0.06)] transition-colors ${
-                    isActive
-                      ? "text-[#8387C3] pl-2 font-medium"
-                      : "text-[#F0EEF4] hover:text-[#8387C3]"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="pt-8 border-t border-[rgba(255,255,255,0.08)] space-y-4">
-            <a
-              href={profileData.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 font-code text-xs tracking-wider text-[#F0EEF4] bg-[#1A1C28] hover:bg-[#222534] px-4 py-3 rounded-lg border border-[rgba(255,255,255,0.12)] transition-all"
-            >
-              <FileText className="w-4 h-4 text-[#8387C3]" />
-              <span>VIEW RÉSUMÉ (PDF)</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-[#8A8CAC]" />
-            </a>
-
-            <div className="text-center font-code text-[11px] text-[#959BB5]">
-              {profileData.email}
+                return (
+                  <Link
+                    key={link.label}
+                    href={isHome ? `#${link.sectionId}` : link.href}
+                    onClick={(e) => {
+                      handleLinkClick(e, link);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`block py-3 font-editorial text-2xl tracking-wide border-b border-[rgba(255,255,255,0.06)] transition-colors ${
+                      isActive
+                        ? "text-[#8387C3] pl-2 font-medium"
+                        : "text-[#F0EEF4] hover:text-[#8387C3]"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
             </div>
-          </div>
-        </div>
-      )}
+
+            <div className="pt-8 border-t border-[rgba(255,255,255,0.08)] space-y-4">
+              <a
+                href={profileData.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 font-code text-xs tracking-wider text-[#F0EEF4] bg-[#1A1C28] hover:bg-[#222534] px-4 py-3 rounded-lg border border-[rgba(255,255,255,0.12)] transition-all"
+              >
+                <FileText className="w-4 h-4 text-[#8387C3]" />
+                <span>VIEW RÉSUMÉ (PDF)</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-[#8A8CAC]" />
+              </a>
+
+              <div className="text-center font-code text-[11px] text-[#959BB5]">
+                {profileData.email}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
+

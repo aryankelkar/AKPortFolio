@@ -57,6 +57,17 @@
   --surface: var(--background-tertiary);
   --surface-border: var(--border-subtle);
   --surface-border-strong: var(--border-accent);
+
+  /* Fluid Motion Design Tokens */
+  --motion-fast: 160ms;
+  --motion-standard: 240ms;
+  --motion-reveal: 420ms;
+
+  --ease-fluid: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.2, 0.65, 0.3, 1);
+
+  --motion-distance-small: 4px;
+  --motion-distance-medium: 12px;
 }
 
 @theme {
@@ -197,14 +208,66 @@ body {
   font-family: var(--font-mono);
 }
 
-/* Subtle Hover Transitions */
+/* Fluid Micro-Interactions & Hover Transitions */
 .card-interactive {
-  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  transition: 
+    border-color var(--motion-standard) var(--ease-fluid),
+    transform var(--motion-standard) var(--ease-fluid),
+    box-shadow var(--motion-standard) var(--ease-fluid);
+  will-change: transform;
 }
 
 .card-interactive:hover {
+  transform: translateY(-4px);
   border-color: rgba(131, 135, 195, 0.45);
-  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.6), 0 0 20px -4px rgba(131, 135, 195, 0.08);
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.65), 0 0 24px -4px rgba(131, 135, 195, 0.10);
+}
+
+.card-interactive:active {
+  transform: translateY(-2px) scale(0.995);
+}
+
+/* Subtle image-mask reveal settling */
+.img-reveal-settle {
+  transition: transform 600ms var(--ease-fluid), filter 500ms var(--ease-fluid);
+}
+.img-reveal-settle:hover {
+  transform: scale(1.02);
+}
+
+/* Button & Link Tap Feedback */
+.btn-fluid {
+  transition: 
+    background-color var(--motion-fast) var(--ease-fluid),
+    color var(--motion-fast) var(--ease-fluid),
+    border-color var(--motion-fast) var(--ease-fluid),
+    transform var(--motion-fast) var(--ease-fluid),
+    box-shadow var(--motion-fast) var(--ease-fluid);
+}
+.btn-fluid:active {
+  transform: scale(0.975);
+}
+
+/* Editorial Link Underline Fluid Reveal */
+.link-editorial {
+  position: relative;
+  transition: color var(--motion-fast) var(--ease-fluid);
+}
+.link-editorial::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #8387C3;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--motion-standard) var(--ease-fluid);
+}
+.link-editorial:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -213,5 +276,10 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .card-interactive:hover,
+  .btn-fluid:active,
+  .img-reveal-settle:hover {
+    transform: none !important;
   }
 }

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { motion, useReducedMotion } from "motion/react";
 import { ShieldCheck, CheckCircle2, ExternalLink, Calendar, Filter } from "lucide-react";
 import { achievementsData } from "@/data/achievements";
 import { Badge } from "@/components/ui/Badge";
@@ -17,6 +18,7 @@ export function AchievementsArchive({
   showFilters = false,
 }: AchievementsArchiveProps) {
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const shouldReduceMotion = useReducedMotion();
 
   const categories = [
     "All",
@@ -49,7 +51,7 @@ export function AchievementsArchive({
           {initialLimit && (
             <Link
               href="/achievements"
-              className="font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#F0EEF4] transition-colors shrink-0 pb-2"
+              className="btn-fluid font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#F0EEF4] transition-colors shrink-0 pb-2"
             >
               VIEW ALL CREDENTIALS →
             </Link>
@@ -67,7 +69,7 @@ export function AchievementsArchive({
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`font-code text-xs px-3.5 py-1.5 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] ${
+                className={`btn-fluid font-code text-xs px-3.5 py-1.5 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] ${
                   activeCategory === cat
                     ? "bg-[#8387C3] text-[#101116] font-semibold"
                     : "bg-[#171924] text-[#959BB5] hover:text-[#F0EEF4] border border-[rgba(255,255,255,0.08)]"
@@ -81,10 +83,18 @@ export function AchievementsArchive({
 
         {/* Credentials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayed.map((item) => (
-            <article
+          {displayed.map((item, idx) => (
+            <motion.article
               key={item.id}
-              className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.5)] p-6 transition-all duration-300 flex flex-col justify-between group shadow-xl"
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                duration: 0.4,
+                delay: Math.min(idx * 0.06, 0.24),
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] card-interactive p-6 flex flex-col justify-between group shadow-xl"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -96,7 +106,7 @@ export function AchievementsArchive({
                 </div>
 
                 <div>
-                  <h3 className="font-editorial text-2xl font-normal text-[#F0EEF4] leading-snug">
+                  <h3 className="font-editorial text-2xl font-normal text-[#F0EEF4] leading-snug group-hover:text-[#8387C3] transition-colors">
                     {item.title}
                   </h3>
                   <p className="font-code text-xs text-[#8387C3] mt-1">
@@ -114,8 +124,8 @@ export function AchievementsArchive({
                       Key Learnings:
                     </span>
                     <ul className="space-y-1.5 text-xs text-[#959BB5] font-light">
-                      {item.keyTakeaways.map((point, idx) => (
-                        <li key={idx} className="flex items-start gap-1.5">
+                      {item.keyTakeaways.map((point, i) => (
+                        <li key={i} className="flex items-start gap-1.5">
                           <CheckCircle2 className="w-3.5 h-3.5 text-[#8387C3] shrink-0 mt-0.5" />
                           <span>{point}</span>
                         </li>
@@ -138,14 +148,14 @@ export function AchievementsArchive({
                     href={item.verificationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[#8387C3] hover:text-[#F0EEF4] transition-colors"
+                    className="group/link inline-flex items-center gap-1 text-[#8387C3] hover:text-[#F0EEF4] transition-colors"
                   >
                     <span>VERIFY</span>
-                    <ExternalLink className="w-3 h-3" />
+                    <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                   </a>
                 )}
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </div>

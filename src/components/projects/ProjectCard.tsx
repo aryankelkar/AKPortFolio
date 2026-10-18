@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
   ArrowUpRight,
   Layers,
@@ -514,6 +514,7 @@ export function ProjectCard({
 }: ProjectCardProps) {
   const isFeatured = layout === "featured";
   const projectNumber = String(index + 1).padStart(2, "0");
+  const shouldReduceMotion = useReducedMotion();
 
   const renderProjectVisualIdentity = () => {
     switch (project.slug) {
@@ -568,7 +569,17 @@ export function ProjectCard({
 
   if (isFeatured) {
     return (
-      <article className="group relative rounded-2xl bg-[#171924] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] transition-all duration-300 p-6 sm:p-8 lg:p-10 shadow-xl overflow-hidden">
+      <motion.article
+        initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{
+          duration: 0.45,
+          delay: Math.min(index * 0.08, 0.24),
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="group relative rounded-2xl bg-[#171924] border border-[rgba(255,255,255,0.08)] card-interactive p-6 sm:p-8 lg:p-10 shadow-xl overflow-hidden"
+      >
         {/* Subtle Ambient Light */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#8387C3]/[0.03] rounded-full blur-3xl pointer-events-none group-hover:bg-[#8387C3]/[0.06] transition-all duration-500" />
 
@@ -587,8 +598,7 @@ export function ProjectCard({
               <h3 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-[#F0EEF4] group-hover:text-[#8387C3] transition-colors leading-[1.05]">
                 <Link
                   href={`/work/${project.slug}`}
-                  data-cursor="INSPECT"
-                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded"
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded inline-block transition-transform duration-200 group-hover:translate-x-1"
                 >
                   {project.title}
                 </Link>
@@ -626,7 +636,7 @@ export function ProjectCard({
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="font-code text-[11px] text-[#959BB5] bg-[#12131A] px-2.5 py-1 rounded border border-[rgba(255,255,255,0.06)]"
+                    className="font-code text-[11px] text-[#959BB5] bg-[#12131A] px-2.5 py-1 rounded border border-[rgba(255,255,255,0.06)] hover:border-[#8387C3]/30 transition-colors"
                   >
                     {tech}
                   </span>
@@ -638,11 +648,10 @@ export function ProjectCard({
             <div className="pt-4 flex flex-wrap items-center gap-4">
               <Link
                 href={`/work/${project.slug}`}
-                data-cursor="INSPECT"
-                className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest bg-[#F0EEF4] hover:bg-[#8387C3] text-[#101116] font-semibold px-5 py-2.5 rounded-full transition-all duration-300 shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+                className="btn-fluid group/btn inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest bg-[#F0EEF4] hover:bg-[#8387C3] text-[#101116] font-semibold px-5 py-2.5 rounded-full shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
               >
                 <span>READ ARCHITECTURAL SPECIFICATION</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
+                <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
               </Link>
 
               {project.githubUrl && (
@@ -650,7 +659,7 @@ export function ProjectCard({
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#959BB5] hover:text-[#F0EEF4] px-4 py-2.5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded-full"
+                  className="btn-fluid inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#959BB5] hover:text-[#F0EEF4] px-4 py-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded-full"
                 >
                   <GithubIcon className="w-4 h-4 text-[#8387C3]" />
                   <span>SOURCE CODE</span>
@@ -659,18 +668,40 @@ export function ProjectCard({
             </div>
           </div>
 
-          {/* Right Column: Visual Architectural Interactive Exhibit */}
-          <div className="lg:col-span-5 w-full">
+          {/* Right Column: Visual Architectural Interactive Exhibit with subtle pointer shift */}
+          <div
+            className="lg:col-span-5 w-full relative group/exhibit transition-transform duration-300 ease-out"
+            onMouseMove={(e) => {
+              if (shouldReduceMotion) return;
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = ((e.clientX - rect.left) / rect.width - 0.5) * 6;
+              const y = ((e.clientY - rect.top) / rect.height - 0.5) * 6;
+              e.currentTarget.style.transform = `translate3d(${x}px, ${y}px, 0px)`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translate3d(0px, 0px, 0px)";
+            }}
+          >
             {renderProjectVisualIdentity()}
           </div>
         </div>
-      </article>
+      </motion.article>
     );
   }
 
   // Compact Layout for subpages and grid listings
   return (
-    <article className="group relative rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] transition-all duration-300 p-6 flex flex-col justify-between shadow-lg">
+    <motion.article
+      initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{
+        duration: 0.42,
+        delay: Math.min(index * 0.06, 0.2),
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="group relative rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] card-interactive p-6 flex flex-col justify-between shadow-lg"
+    >
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <span className="font-code text-xs font-semibold text-[#8387C3]">
@@ -683,8 +714,7 @@ export function ProjectCard({
           <h3 className="font-editorial text-2xl font-medium text-[#F0EEF4] group-hover:text-[#8387C3] transition-colors">
             <Link
               href={`/work/${project.slug}`}
-              data-cursor="INSPECT"
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded"
+              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded inline-block transition-transform duration-200 group-hover:translate-x-1"
             >
               {project.title}
             </Link>
@@ -723,10 +753,10 @@ export function ProjectCard({
       <div className="pt-6 mt-6 border-t border-[rgba(255,255,255,0.06)] flex items-center justify-between">
         <Link
           href={`/work/${project.slug}`}
-          className="inline-flex items-center gap-1 font-code text-xs text-[#8387C3] group-hover:text-[#F0EEF4] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded"
+          className="group/link inline-flex items-center gap-1 font-code text-xs text-[#8387C3] group-hover:text-[#F0EEF4] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded"
         >
           <span>READ CASE STUDY</span>
-          <ArrowUpRight className="w-3.5 h-3.5" />
+          <ArrowUpRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
         </Link>
 
         {project.githubUrl && (
@@ -741,6 +771,6 @@ export function ProjectCard({
           </a>
         )}
       </div>
-    </article>
+    </motion.article>
   );
 }

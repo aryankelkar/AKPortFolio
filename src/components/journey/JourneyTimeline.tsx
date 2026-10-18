@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, GraduationCap, GitCommit, Trophy, Code } from "lucide-react";
 import { journeyData } from "@/data/journey";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -11,6 +14,7 @@ interface JourneyTimelineProps {
 
 export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
   const displayed = initialLimit ? journeyData.slice(0, initialLimit) : journeyData;
+  const shouldReduceMotion = useReducedMotion();
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -40,7 +44,7 @@ export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
           {initialLimit && (
             <Link
               href="/journey"
-              className="font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#F0EEF4] transition-colors shrink-0 pb-2"
+              className="btn-fluid font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#F0EEF4] transition-colors shrink-0 pb-2"
             >
               EXPLORE FULL TIMELINE →
             </Link>
@@ -50,7 +54,18 @@ export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
         {/* Timeline Stream */}
         <div className="relative border-l-2 border-[rgba(255,255,255,0.08)] ml-4 sm:ml-32 md:ml-40 space-y-12">
           {displayed.map((milestone, idx) => (
-            <div key={idx} className="relative pl-6 sm:pl-10 group">
+            <motion.div
+              key={idx}
+              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                duration: 0.42,
+                delay: Math.min(idx * 0.08, 0.28),
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="relative pl-6 sm:pl-10 group"
+            >
               {/* Timeline Marker Dot */}
               <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-[#151720] border-2 border-[#8387C3] group-hover:bg-[#8387C3] group-hover:scale-125 transition-all shadow-[0_0_12px_rgba(131,135,195,0.4)]" />
 
@@ -65,7 +80,7 @@ export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
               </div>
 
               {/* Content Card */}
-              <div className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.5)] p-6 transition-all duration-300 shadow-xl">
+              <div className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] card-interactive p-6 shadow-xl">
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-[#1E2030] border border-[rgba(255,255,255,0.08)]">
@@ -103,15 +118,15 @@ export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
                   <div className="mt-4 pt-3 border-t border-[rgba(255,255,255,0.08)]">
                     <Link
                       href={milestone.link}
-                      className="inline-flex items-center gap-1 font-code text-xs text-[#8387C3] hover:text-[#F0EEF4] transition-colors"
+                      className="group/link inline-flex items-center gap-1 font-code text-xs text-[#8387C3] hover:text-[#F0EEF4] transition-colors"
                     >
                       <span>{milestone.linkLabel || "Inspect Reference"}</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
+                      <ArrowUpRight className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                     </Link>
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

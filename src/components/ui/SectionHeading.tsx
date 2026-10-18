@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import { motion, useReducedMotion } from "motion/react";
 
 interface SectionHeadingProps {
   number?: string;
@@ -18,9 +21,14 @@ export function SectionHeading({
   className = "",
 }: SectionHeadingProps) {
   const isCenter = align === "center";
+  const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div
+    <motion.div
+      initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
       className={`mb-12 md:mb-16 ${isCenter ? "text-center mx-auto max-w-2xl" : "max-w-3xl"} ${className}`}
     >
       <div
@@ -32,7 +40,7 @@ export function SectionHeading({
           </span>
         )}
         {number && tag && (
-          <span className="w-1.5 h-1.5 rounded-full bg-[#3A3E6C]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#8387C3]/40" />
         )}
         {tag && (
           <span className="font-code text-xs uppercase tracking-widest text-[#8A8CAC]">
@@ -50,6 +58,6 @@ export function SectionHeading({
           {description}
         </p>
       )}
-    </div>
+    </motion.div>
   );
 }

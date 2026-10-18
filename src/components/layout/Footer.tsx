@@ -50,7 +50,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/work"
-                  className="hover:text-[#E7E7F0] transition-colors"
+                  className="link-editorial hover:text-[#E7E7F0]"
                 >
                   Selected Works & Case Studies
                 </Link>
@@ -58,7 +58,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="hover:text-[#E7E7F0] transition-colors"
+                  className="link-editorial hover:text-[#E7E7F0]"
                 >
                   Biography & Engineering Focus
                 </Link>
@@ -66,7 +66,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/achievements"
-                  className="hover:text-[#E7E7F0] transition-colors"
+                  className="link-editorial hover:text-[#E7E7F0]"
                 >
                   Certifications & Recognitions
                 </Link>
@@ -74,7 +74,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/journey"
-                  className="hover:text-[#E7E7F0] transition-colors"
+                  className="link-editorial hover:text-[#E7E7F0]"
                 >
                   Chronological Journey
                 </Link>
@@ -82,7 +82,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/activities"
-                  className="hover:text-[#E7E7F0] transition-colors"
+                  className="link-editorial hover:text-[#E7E7F0]"
                 >
                   Extracurriculars & Leadership
                 </Link>
@@ -90,7 +90,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="hover:text-[#E7E7F0] transition-colors"
+                  className="link-editorial hover:text-[#E7E7F0]"
                 >
                   Contact & Communication
                 </Link>
@@ -108,37 +108,37 @@ export function Footer() {
                 href={profileData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-2.5 rounded bg-[#141620] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] text-[#F0EEF4] transition-colors group"
+                className="flex items-center justify-between p-2.5 rounded-lg bg-[#141620] border border-[rgba(255,255,255,0.08)] card-interactive text-[#F0EEF4] group"
               >
                 <div className="flex items-center gap-2.5 text-xs font-code">
                   <GithubIcon className="w-4 h-4 text-[#8387C3]" />
                   <span>GitHub Profile</span>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#F0EEF4]" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#F0EEF4] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
 
               <a
                 href={profileData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-2.5 rounded bg-[#141620] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] text-[#F0EEF4] transition-colors group"
+                className="flex items-center justify-between p-2.5 rounded-lg bg-[#141620] border border-[rgba(255,255,255,0.08)] card-interactive text-[#F0EEF4] group"
               >
                 <div className="flex items-center gap-2.5 text-xs font-code">
                   <LinkedinIcon className="w-4 h-4 text-[#8387C3]" />
                   <span>LinkedIn Network</span>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#F0EEF4]" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#F0EEF4] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
 
               <a
                 href={`mailto:${profileData.email}`}
-                className="flex items-center justify-between p-2.5 rounded bg-[#141620] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] text-[#F0EEF4] transition-colors group"
+                className="flex items-center justify-between p-2.5 rounded-lg bg-[#141620] border border-[rgba(255,255,255,0.08)] card-interactive text-[#F0EEF4] group"
               >
                 <div className="flex items-center gap-2.5 text-xs font-code">
                   <Mail className="w-4 h-4 text-[#8387C3]" />
                   <span>Direct Electronic Mail</span>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#F0EEF4]" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#F0EEF4] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             </div>
           </div>
@@ -154,11 +154,11 @@ export function Footer() {
             <span>Next.js App Router &bull; TypeScript &bull; Tailwind</span>
             <button
               onClick={scrollToTop}
-              className="inline-flex items-center gap-1.5 text-[#8387C3] hover:text-[#E7E7F0] transition-colors focus:outline-none"
+              className="btn-fluid group inline-flex items-center gap-1.5 text-[#8387C3] hover:text-[#E7E7F0] focus:outline-none"
               aria-label="Back to top of page"
             >
               <span>TOP</span>
-              <ArrowUp className="w-3.5 h-3.5" />
+              <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
           </div>
         </div>
