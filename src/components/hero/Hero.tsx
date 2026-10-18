@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { ArrowDownRight, ArrowUpRight, CornerDownRight } from "lucide-react";
 import { profileData } from "@/data/profile";
+import { HeroName } from "@/components/hero/HeroName";
 
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -57,20 +58,8 @@ export function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-center">
           {/* Left Column: Expressive Editorial Typography */}
           <div className="lg:col-span-6 xl:col-span-6 space-y-6 sm:space-y-8">
-            {/* 2. Headline Reveal */}
-            <motion.div
-              initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <h1 className="font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[6.2rem] xl:text-[7.2rem] 2xl:text-[7.8rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none">
-                ARYAN
-                <br />
-                <span className="italic font-light text-[#8387C3] hover:text-[#F0EEF4] transition-colors duration-300">
-                  KELKAR.
-                </span>
-              </h1>
-            </motion.div>
+            {/* 2. Signature Cinematic Editorial Headline */}
+            <HeroName />
 
             {/* 3. Supporting Statement */}
             <motion.p

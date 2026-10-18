@@ -317,6 +317,149 @@ body {
   animation: cosmicDriftSlow 65s ease-in-out infinite alternate;
 }
 
+/* ==========================================================================
+   Hero Typography Motion: Cinematic Reveal, Restrained Glitch, & Light Sweep
+   ========================================================================== */
+@keyframes heroCharReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(1.5px);
+  }
+  65% {
+    opacity: 0.92;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+  }
+}
+
+@keyframes editorialGlitch1 {
+  0% {
+    clip-path: inset(22% 0 58% 0);
+    transform: translate3d(-3px, 0, 0);
+    opacity: 0.8;
+  }
+  20% {
+    clip-path: inset(62% 0 12% 0);
+    transform: translate3d(2.5px, -1px, 0);
+    opacity: 0.9;
+  }
+  40% {
+    clip-path: inset(12% 0 74% 0);
+    transform: translate3d(-2px, 1px, 0);
+    opacity: 0.75;
+  }
+  65% {
+    clip-path: inset(44% 0 32% 0);
+    transform: translate3d(2px, 0, 0);
+    opacity: 0.85;
+  }
+  85% {
+    clip-path: inset(78% 0 6% 0);
+    transform: translate3d(-1px, 0, 0);
+    opacity: 0.6;
+  }
+  100% {
+    clip-path: inset(0 0 100% 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes editorialGlitch2 {
+  0% {
+    clip-path: inset(52% 0 18% 0);
+    transform: translate3d(2px, 1px, 0);
+    opacity: 0.7;
+  }
+  25% {
+    clip-path: inset(16% 0 64% 0);
+    transform: translate3d(-2.5px, -1px, 0);
+    opacity: 0.85;
+  }
+  50% {
+    clip-path: inset(68% 0 14% 0);
+    transform: translate3d(1.5px, 0, 0);
+    opacity: 0.8;
+  }
+  75% {
+    clip-path: inset(32% 0 48% 0);
+    transform: translate3d(-1.5px, 1px, 0);
+    opacity: 0.7;
+  }
+  100% {
+    clip-path: inset(0 0 100% 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes lavenderSweep {
+  0% {
+    transform: translateX(-115%) skewX(-18deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(215%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes archivalScan {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.75;
+  }
+  80% {
+    opacity: 0.75;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.hero-char-animate {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: heroCharReveal 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.hero-glitch-1 {
+  animation: editorialGlitch1 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, clip-path, opacity;
+}
+
+.hero-glitch-2 {
+  animation: editorialGlitch2 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, clip-path, opacity;
+}
+
+.hero-light-sweep-beam {
+  animation: lavenderSweep 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.hero-scan-line {
+  animation: archivalScan 0.35s ease-out forwards;
+  will-change: top, opacity;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
