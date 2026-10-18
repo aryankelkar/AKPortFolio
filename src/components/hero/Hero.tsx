@@ -31,7 +31,7 @@ export function Hero() {
         <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#101116] to-transparent" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 my-auto">
+      <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 w-full relative z-10 my-auto">
         {/* 1. Top Technical Metadata Bar */}
         <motion.div
           initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -6 }}
@@ -54,16 +54,16 @@ export function Hero() {
         </motion.div>
 
         {/* Main Grid: Left Typography & Right Photographic Composition */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-center">
           {/* Left Column: Expressive Editorial Typography */}
-          <div className="lg:col-span-6 xl:col-span-6 space-y-6 sm:space-y-7">
+          <div className="lg:col-span-6 xl:col-span-6 space-y-6 sm:space-y-8">
             {/* 2. Headline Reveal */}
             <motion.div
               initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
             >
-              <h1 className="font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[5.8rem] xl:text-[6.8rem] 2xl:text-[7.2rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none">
+              <h1 className="font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[6.2rem] xl:text-[7.2rem] 2xl:text-[7.8rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none">
                 ARYAN
                 <br />
                 <span className="italic font-light text-[#8387C3] hover:text-[#F0EEF4] transition-colors duration-300">
@@ -77,13 +77,13 @@ export function Hero() {
               initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="font-serif italic text-lg sm:text-xl md:text-2xl text-[#959BB5] max-w-xl leading-relaxed"
+              className="font-serif italic text-lg sm:text-xl md:text-2xl text-[#959BB5] max-w-2xl xl:max-w-3xl leading-relaxed"
             >
               &ldquo;{profileData.headline}&rdquo;
             </motion.p>
 
             {/* 4. Three Disciplines — Staggered micro-reveals */}
-            <div className="space-y-2.5 pt-2 max-w-xl border-t border-[rgba(255,255,255,0.08)]">
+            <div className="space-y-2.5 pt-2 max-w-2xl xl:max-w-3xl border-t border-[rgba(255,255,255,0.08)]">
               {profileData.disciplines.map((d, idx) => (
                 <motion.div
                   key={d.name}
@@ -100,7 +100,7 @@ export function Hero() {
                       {d.name}
                     </span>
                   </div>
-                  <span className="text-xs text-[#959BB5] font-light mt-1 sm:mt-0 sm:text-right sm:max-w-[280px]">
+                  <span className="text-xs text-[#959BB5] font-light mt-1 sm:mt-0 sm:text-right sm:max-w-[340px]">
                     {d.description}
                   </span>
                 </motion.div>
@@ -140,7 +140,7 @@ export function Hero() {
             className="lg:col-span-6 xl:col-span-6 relative flex justify-center lg:justify-end"
           >
             {/* Composition Framing Container: Generous bounds allowing the portrait to command the hero */}
-            <div className="relative pt-2 pb-10 pl-6 sm:pl-10 pr-2 w-full max-w-[420px] sm:max-w-[460px] md:max-w-[500px] lg:max-w-[520px] xl:max-w-[560px]">
+            <div className="relative pt-2 pb-10 pl-6 sm:pl-10 pr-2 w-full max-w-[460px] sm:max-w-[500px] md:max-w-[560px] lg:max-w-[600px] xl:max-w-[650px] 2xl:max-w-[680px]">
               
               {/* PRIMARY PORTRAIT FRAME */}
               <motion.div
@@ -153,7 +153,7 @@ export function Hero() {
                   fill
                   priority
                   quality={95}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 650px"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 750px"
                   className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"
                 />
 
@@ -174,7 +174,7 @@ export function Hero() {
               {/* SECONDARY FLOATING ACCENT PORTRAIT */}
               <motion.div
                 style={{ y: floatingPhotoY }}
-                className="absolute -bottom-5 -left-3 sm:-bottom-7 sm:-left-7 md:-left-8 w-36 sm:w-48 md:w-52 lg:w-52 xl:w-56 aspect-[4/5] rounded-xl overflow-hidden bg-[#151720] border-2 border-[#8387C3]/80 shadow-[0_20px_50px_rgba(0,0,0,0.95)] rotate-[-3deg] hover:rotate-0 transition-transform duration-500 z-20 group"
+                className="absolute -bottom-5 -left-3 sm:-bottom-7 sm:-left-7 md:-left-8 w-40 sm:w-52 md:w-56 lg:w-60 xl:w-64 aspect-[4/5] rounded-xl overflow-hidden bg-[#151720] border-2 border-[#8387C3]/80 shadow-[0_20px_50px_rgba(0,0,0,0.95)] rotate-[-3deg] hover:rotate-0 transition-transform duration-500 z-20 group"
               >
                 <Image
                   src={profileData.photos.floatingPortrait.src}
@@ -182,7 +182,7 @@ export function Hero() {
                   fill
                   priority
                   quality={95}
-                  sizes="(max-width: 640px) 180px, 260px"
+                  sizes="(max-width: 640px) 200px, 300px"
                   className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -194,7 +194,7 @@ export function Hero() {
       </div>
 
       {/* Bottom Scroll Indicator Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6 sm:pt-8 flex items-center justify-between text-xs font-code text-[#8A8CAC]">
+      <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 w-full pt-6 sm:pt-8 flex items-center justify-between text-xs font-code text-[#8A8CAC]">
         <a
           href="#work"
           className="group inline-flex items-center gap-2 hover:text-[#F0EEF4] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#8387C3] rounded"

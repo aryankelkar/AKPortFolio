@@ -79,7 +79,7 @@ export function SkillsSection() {
 
   return (
     <section id="skills" className="py-20 lg:py-28 relative bg-transparent">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 relative z-10">
         <SectionHeading
           number="[ 03 ]"
           tag="TECHNICAL REPERTOIRE"

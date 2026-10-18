@@ -11,7 +11,7 @@ export function DocumentaryBreak() {
 
   return (
     <section className="py-20 bg-[#101116] relative overflow-hidden border-y border-[rgba(255,255,255,0.08)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         <motion.div
           initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

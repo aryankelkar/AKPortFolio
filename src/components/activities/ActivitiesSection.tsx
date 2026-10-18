@@ -29,7 +29,7 @@ export function ActivitiesSection({ showHeader = true }: ActivitiesSectionProps)
 
   return (
     <section id="activities" className="py-12 lg:py-16 bg-transparent relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 relative z-10">
         {showHeader && (
           <SectionHeading
             number="[ 05 ]"

@@ -29,7 +29,7 @@ export function SectionHeading({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-      className={`mb-12 md:mb-16 ${isCenter ? "text-center mx-auto max-w-2xl" : "max-w-3xl"} ${className}`}
+      className={`mb-12 md:mb-16 ${isCenter ? "text-center mx-auto max-w-3xl lg:max-w-4xl" : "max-w-4xl xl:max-w-5xl"} ${className}`}
     >
       <div
         className={`flex items-center gap-3 mb-3 ${isCenter ? "justify-center" : ""}`}

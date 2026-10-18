@@ -65,7 +65,7 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
 
   return (
     <div className="pt-28 pb-20">
-      <article className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <article className="max-w-[1440px] xl:max-w-[1536px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
           {/* Top Breadcrumb & Return Link */}
           <div className="flex items-center justify-between pb-8 border-b border-[rgba(255,255,255,0.08)] mb-10">
             <Link
@@ -92,11 +92,11 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
               {project.title}
             </h1>
 
-            <p className="font-serif italic text-xl sm:text-2xl text-[#8387C3] max-w-3xl leading-relaxed">
+            <p className="font-serif italic text-xl sm:text-2xl text-[#8387C3] max-w-4xl leading-relaxed">
               {project.subtitle}
             </p>
 
-            <p className="text-base sm:text-lg text-[#959BB5] leading-relaxed max-w-3xl font-light">
+            <p className="text-base sm:text-lg text-[#959BB5] leading-relaxed max-w-4xl font-light">
               {project.tagline}
             </p>
 

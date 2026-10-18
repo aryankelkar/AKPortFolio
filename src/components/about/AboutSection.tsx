@@ -14,7 +14,7 @@ export function AboutSection() {
 
   return (
     <section id="about" className="py-24 lg:py-32 relative bg-[#151720]/80 backdrop-blur-sm border-y border-[rgba(255,255,255,0.08)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 relative z-10">
         <SectionHeading
           number="[ 02 ]"
           tag="BIOGRAPHICAL RECORD"
@@ -22,7 +22,7 @@ export function AboutSection() {
           description="A personal perspective on engineering philosophy, technological curiosity, and the motivation driving my work."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-20 items-start">
           {/* Left Column: Personal Narrative & Philosophy Card */}
           <motion.div
             initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}

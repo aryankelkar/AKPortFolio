@@ -13,7 +13,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-[rgba(255,255,255,0.08)] bg-[#0B0C10] text-[#959BB5] pt-16 pb-12 mt-auto relative z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-[rgba(255,255,255,0.06)]">
           {/* Identity column */}
           <div className="md:col-span-5 space-y-4">
