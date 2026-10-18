@@ -54,16 +54,16 @@ export function Hero() {
         </motion.div>
 
         {/* Main Grid: Left Typography & Right Photographic Composition */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center">
           {/* Left Column: Expressive Editorial Typography */}
-          <div className="lg:col-span-7 space-y-6 sm:space-y-8">
+          <div className="lg:col-span-6 xl:col-span-6 space-y-6 sm:space-y-7">
             {/* 2. Headline Reveal */}
             <motion.div
               initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
             >
-              <h1 className="font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[6.8rem] xl:text-[7.4rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none">
+              <h1 className="font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[5.8rem] xl:text-[6.8rem] 2xl:text-[7.2rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none">
                 ARYAN
                 <br />
                 <span className="italic font-light text-[#8387C3] hover:text-[#F0EEF4] transition-colors duration-300">
@@ -100,7 +100,7 @@ export function Hero() {
                       {d.name}
                     </span>
                   </div>
-                  <span className="text-xs text-[#959BB5] font-light mt-1 sm:mt-0">
+                  <span className="text-xs text-[#959BB5] font-light mt-1 sm:mt-0 sm:text-right sm:max-w-[280px]">
                     {d.description}
                   </span>
                 </motion.div>
@@ -132,15 +132,15 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* 6. Right Column: THE PHOTOGRAPHIC HERO COMPOSITION (Art-Directed Diptych) */}
+          {/* 6. Right Column: THE PHOTOGRAPHIC HERO COMPOSITION (Expanded Grand Diptych) */}
           <motion.div
             initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 relative flex justify-center lg:justify-end"
+            className="lg:col-span-6 xl:col-span-6 relative flex justify-center lg:justify-end"
           >
-            {/* Composition Framing Container: Dedicated margins and padding so NO element clips */}
-            <div className="relative pt-2 pb-8 pl-4 sm:pl-8 pr-2 w-full max-w-[360px] sm:max-w-[390px] lg:max-w-[410px]">
+            {/* Composition Framing Container: Generous bounds allowing the portrait to command the hero */}
+            <div className="relative pt-2 pb-10 pl-6 sm:pl-10 pr-2 w-full max-w-[420px] sm:max-w-[460px] md:max-w-[500px] lg:max-w-[520px] xl:max-w-[560px]">
               
               {/* PRIMARY PORTRAIT FRAME */}
               <motion.div
@@ -152,20 +152,20 @@ export function Hero() {
                   alt={profileData.photos.heroPortrait.alt}
                   fill
                   priority
-                  quality={92}
-                  sizes="(max-width: 768px) 100vw, 550px"
-                  className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
+                  quality={95}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 650px"
+                  className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"
                 />
 
                 {/* Cinematic Vignette */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85 pointer-events-none" />
 
                 {/* Bottom-Right Signature Watermark — Authentic Professional Identity */}
-                <div className="absolute bottom-4 right-4 text-right pointer-events-none z-10 max-w-[210px]">
-                  <p className="font-editorial italic text-2xl text-[#F0EEF4] font-medium leading-none drop-shadow-lg tracking-wide">
+                <div className="absolute bottom-5 right-5 text-right pointer-events-none z-10 max-w-[240px]">
+                  <p className="font-editorial italic text-2xl sm:text-3xl text-[#F0EEF4] font-medium leading-none drop-shadow-lg tracking-wide">
                     Aryan Kelkar
                   </p>
-                  <p className="font-code text-[9.5px] text-[#959BB5] mt-1 tracking-wider uppercase">
+                  <p className="font-code text-[10px] sm:text-[11px] text-[#959BB5] mt-1.5 tracking-wider uppercase">
                     Information Technology Student & Builder
                   </p>
                 </div>
@@ -174,16 +174,16 @@ export function Hero() {
               {/* SECONDARY FLOATING ACCENT PORTRAIT */}
               <motion.div
                 style={{ y: floatingPhotoY }}
-                className="absolute -bottom-4 -left-2 sm:-bottom-6 sm:-left-6 w-32 sm:w-44 aspect-[4/5] rounded-xl overflow-hidden bg-[#151720] border-2 border-[#8387C3]/70 shadow-[0_20px_50px_rgba(0,0,0,0.95)] rotate-[-3deg] hover:rotate-0 transition-transform duration-500 z-20 group"
+                className="absolute -bottom-5 -left-3 sm:-bottom-7 sm:-left-7 md:-left-8 w-36 sm:w-48 md:w-52 lg:w-52 xl:w-56 aspect-[4/5] rounded-xl overflow-hidden bg-[#151720] border-2 border-[#8387C3]/80 shadow-[0_20px_50px_rgba(0,0,0,0.95)] rotate-[-3deg] hover:rotate-0 transition-transform duration-500 z-20 group"
               >
                 <Image
                   src={profileData.photos.floatingPortrait.src}
                   alt={profileData.photos.floatingPortrait.alt}
                   fill
                   priority
-                  quality={92}
-                  sizes="(max-width: 640px) 140px, 200px"
-                  className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
+                  quality={95}
+                  sizes="(max-width: 640px) 180px, 260px"
+                  className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-60 pointer-events-none" />
               </motion.div>
