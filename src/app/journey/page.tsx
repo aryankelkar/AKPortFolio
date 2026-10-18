@@ -4,6 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 
 export const metadata: Metadata = {
   title: "Professional & Academic Journey Timeline",
@@ -14,8 +15,9 @@ export const metadata: Metadata = {
 export default function JourneyPage() {
   return (
     <>
+      <CustomCursor />
       <Navbar />
-      <main className="flex-1 pt-28 pb-16">
+      <main className="flex-1 pt-28 pb-16 bg-[#0B0B0D]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
           <SectionHeading
             number="[ ARCHIVE // 04 ]"

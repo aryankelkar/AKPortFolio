@@ -1,231 +1,218 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
-import { ArrowDownRight, ArrowRight, Code, Cpu, Compass } from "lucide-react";
-import { GithubIcon } from "@/components/ui/Icons";
+import { motion, useScroll, useTransform } from "motion/react";
+import { ArrowDownRight, ArrowRight, CornerDownRight } from "lucide-react";
 import { profileData } from "@/data/profile";
 
 export function Hero() {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, 45]);
+  const floatingPhotoY = useTransform(scrollYProgress, [0, 1], [0, -35]);
+
   return (
-    <section className="relative min-h-[92vh] flex items-center pt-28 pb-16 overflow-hidden">
-      {/* Subtle Atmospheric Gradient and Grid */}
+    <section
+      ref={containerRef}
+      className="relative min-h-[96vh] flex flex-col justify-between pt-28 pb-12 overflow-hidden border-b border-[rgba(168,163,154,0.15)] bg-[#0B0B0D]"
+    >
+      {/* Background Architectural Grid & Subtle Film Grain */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 right-5 sm:right-20 w-96 h-96 bg-[#3A3E6C]/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-80 h-80 bg-[#8387C3]/10 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-grain opacity-40" />
+        <div className="absolute inset-0 bg-architectural-grid opacity-60" />
+        <div className="absolute inset-0 bg-grain" />
+        {/* Subtle Ambient Radial Lighting */}
+        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#6559A8]/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-10 left-10 w-96 h-96 bg-[#9A94E8]/05 rounded-full blur-[100px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Main Typographic Column */}
-          <div className="lg:col-span-7 space-y-8">
-            {/* Top metadata tags */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="flex flex-wrap items-center gap-3 text-xs font-code tracking-widest uppercase text-[#8387C3]"
-            >
-              <span className="px-2.5 py-1 rounded-sm bg-[#101830] border border-[rgba(131,135,195,0.25)] text-[#E7E7F0]">
-                INFORMATION TECHNOLOGY / SOFTWARE & AI
-              </span>
-              <span className="text-[#8A8CAC]">•</span>
-              <span className="text-[#959BB5]">PERSONAL ARCHIVE</span>
-            </motion.div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 my-auto">
+        {/* Top Technical Metadata Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[rgba(168,163,154,0.15)] text-[11px] font-code text-[#A8A39A]"
+        >
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#C6F36A] animate-pulse" />
+            <span className="text-[#F7F5F0] uppercase tracking-widest font-medium">
+              {profileData.motto}
+            </span>
+          </div>
 
-            {/* Main Editorial Headline */}
+          <div className="hidden sm:flex items-center gap-6 text-[#A8A39A]">
+            <span>SYSTEM ARCHIVE // 2026</span>
+            <span className="text-[rgba(168,163,154,0.3)]">|</span>
+            <span>INDEX REF: AK-SYS-01</span>
+          </div>
+        </motion.div>
+
+        {/* Main Grid: Left Typography & Right Photographic Composition */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Left Column: Expressive Editorial Typography */}
+          <div className="lg:col-span-7 space-y-8">
             <motion.div
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h1 className="font-editorial text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-normal tracking-tight text-[#E7E7F0] leading-[0.9]">
+              <h1 className="font-editorial text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-normal tracking-tight text-[#F7F5F0] leading-[0.88] select-none">
                 ARYAN
                 <br />
-                <span className="italic font-light text-[#8387C3] hover:text-[#E7E7F0] transition-colors">
+                <span className="italic font-light text-[#9A94E8] hover:text-[#C6F36A] transition-colors duration-500">
                   KELKAR.
                 </span>
               </h1>
             </motion.div>
 
-            {/* Supporting Statement Quote */}
+            {/* Supporting Statement */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.25, ease: "easeOut" }}
-              className="font-serif italic text-xl sm:text-2xl max-w-xl leading-relaxed text-[#959BB5]"
+              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+              className="font-serif italic text-xl sm:text-2xl text-[#B5B0A6] max-w-xl leading-relaxed"
             >
-              &ldquo;I build digital experiences, intelligent systems, and
-              technology that solves real problems.&rdquo;
+              &ldquo;{profileData.headline}&rdquo;
             </motion.p>
 
-            {/* Three Pillar Labels */}
+            {/* Three Disciplines — Refined editorial text treatments */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.35, ease: "easeOut" }}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2"
+              transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+              className="space-y-3 pt-2 max-w-xl border-t border-[rgba(168,163,154,0.15)]"
             >
-              <div className="p-3 rounded-lg bg-[#101830]/80 border border-[rgba(131,135,195,0.15)] flex items-center gap-2.5">
-                <Code className="w-4 h-4 text-[#8387C3] shrink-0" />
-                <span className="font-code text-xs uppercase tracking-wider text-[#E7E7F0]">
-                  SOFTWARE DEVELOPMENT
-                </span>
-              </div>
-
-              <div className="p-3 rounded-lg bg-[#101830]/80 border border-[rgba(131,135,195,0.15)] flex items-center gap-2.5">
-                <Cpu className="w-4 h-4 text-[#8387C3] shrink-0" />
-                <span className="font-code text-xs uppercase tracking-wider text-[#E7E7F0]">
-                  AI & MACHINE LEARNING
-                </span>
-              </div>
-
-              <div className="p-3 rounded-lg bg-[#101830]/80 border border-[rgba(131,135,195,0.15)] flex items-center gap-2.5">
-                <Compass className="w-4 h-4 text-[#8387C3] shrink-0" />
-                <span className="font-code text-xs uppercase tracking-wider text-[#E7E7F0]">
-                  CREATIVE TECHNOLOGY
-                </span>
-              </div>
+              {profileData.disciplines.map((d, idx) => (
+                <div
+                  key={d.name}
+                  className="group flex flex-col sm:flex-row sm:items-baseline justify-between py-2 border-b border-[rgba(168,163,154,0.08)] hover:border-[rgba(154,148,232,0.3)] transition-colors"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="font-code text-[10px] text-[#9A94E8] font-bold">
+                      0{idx + 1}
+                    </span>
+                    <span className="font-code text-xs uppercase tracking-wider text-[#F7F5F0] group-hover:text-[#9A94E8] transition-colors">
+                      {d.name}
+                    </span>
+                  </div>
+                  <span className="text-xs text-[#A8A39A] font-light mt-1 sm:mt-0">
+                    {d.description}
+                  </span>
+                </div>
+              ))}
             </motion.div>
 
-            {/* Primary & Secondary Actions */}
+            {/* Actions */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.45, ease: "easeOut" }}
-              className="flex flex-wrap items-center gap-4 pt-4"
+              transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
+              className="flex flex-wrap items-center gap-5 pt-4"
             >
               <Link
                 href="/work"
-                className="group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest bg-[#8387C3] hover:bg-[#959BB5] text-[#0A1123] font-semibold px-6 py-3.5 rounded-full shadow-lg shadow-[#8387C3]/15 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E7E7F0]"
+                data-cursor="EXPLORE"
+                className="group relative inline-flex items-center gap-2.5 font-code text-xs uppercase tracking-widest bg-[#F7F5F0] hover:bg-[#9A94E8] text-[#0B0B0D] font-semibold px-7 py-4 rounded-full transition-all duration-300 shadow-xl shadow-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9A94E8]"
               >
-                <span>EXPLORE MY WORK</span>
+                <span>EXPLORE SELECTED WORK</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <Link
                 href="/about"
-                className="group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest bg-[#162040] hover:bg-[#3A3E6C] text-[#E7E7F0] px-6 py-3.5 rounded-full border border-[rgba(131,135,195,0.3)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+                data-cursor="ABOUT"
+                className="group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#F7F5F0] hover:text-[#9A94E8] py-4 px-2 transition-colors focus:outline-none"
               >
-                <span>MORE ABOUT ME</span>
-                <ArrowDownRight className="w-4 h-4 text-[#8387C3] group-hover:translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                <span>A LITTLE ABOUT ME</span>
+                <ArrowDownRight className="w-4 h-4 text-[#9A94E8] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" />
               </Link>
             </motion.div>
           </div>
 
-          {/* Editorial Geometry & Profile Dossier Column */}
+          {/* Right Column: THE PHOTOGRAPHIC HERO COMPOSITION */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            className="lg:col-span-5"
+            transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 relative flex justify-center lg:justify-end"
           >
-            <div className="relative rounded-2xl bg-gradient-to-br from-[#121935] to-[#0D1429] border border-[rgba(131,135,195,0.22)] p-6 sm:p-8 shadow-2xl shadow-black/40">
-              {/* Card Header */}
-              <div className="flex items-center justify-between pb-6 border-b border-[rgba(131,135,195,0.15)]">
-                <div>
-                  <span className="font-code text-[11px] text-[#8387C3] uppercase tracking-widest block">
-                    [ DOSSIER // TECHNICAL PROFILE ]
-                  </span>
-                  <h3 className="font-editorial text-2xl text-[#E7E7F0] mt-1 font-medium">
+            <div className="relative w-full max-w-[380px] sm:max-w-[420px]">
+              {/* IMAGE 01 — HERO PORTRAIT */}
+              <motion.div
+                style={{ y: photoY }}
+                className="relative rounded-2xl overflow-hidden bg-[#18181E] border border-[rgba(168,163,154,0.25)] shadow-2xl shadow-black/80 aspect-[3/4] group"
+              >
+                <Image
+                  src={profileData.photos.heroPortrait.src}
+                  alt={profileData.photos.heroPortrait.alt}
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 420px"
+                  className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 transition-all duration-700"
+                />
+
+                {/* Editorial Vignette & Technical Watermark */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0D] via-transparent to-transparent opacity-80" />
+                <div className="absolute top-4 left-4 font-code text-[10px] text-[#F7F5F0] bg-[#0B0B0D]/80 backdrop-blur-md px-2.5 py-1 rounded border border-[rgba(168,163,154,0.2)]">
+                  FIG. 01 // IDENTITY
+                </div>
+
+                <div className="absolute bottom-4 left-4 right-4">
+                  <p className="font-editorial text-lg text-[#F7F5F0] font-medium leading-tight">
                     Aryan Kelkar
-                  </h3>
+                  </p>
+                  <p className="font-code text-[11px] text-[#A8A39A] mt-0.5">
+                    {profileData.photos.heroPortrait.caption}
+                  </p>
                 </div>
-                <div className="w-9 h-9 rounded-full bg-[#1A2345] border border-[rgba(131,135,195,0.3)] flex items-center justify-center font-code text-xs text-[#8387C3]">
-                  AK
-                </div>
-              </div>
+              </motion.div>
 
-              {/* Specs Grid */}
-              <div className="py-6 space-y-4 text-xs font-sans">
-                <div className="flex justify-between items-baseline py-1 border-b border-[rgba(131,135,195,0.08)]">
-                  <span className="font-code text-[#959BB5] uppercase tracking-wider">
-                    Discipline
+              {/* IMAGE 02 — FLOATING DETAIL PORTRAIT (Overlapping Asymmetrically) */}
+              <motion.div
+                style={{ y: floatingPhotoY }}
+                className="absolute -bottom-8 -left-8 sm:-left-12 w-40 sm:w-48 aspect-[4/5] rounded-xl overflow-hidden bg-[#141418] border-2 border-[#9A94E8]/40 shadow-2xl shadow-black/90 rotate-[-3deg] hover:rotate-0 transition-transform duration-500 group hidden sm:block"
+              >
+                <Image
+                  src={profileData.photos.floatingPortrait.src}
+                  alt={profileData.photos.floatingPortrait.alt}
+                  fill
+                  sizes="192px"
+                  className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 transition-all duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0D] via-transparent to-transparent opacity-70" />
+                <div className="absolute bottom-2.5 left-2.5 right-2.5">
+                  <span className="font-code text-[9px] uppercase tracking-wider text-[#9A94E8] block">
+                    FIG. 02 // DETAIL
                   </span>
-                  <span className="text-[#E7E7F0] font-medium text-right">
-                    Information Technology
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-baseline py-1 border-b border-[rgba(131,135,195,0.08)]">
-                  <span className="font-code text-[#959BB5] uppercase tracking-wider">
-                    Focus
-                  </span>
-                  <span className="text-[#E7E7F0] font-medium text-right">
-                    Full-Stack & Machine Learning
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-baseline py-1 border-b border-[rgba(131,135,195,0.08)]">
-                  <span className="font-code text-[#959BB5] uppercase tracking-wider">
-                    Core Tooling
-                  </span>
-                  <span className="text-[#8387C3] font-code text-right">
-                    Python, TS, Next.js, Postgres
+                  <span className="font-code text-[9px] text-[#F7F5F0] truncate block">
+                    Analytical View
                   </span>
                 </div>
+              </motion.div>
 
-                <div className="flex justify-between items-baseline py-1 border-b border-[rgba(131,135,195,0.08)]">
-                  <span className="font-code text-[#959BB5] uppercase tracking-wider">
-                    Methodology
-                  </span>
-                  <span className="text-[#E7E7F0] font-medium text-right">
-                    Architectural Rigor & Civic Impact
-                  </span>
-                </div>
-              </div>
-
-              {/* Quantified Technical Inventory */}
-              <div className="grid grid-cols-3 gap-3 pt-2 pb-6 border-b border-[rgba(131,135,195,0.15)] text-center">
-                <div className="p-3 rounded-lg bg-[#0A1123]/60 border border-[rgba(131,135,195,0.12)]">
-                  <div className="font-editorial text-3xl font-medium text-[#E7E7F0]">
-                    07
-                  </div>
-                  <div className="font-code text-[10px] uppercase text-[#959BB5] tracking-wider mt-1">
-                    Projects
-                  </div>
-                </div>
-
-                <div className="p-3 rounded-lg bg-[#0A1123]/60 border border-[rgba(131,135,195,0.12)]">
-                  <div className="font-editorial text-3xl font-medium text-[#8387C3]">
-                    06
-                  </div>
-                  <div className="font-code text-[10px] uppercase text-[#959BB5] tracking-wider mt-1">
-                    Milestones
-                  </div>
-                </div>
-
-                <div className="p-3 rounded-lg bg-[#0A1123]/60 border border-[rgba(131,135,195,0.12)]">
-                  <div className="font-editorial text-3xl font-medium text-[#E7E7F0]">
-                    04
-                  </div>
-                  <div className="font-code text-[10px] uppercase text-[#959BB5] tracking-wider mt-1">
-                    Domains
-                  </div>
-                </div>
-              </div>
-
-              {/* Dossier Footer Links */}
-              <div className="pt-6 flex items-center justify-between">
-                <span className="font-code text-[11px] text-[#8A8CAC]">
-                  DOCUMENT REF: AK-2026-PORTFOLIO
-                </span>
-                <div className="flex items-center gap-3">
-                  <a
-                    href={profileData.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#959BB5] hover:text-[#E7E7F0] transition-colors"
-                    aria-label="GitHub Profile"
-                  >
-                    <GithubIcon className="w-4 h-4" />
-                  </a>
-                </div>
+              {/* Corner Coordinate Badge */}
+              <div className="absolute -top-4 -right-4 bg-[#141418] border border-[rgba(168,163,154,0.2)] px-3 py-1.5 rounded-lg font-code text-[10px] text-[#C6F36A] shadow-lg hidden sm:block">
+                SYS_ONLINE • 2026
               </div>
             </div>
           </motion.div>
+        </div>
+      </div>
+
+      {/* Bottom Scroll Indicator Bar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8 flex items-center justify-between text-xs font-code text-[#A8A39A]">
+        <div className="flex items-center gap-2">
+          <CornerDownRight className="w-3.5 h-3.5 text-[#9A94E8]" />
+          <span>SCROLL TO EXPLORE ARCHIVE</span>
+        </div>
+        <div className="hidden sm:block">
+          <span>HUMANITY + ENGINEERING</span>
         </div>
       </div>
     </section>

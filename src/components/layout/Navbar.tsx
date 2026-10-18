@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion, useScroll, useSpring } from "motion/react";
 import { Menu, X, ArrowUpRight, FileText } from "lucide-react";
 import { profileData } from "@/data/profile";
 
@@ -19,6 +20,13 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,23 +51,29 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? "bg-[#0A1123]/85 backdrop-blur-md border-b border-[rgba(131,135,195,0.15)] py-3.5 shadow-lg shadow-black/20"
-          : "bg-transparent py-5 border-b border-[rgba(131,135,195,0.08)]"
+          ? "bg-[#0B0B0D]/90 backdrop-blur-md border-b border-[rgba(168,163,154,0.18)] py-3.5 shadow-xl shadow-black/40"
+          : "bg-transparent py-5 border-b border-[rgba(168,163,154,0.1)]"
       }`}
     >
+      {/* Scroll Progress Indicator Line */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#9A94E8] via-[#C6F36A] to-[#9A94E8] origin-left"
+        style={{ scaleX }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Brand */}
           <Link
             href="/"
-            className="group flex items-center gap-2.5 text-[#E7E7F0] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded"
+            className="group flex items-center gap-2.5 text-[#F7F5F0] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9A94E8] rounded"
           >
-            <span className="font-editorial text-xl sm:text-2xl font-normal tracking-wide group-hover:text-[#8387C3] transition-colors">
+            <span className="font-editorial text-xl sm:text-2xl font-normal tracking-wide group-hover:text-[#9A94E8] transition-colors">
               ARYAN KELKAR
             </span>
-            <span className="hidden sm:inline-block font-code text-[10px] text-[#8387C3] bg-[#101830] px-2 py-0.5 rounded border border-[rgba(131,135,195,0.2)] tracking-widest">
+            <span className="hidden sm:inline-block font-code text-[10px] text-[#9A94E8] bg-[#141418] px-2 py-0.5 rounded border border-[rgba(168,163,154,0.2)] tracking-widest">
               ARCHIVE
             </span>
           </Link>
@@ -79,10 +93,10 @@ export function Navbar() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className={`font-code text-xs tracking-widest transition-colors py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded ${
+                  className={`font-code text-xs tracking-widest transition-colors py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9A94E8] rounded ${
                     isActive
-                      ? "text-[#E7E7F0] font-medium border-b-2 border-[#8387C3]"
-                      : "text-[#959BB5] hover:text-[#E7E7F0]"
+                      ? "text-[#F7F5F0] font-semibold border-b-2 border-[#9A94E8]"
+                      : "text-[#A8A39A] hover:text-[#F7F5F0]"
                   }`}
                 >
                   {link.label}
@@ -95,11 +109,11 @@ export function Navbar() {
               href={profileData.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-code text-xs tracking-wider text-[#E7E7F0] bg-[#162040] hover:bg-[#3A3E6C] px-3.5 py-1.5 rounded-full border border-[rgba(131,135,195,0.3)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+              className="inline-flex items-center gap-1.5 font-code text-xs tracking-wider text-[#F7F5F0] bg-[#1C1C22] hover:bg-[#2E2E35] px-4 py-2 rounded-full border border-[rgba(168,163,154,0.25)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9A94E8]"
             >
-              <FileText className="w-3.5 h-3.5 text-[#8387C3]" />
+              <FileText className="w-3.5 h-3.5 text-[#9A94E8]" />
               <span>RÉSUMÉ</span>
-              <ArrowUpRight className="w-3 h-3 text-[#959BB5]" />
+              <ArrowUpRight className="w-3 h-3 text-[#A8A39A]" />
             </a>
           </nav>
 
@@ -107,13 +121,13 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-[#959BB5] hover:text-[#E7E7F0] hover:bg-[#101830] border border-[rgba(131,135,195,0.15)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+            className="md:hidden p-2 rounded-lg text-[#A8A39A] hover:text-[#F7F5F0] hover:bg-[#141418] border border-[rgba(168,163,154,0.18)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9A94E8]"
             aria-expanded={mobileMenuOpen}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-controls="mobile-navigation"
           >
             {mobileMenuOpen ? (
-              <X className="w-5 h-5 text-[#E7E7F0]" />
+              <X className="w-5 h-5 text-[#F7F5F0]" />
             ) : (
               <Menu className="w-5 h-5" />
             )}
@@ -125,10 +139,10 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div
           id="mobile-navigation"
-          className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#0A1123]/98 backdrop-blur-xl border-t border-[rgba(131,135,195,0.15)] px-6 py-8 flex flex-col justify-between overflow-y-auto"
+          className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#0B0B0D]/98 backdrop-blur-xl border-t border-[rgba(168,163,154,0.18)] px-6 py-8 flex flex-col justify-between overflow-y-auto"
         >
           <div className="space-y-4">
-            <p className="font-code text-[11px] uppercase tracking-widest text-[#8387C3] mb-4">
+            <p className="font-code text-[11px] uppercase tracking-widest text-[#9A94E8] mb-4">
               [ DIRECTORY NAVIGATION ]
             </p>
             {NAV_LINKS.map((link) => {
@@ -142,10 +156,10 @@ export function Navbar() {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-editorial text-2xl tracking-wide border-b border-[rgba(131,135,195,0.1)] transition-colors ${
+                  className={`block py-3 font-editorial text-2xl tracking-wide border-b border-[rgba(168,163,154,0.1)] transition-colors ${
                     isActive
-                      ? "text-[#8387C3] pl-2 font-medium"
-                      : "text-[#E7E7F0] hover:text-[#8387C3]"
+                      ? "text-[#9A94E8] pl-2 font-medium"
+                      : "text-[#F7F5F0] hover:text-[#9A94E8]"
                   }`}
                 >
                   {link.label}
@@ -154,20 +168,20 @@ export function Navbar() {
             })}
           </div>
 
-          <div className="pt-8 border-t border-[rgba(131,135,195,0.15)] space-y-4">
+          <div className="pt-8 border-t border-[rgba(168,163,154,0.18)] space-y-4">
             <a
               href={profileData.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 font-code text-xs tracking-wider text-[#E7E7F0] bg-[#162040] hover:bg-[#3A3E6C] px-4 py-3 rounded-lg border border-[rgba(131,135,195,0.3)] transition-all"
+              className="w-full flex items-center justify-center gap-2 font-code text-xs tracking-wider text-[#F7F5F0] bg-[#1C1C22] hover:bg-[#2E2E35] px-4 py-3 rounded-lg border border-[rgba(168,163,154,0.25)] transition-all"
             >
-              <FileText className="w-4 h-4 text-[#8387C3]" />
+              <FileText className="w-4 h-4 text-[#9A94E8]" />
               <span>VIEW RÉSUMÉ (PDF)</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-[#959BB5]" />
+              <ArrowUpRight className="w-3.5 h-3.5 text-[#A8A39A]" />
             </a>
 
-            <div className="text-center font-code text-[11px] text-[#8A8CAC]">
-              aryan.kelkar@example.com
+            <div className="text-center font-code text-[11px] text-[#A8A39A]">
+              {profileData.email}
             </div>
           </div>
         </div>
