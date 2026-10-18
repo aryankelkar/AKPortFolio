@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { CosmicBackground } from "@/components/ui/CosmicBackground";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 
 const serifFont = Cormorant_Garamond({
   variable: "--font-serif",
@@ -84,7 +87,12 @@ export default function RootLayout({
         <CosmicBackground />
         
         <div className="relative z-10 flex flex-col min-h-screen">
-          {children}
+          <CustomCursor />
+          <Navbar />
+          <div className="flex-1 flex flex-col">
+            {children}
+          </div>
+          <Footer />
         </div>
       </body>
     </html>

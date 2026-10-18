@@ -16,7 +16,7 @@ interface NavLinkItem {
 const NAV_LINKS: NavLinkItem[] = [
   { label: "WORK", href: "/work", sectionId: "work" },
   { label: "ABOUT", href: "/about", sectionId: "about" },
-  { label: "ARCHIVE", href: "/achievements", sectionId: "achievements" },
+  { label: "ARCHIVE", href: "/archive", sectionId: "achievements" },
   { label: "JOURNEY", href: "/journey", sectionId: "journey" },
   { label: "ACTIVITIES", href: "/activities", sectionId: "activities" },
   { label: "CONTACT", href: "/contact", sectionId: "contact" },
@@ -48,7 +48,7 @@ export function Navbar() {
     restDelta: 0.001,
   });
 
-  // High-precision scroll position and active section detection
+  // High-precision scroll position and active section detection for landing page
   useEffect(() => {
     if (!isHome) {
       setActiveSection("");
@@ -148,22 +148,6 @@ export function Navbar() {
     };
   }, [mobileMenuOpen]);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: NavLinkItem) => {
-    if (isHome) {
-      const targetElement = document.getElementById(link.sectionId);
-      if (targetElement) {
-        e.preventDefault();
-        // 1. Immediately update active state for instant visual response
-        setActiveSection(link.sectionId);
-        // 2. Smoothly scroll target into view
-        targetElement.scrollIntoView({ behavior: "smooth" });
-        if (mobileMenuOpen) setMobileMenuOpen(false);
-        // 3. Update URL hash without causing a page jump
-        window.history.pushState(null, "", `#${link.sectionId}`);
-      }
-    }
-  };
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
@@ -202,14 +186,17 @@ export function Navbar() {
           >
             {NAV_LINKS.map((link) => {
               const isSectionActive = isHome && activeSection === link.sectionId;
-              const isRouteActive = !isHome && pathname.startsWith(link.href);
-              const isActive = isSectionActive || isRouteActive;
+              const isRouteActive =
+                !isHome &&
+                (pathname === link.href ||
+                  (link.href === "/archive" && pathname === "/achievements") ||
+                  (link.href !== "/" && pathname.startsWith(link.href)));
+              const isActive = isRouteActive || isSectionActive;
 
               return (
                 <Link
                   key={link.label}
-                  href={isHome ? `#${link.sectionId}` : link.href}
-                  onClick={(e) => handleLinkClick(e, link)}
+                  href={link.href}
                   aria-current={isActive ? "page" : undefined}
                   className={`relative font-code text-xs tracking-widest px-3.5 py-1.5 rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] ${
                     isActive
@@ -295,17 +282,18 @@ export function Navbar() {
               </p>
               {NAV_LINKS.map((link) => {
                 const isSectionActive = isHome && activeSection === link.sectionId;
-                const isRouteActive = !isHome && pathname.startsWith(link.href);
-                const isActive = isSectionActive || isRouteActive;
+                const isRouteActive =
+                  !isHome &&
+                  (pathname === link.href ||
+                    (link.href === "/archive" && pathname === "/achievements") ||
+                    (link.href !== "/" && pathname.startsWith(link.href)));
+                const isActive = isRouteActive || isSectionActive;
 
                 return (
                   <Link
                     key={link.label}
-                    href={isHome ? `#${link.sectionId}` : link.href}
-                    onClick={(e) => {
-                      handleLinkClick(e, link);
-                      setMobileMenuOpen(false);
-                    }}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
                     className={`block py-3 font-editorial text-2xl tracking-wide border-b border-[rgba(255,255,255,0.06)] transition-colors ${
                       isActive
                         ? "text-[#8387C3] pl-2 font-medium"

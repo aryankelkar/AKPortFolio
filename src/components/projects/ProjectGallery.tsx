@@ -12,6 +12,7 @@ interface ProjectGalleryProps {
   showFilters?: boolean;
   title?: string;
   subtitle?: string;
+  showHeader?: boolean;
 }
 
 export function ProjectGallery({
@@ -19,6 +20,7 @@ export function ProjectGallery({
   showFilters = false,
   title = "Selected Projects & Systems",
   subtitle = "Engineered digital products, predictive machine-learning pipelines, and civic technology initiatives.",
+  showHeader = true,
 }: ProjectGalleryProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
@@ -40,27 +42,29 @@ export function ProjectGallery({
     : filteredProjects;
 
   return (
-    <section id="work" className="py-20 lg:py-28 relative bg-[#101116]">
+    <section id="work" className="py-12 lg:py-16 relative bg-[#101116]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <SectionHeading
-            number="[ 01 ]"
-            tag="ENGINEERING PORTFOLIO"
-            title={title}
-            description={subtitle}
-            className="mb-0"
-          />
+        {showHeader && (
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <SectionHeading
+              number="[ 01 ]"
+              tag="ENGINEERING PORTFOLIO"
+              title={title}
+              description={subtitle}
+              className="mb-0"
+            />
 
-          {initialLimit && (
-            <Link
-              href="/work"
-              className="group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#F0EEF4] shrink-0 pb-2 transition-colors"
-            >
-              <span>VIEW FULL ARCHIVE (07)</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          )}
-        </div>
+            {initialLimit && (
+              <Link
+                href="/work"
+                className="group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#F0EEF4] shrink-0 pb-2 transition-colors"
+              >
+                <span>VIEW FULL ARCHIVE (07)</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            )}
+          </div>
+        )}
 
         {/* Category Filters if enabled */}
         {showFilters && (

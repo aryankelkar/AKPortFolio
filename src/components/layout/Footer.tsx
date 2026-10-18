@@ -65,7 +65,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/achievements"
+                  href="/archive"
                   className="link-editorial hover:text-[#E7E7F0]"
                 >
                   Certifications & Recognitions

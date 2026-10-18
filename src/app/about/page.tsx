@@ -1,9 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { profileData } from "@/data/profile";
 import { GraduationCap, FileText, ArrowUpRight, BookOpen, Sparkles } from "lucide-react";
@@ -19,10 +16,7 @@ export default function AboutPage() {
   const photoPersonal = profileData.photos.personalPortrait;
 
   return (
-    <>
-      <CustomCursor />
-      <Navbar />
-      <main className="flex-1 pt-28 pb-20 bg-[#101116]">
+    <div className="pt-28 pb-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             number="[ ARCHIVE // 02 ]"
@@ -204,8 +198,6 @@ export default function AboutPage() {
             </section>
           </div>
         </div>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

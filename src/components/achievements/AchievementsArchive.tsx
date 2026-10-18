@@ -11,11 +11,13 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 interface AchievementsArchiveProps {
   initialLimit?: number;
   showFilters?: boolean;
+  showHeader?: boolean;
 }
 
 export function AchievementsArchive({
   initialLimit,
   showFilters = false,
+  showHeader = true,
 }: AchievementsArchiveProps) {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const shouldReduceMotion = useReducedMotion();
@@ -37,26 +39,28 @@ export function AchievementsArchive({
   const displayed = initialLimit ? filtered.slice(0, initialLimit) : filtered;
 
   return (
-    <section id="achievements" className="py-20 lg:py-28 bg-transparent relative border-t border-[rgba(255,255,255,0.06)]">
+    <section id="achievements" className="py-12 lg:py-16 bg-transparent relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <SectionHeading
-            number="[ ARCHIVE ]"
-            tag="CREDENTIALS & RECOGNITION"
-            title="Achievements, Certifications & Hackathons."
-            description="Verified certifications, competitive hackathon defenses, and academic milestones grounded in factual student work."
-            className="mb-0"
-          />
+        {showHeader && (
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <SectionHeading
+              number="[ ARCHIVE ]"
+              tag="CREDENTIALS & RECOGNITION"
+              title="Achievements, Certifications & Hackathons."
+              description="Verified certifications, competitive hackathon defenses, and academic milestones grounded in factual student work."
+              className="mb-0"
+            />
 
-          {initialLimit && (
-            <Link
-              href="/achievements"
-              className="btn-fluid font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#F0EEF4] transition-colors shrink-0 pb-2"
-            >
-              VIEW ALL CREDENTIALS →
-            </Link>
-          )}
-        </div>
+            {initialLimit && (
+              <Link
+                href="/archive"
+                className="btn-fluid font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#F0EEF4] transition-colors shrink-0 pb-2"
+              >
+                VIEW ALL CREDENTIALS →
+              </Link>
+            )}
+          </div>
+        )}
 
         {/* Category Filters */}
         {showFilters && (

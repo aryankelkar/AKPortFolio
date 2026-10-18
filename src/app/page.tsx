@@ -1,5 +1,4 @@
 import React from "react";
-import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/hero/Hero";
 import { ProjectGallery } from "@/components/projects/ProjectGallery";
 import { AboutSection } from "@/components/about/AboutSection";
@@ -8,25 +7,18 @@ import { AchievementsArchive } from "@/components/achievements/AchievementsArchi
 import { JourneyTimeline } from "@/components/journey/JourneyTimeline";
 import { ActivitiesSection } from "@/components/activities/ActivitiesSection";
 import { ContactSection } from "@/components/contact/ContactSection";
-import { Footer } from "@/components/layout/Footer";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 
 export default function HomePage() {
   return (
     <>
-      <CustomCursor />
-      <Navbar />
-      <main className="flex-1">
-        <Hero />
-        <ProjectGallery initialLimit={3} title="Selected Works & Case Studies" />
-        <AboutSection />
-        <SkillsSection />
-        <AchievementsArchive initialLimit={3} />
-        <JourneyTimeline initialLimit={4} />
-        <ActivitiesSection />
-        <ContactSection />
-      </main>
-      <Footer />
+      <Hero />
+      <ProjectGallery initialLimit={3} title="Selected Works & Case Studies" />
+      <AboutSection />
+      <SkillsSection />
+      <AchievementsArchive initialLimit={3} />
+      <JourneyTimeline initialLimit={4} />
+      <ActivitiesSection />
+      <ContactSection />
     </>
   );
 }

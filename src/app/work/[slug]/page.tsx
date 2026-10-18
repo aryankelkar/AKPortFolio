@@ -13,10 +13,7 @@ import {
 } from "lucide-react";
 import { GithubIcon } from "@/components/ui/Icons";
 import { projectsData } from "@/data/projects";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/Badge";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 
 interface CaseStudyProps {
   params: Promise<{ slug: string }>;
@@ -67,11 +64,8 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
       : null;
 
   return (
-    <>
-      <CustomCursor />
-      <Navbar />
-      <main className="flex-1 pt-28 pb-20 bg-[#101116]">
-        <article className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="pt-28 pb-20">
+      <article className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Breadcrumb & Return Link */}
           <div className="flex items-center justify-between pb-8 border-b border-[rgba(255,255,255,0.08)] mb-10">
             <Link
@@ -488,8 +482,6 @@ export default async function ProjectCaseStudyPage({ params }: CaseStudyProps) {
             )}
           </div>
         </article>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

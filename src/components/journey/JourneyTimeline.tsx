@@ -10,9 +10,13 @@ import { Badge } from "@/components/ui/Badge";
 
 interface JourneyTimelineProps {
   initialLimit?: number;
+  showHeader?: boolean;
 }
 
-export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
+export function JourneyTimeline({
+  initialLimit,
+  showHeader = true,
+}: JourneyTimelineProps) {
   const displayed = initialLimit ? journeyData.slice(0, initialLimit) : journeyData;
   const shouldReduceMotion = useReducedMotion();
 
@@ -30,26 +34,28 @@ export function JourneyTimeline({ initialLimit }: JourneyTimelineProps) {
   };
 
   return (
-    <section id="journey" className="py-20 lg:py-28 relative bg-[#151720]/75 backdrop-blur-sm border-t border-[rgba(255,255,255,0.08)]">
+    <section id="journey" className="py-12 lg:py-16 relative bg-[#151720]/75 backdrop-blur-sm border-t border-[rgba(255,255,255,0.08)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-          <SectionHeading
-            number="[ 04 ]"
-            tag="JOURNEY TIMELINE"
-            title="A timeline of exploration."
-            description="A chronological record of computer science foundations, applied software builds, hackathon sprints, and technical milestones."
-            className="mb-0"
-          />
+        {showHeader && (
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+            <SectionHeading
+              number="[ 04 ]"
+              tag="JOURNEY TIMELINE"
+              title="A timeline of exploration."
+              description="A chronological record of computer science foundations, applied software builds, hackathon sprints, and technical milestones."
+              className="mb-0"
+            />
 
-          {initialLimit && (
-            <Link
-              href="/journey"
-              className="btn-fluid font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#F0EEF4] transition-colors shrink-0 pb-2"
-            >
-              EXPLORE FULL TIMELINE →
-            </Link>
-          )}
-        </div>
+            {initialLimit && (
+              <Link
+                href="/journey"
+                className="btn-fluid font-code text-xs uppercase tracking-widest text-[#8387C3] hover:text-[#F0EEF4] transition-colors shrink-0 pb-2"
+              >
+                EXPLORE FULL TIMELINE →
+              </Link>
+            )}
+          </div>
+        )}
 
         {/* Timeline Stream */}
         <div className="relative border-l-2 border-[rgba(255,255,255,0.08)] ml-4 sm:ml-32 md:ml-40 space-y-12">

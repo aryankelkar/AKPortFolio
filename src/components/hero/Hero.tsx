@@ -194,10 +194,13 @@ export function Hero() {
 
       {/* Bottom Scroll Indicator Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6 sm:pt-8 flex items-center justify-between text-xs font-code text-[#8A8CAC]">
-        <div className="flex items-center gap-2">
-          <CornerDownRight className="w-3.5 h-3.5 text-[#8387C3]" />
+        <a
+          href="#work"
+          className="group inline-flex items-center gap-2 hover:text-[#F0EEF4] transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#8387C3] rounded"
+        >
+          <CornerDownRight className="w-3.5 h-3.5 text-[#8387C3] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" />
           <span>SCROLL TO EXPLORE ARCHIVE</span>
-        </div>
+        </a>
       </div>
     </section>
   );

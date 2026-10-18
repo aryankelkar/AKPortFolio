@@ -7,7 +7,11 @@ import { activitiesData } from "@/data/activities";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 
-export function ActivitiesSection() {
+interface ActivitiesSectionProps {
+  showHeader?: boolean;
+}
+
+export function ActivitiesSection({ showHeader = true }: ActivitiesSectionProps) {
   const shouldReduceMotion = useReducedMotion();
 
   const getCategoryIcon = (category: string) => {
@@ -24,14 +28,16 @@ export function ActivitiesSection() {
   };
 
   return (
-    <section id="activities" className="py-20 lg:py-28 bg-transparent relative border-t border-[rgba(255,255,255,0.08)]">
+    <section id="activities" className="py-12 lg:py-16 bg-transparent relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeading
-          number="[ 05 ]"
-          tag="EXTRACURRICULARS"
-          title="Beyond the classroom."
-          description="Documenting student collaboration, peer mentorship, tech symposium logistics, and community outreach beyond code repositories."
-        />
+        {showHeader && (
+          <SectionHeading
+            number="[ 05 ]"
+            tag="EXTRACURRICULARS"
+            title="Beyond the classroom."
+            description="Documenting student collaboration, peer mentorship, tech symposium logistics, and community outreach beyond code repositories."
+          />
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {activitiesData.map((activity, idx) => (
