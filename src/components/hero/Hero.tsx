@@ -181,6 +181,7 @@ export function Hero() {
                   alt={profileData.photos.floatingPortrait.alt}
                   fill
                   priority
+                  loading="eager"
                   quality={95}
                   sizes="(max-width: 640px) 200px, 300px"
                   className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"

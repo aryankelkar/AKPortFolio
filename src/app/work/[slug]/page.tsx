@@ -19,6 +19,8 @@ interface CaseStudyProps {
   params: Promise<{ slug: string }>;
 }
 
+export const instant = false;
+
 export async function generateStaticParams() {
   return projectsData.map((project) => ({
     slug: project.slug,

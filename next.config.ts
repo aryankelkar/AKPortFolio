@@ -31,6 +31,18 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  images: {
+    qualities: [75, 90, 92, 95, 96],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/achievements",
+        destination: "/archive",
+        permanent: true,
+      },
+    ];
+  },
   turbopack: {
     rules: {
       "*.css": {
