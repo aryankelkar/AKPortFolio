@@ -3,46 +3,50 @@
 :root {
   /* ==========================================================================
      Design System: "The Personal Engineering Archive"
-     Core Authentic Palette (from user specifications & design archive):
-     - Chinese Black: #0A1123 (RGB: 10, 17, 35)
-     - American Blue: #3A3E6C (RGB: 58, 62, 108)
-     - Ube / Lavender: #8387C3 (RGB: 131, 135, 195)
-     - Cool Grey: #8A8CAC (RGB: 138, 140, 172)
-     - Cadet Grey: #959BB5 (RGB: 149, 155, 181)
-     - Warm Lavender-White: #E7E7F0
+     Sophisticated Deep Graphite-Black & Charcoal Editorial Palette:
+     - Base Graphite-Black: #101116 (Base canvas)
+     - Charcoal Depth: #151720 (Subtle alternating section variation)
+     - Elevated Surface: #171924 (Cards & containers)
+     - Inner Inset Surface: #111218 (Tags, inner panels, code blocks)
+     - Signature Ube / Lavender: #8387C3 (Restrained technical accent)
+     - Cool Grey: #8A8CAC (Annotations & metadata)
+     - Cadet Grey: #959BB5 (Secondary body copy)
+     - Off-White / Paper: #F0EEF4 (Primary editorial headings)
      ========================================================================== */
-  --chinese-black: #0A1123;
-  --american-blue: #3A3E6C;
+  --graphite-base: #101116;
+  --charcoal-depth: #151720;
+  --surface-elevated: #171924;
+  --surface-inset: #111218;
+
   --ube: #8387C3;
   --cool-grey: #8A8CAC;
   --cadet-grey: #959BB5;
-  --lavender-white: #E7E7F0;
+  --lavender-white: #F0EEF4;
 
   /* Semantic Variables */
-  --background-primary: #0A1123;     /* True Chinese Black */
-  --background-secondary: #0E1528;   /* Subtle Editorial Section Contrast */
-  --background-tertiary: #101830;    /* Elevated Surfaces / Cards */
+  --background-primary: #101116;     /* Deep Graphite-Black */
+  --background-secondary: #151720;   /* Subtle Charcoal Section Contrast */
+  --background-tertiary: #171924;    /* Elevated Surfaces / Cards */
 
-  --surface-primary: #101830;
-  --surface-elevated: #162040;
-  --surface-card: #0E1528;
+  --surface-primary: #171924;
+  --surface-card: #151720;
 
-  --border-subtle: rgba(58, 62, 108, 0.35);
-  --border-medium: rgba(131, 135, 195, 0.22);
-  --border-accent: rgba(131, 135, 195, 0.45);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-medium: rgba(255, 255, 255, 0.12);
+  --border-accent: rgba(131, 135, 195, 0.35);
 
   --accent-lavender: #8387C3;
   --accent-lavender-muted: #8A8CAC;
   --accent-ube: #8387C3;
 
-  --text-primary: #E7E7F0;
+  --text-primary: #F0EEF4;
   --text-secondary: #959BB5;
   --text-muted: #8A8CAC;
 
   /* Backward compatibility aliases */
   --midnight-navy: var(--background-primary);
   --deep-blue: var(--background-tertiary);
-  --muted-blue: var(--american-blue);
+  --muted-blue: #252838;
   --primary-lavender: var(--ube);
   --soft-lavender: var(--cool-grey);
   --muted-blue-gray: var(--cadet-grey);
@@ -56,34 +60,35 @@
 }
 
 @theme {
-  --color-chinese-black: #0A1123;
-  --color-american-blue: #3A3E6C;
+  --color-graphite-base: #101116;
+  --color-charcoal-depth: #151720;
+  --color-surface-elevated: #171924;
+  --color-surface-inset: #111218;
+
   --color-ube: #8387C3;
   --color-cool-grey: #8A8CAC;
   --color-cadet-grey: #959BB5;
-  --color-lavender-white: #E7E7F0;
+  --color-lavender-white: #F0EEF4;
 
-  --color-background-primary: #0A1123;
-  --color-background-secondary: #0E1528;
-  --color-background-tertiary: #101830;
-  --color-surface-primary: #101830;
-  --color-surface-elevated: #162040;
-  --color-surface-card: #0E1528;
+  --color-background-primary: #101116;
+  --color-background-secondary: #151720;
+  --color-background-tertiary: #171924;
+  --color-surface-primary: #171924;
+  --color-surface-card: #151720;
 
-  --color-midnight-navy: #0A1123;
-  --color-deep-blue: #101830;
-  --color-muted-blue: #3A3E6C;
+  --color-midnight-navy: #101116;
+  --color-deep-blue: #171924;
+  --color-muted-blue: #252838;
   --color-accent-lavender: #8387C3;
   --color-accent-lavender-muted: #8A8CAC;
   --color-primary-lavender: #8387C3;
   --color-soft-lavender: #8A8CAC;
   --color-muted-blue-gray: #959BB5;
-  --color-warm-off-white: #E7E7F0;
+  --color-warm-off-white: #F0EEF4;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
-  --color-surface-elevated: var(--surface-elevated);
 
   --font-serif: var(--font-serif), "Cormorant Garamond", Georgia, serif;
   --font-sans: var(--font-sans), Inter, system-ui, sans-serif;
@@ -92,31 +97,31 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #0A1123;
-  color: #E7E7F0;
+  background-color: #101116;
+  color: #F0EEF4;
 }
 
 body {
-  background-color: #0A1123;
-  color: #E7E7F0;
+  background-color: #101116;
+  color: #F0EEF4;
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
 }
 
 ::selection {
-  background: #3A3E6C;
-  color: #E7E7F0;
+  background: #282B3C;
+  color: #F0EEF4;
 }
 
-/* Custom Scrollbar */
+/* Custom Editorial Scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A1123;
+  background: #101116;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3A3E6C;
+  background: #252838;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -124,45 +129,53 @@ body {
 }
 
 /* ==========================================================================
-   Architectural Blueprint Grid & Organic Texture (Subtle & Restrained)
+   Tactile Texture & Architectural Grid (Minimalist & Understated)
    ========================================================================== */
 
-/* Technical Blueprint Dual-Grid on Chinese Black (Subtle, doesn't wash out) */
+/* Diffused Graphite Depth Canvas (Atmospheric lighting without color cast) */
+.bg-graphite-depth {
+  background-image:
+    radial-gradient(1200px 800px at 80% 12%, rgba(28, 30, 42, 0.35), transparent 70%),
+    radial-gradient(1000px 700px at 15% 55%, rgba(24, 26, 38, 0.30), transparent 70%),
+    radial-gradient(1300px 900px at 75% 88%, rgba(30, 32, 45, 0.25), transparent 75%);
+}
+
+/* Delicate Architectural Blueprint Grid at Very Low Opacity */
 .bg-blueprint-grid {
   background-image: 
     /* Major grid lines (160px) */
-    linear-gradient(to right, rgba(58, 62, 108, 0.16) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(58, 62, 108, 0.16) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
     /* Minor grid lines (40px) */
-    linear-gradient(to right, rgba(58, 62, 108, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(58, 62, 108, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
   background-size: 160px 160px, 160px 160px, 40px 40px, 40px 40px;
 }
 
-/* Organic Monochromatic Film Grain Texture */
+/* Extremely Subtle Organic Film Grain Texture */
 .bg-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.022'/%3E%3C/svg%3E");
 }
 
 /* Section Depth Classes */
 .section-primary {
-  background-color: #0A1123;
-  color: #E7E7F0;
+  background-color: #101116;
+  color: #F0EEF4;
 }
 
 .section-secondary {
-  background-color: #0E1528;
-  color: #E7E7F0;
+  background-color: #151720;
+  color: #F0EEF4;
 }
 
 .section-elevated {
-  background-color: #101830;
-  color: #E7E7F0;
+  background-color: #171924;
+  color: #F0EEF4;
 }
 
 .section-card {
-  background-color: #0E1528;
-  color: #E7E7F0;
+  background-color: #151720;
+  color: #F0EEF4;
 }
 
 /* Typography Helpers */
@@ -181,7 +194,7 @@ body {
 
 .card-interactive:hover {
   border-color: rgba(131, 135, 195, 0.45);
-  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5), 0 0 20px -4px rgba(131, 135, 195, 0.1);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.6), 0 0 20px -4px rgba(131, 135, 195, 0.08);
 }
 
 @media (prefers-reduced-motion: reduce) {

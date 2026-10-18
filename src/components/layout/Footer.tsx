@@ -12,13 +12,13 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t border-[rgba(58,62,108,0.3)] bg-[#070D1C] text-[#959BB5] pt-16 pb-12 mt-auto relative z-10">
+    <footer className="border-t border-[rgba(255,255,255,0.08)] bg-[#0B0C10] text-[#959BB5] pt-16 pb-12 mt-auto relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-[rgba(58,62,108,0.25)]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-[rgba(255,255,255,0.06)]">
           {/* Identity column */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
-              <span className="font-editorial text-2xl text-[#E7E7F0] tracking-wide">
+              <span className="font-editorial text-2xl text-[#F0EEF4] tracking-wide">
                 ARYAN KELKAR
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#8387C3]" />
@@ -35,7 +35,7 @@ export function Footer() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8387C3] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#8387C3]"></span>
               </span>
-              <span className="font-code text-xs text-[#E7E7F0]">
+              <span className="font-code text-xs text-[#F0EEF4]">
                 Active builder &bull; Open to collaborative engineering
               </span>
             </div>
@@ -108,37 +108,37 @@ export function Footer() {
                 href={profileData.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-2.5 rounded bg-[#101830] border border-[rgba(58,62,108,0.35)] hover:border-[rgba(131,135,195,0.45)] text-[#E7E7F0] transition-colors group"
+                className="flex items-center justify-between p-2.5 rounded bg-[#141620] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] text-[#F0EEF4] transition-colors group"
               >
                 <div className="flex items-center gap-2.5 text-xs font-code">
                   <GithubIcon className="w-4 h-4 text-[#8387C3]" />
                   <span>GitHub Profile</span>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#E7E7F0]" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#F0EEF4]" />
               </a>
 
               <a
                 href={profileData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-2.5 rounded bg-[#101830] border border-[rgba(58,62,108,0.35)] hover:border-[rgba(131,135,195,0.45)] text-[#E7E7F0] transition-colors group"
+                className="flex items-center justify-between p-2.5 rounded bg-[#141620] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] text-[#F0EEF4] transition-colors group"
               >
                 <div className="flex items-center gap-2.5 text-xs font-code">
                   <LinkedinIcon className="w-4 h-4 text-[#8387C3]" />
                   <span>LinkedIn Network</span>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#E7E7F0]" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#F0EEF4]" />
               </a>
 
               <a
                 href={`mailto:${profileData.email}`}
-                className="flex items-center justify-between p-2.5 rounded bg-[#101830] border border-[rgba(58,62,108,0.35)] hover:border-[rgba(131,135,195,0.45)] text-[#E7E7F0] transition-colors group"
+                className="flex items-center justify-between p-2.5 rounded bg-[#141620] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] text-[#F0EEF4] transition-colors group"
               >
                 <div className="flex items-center gap-2.5 text-xs font-code">
                   <Mail className="w-4 h-4 text-[#8387C3]" />
                   <span>Direct Electronic Mail</span>
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#E7E7F0]" />
+                <ExternalLink className="w-3.5 h-3.5 text-[#8A8CAC] group-hover:text-[#F0EEF4]" />
               </a>
             </div>
           </div>

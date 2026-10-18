@@ -24,7 +24,7 @@ export function SkillsSection() {
   };
 
   return (
-    <section id="skills" className="py-20 lg:py-28 relative bg-[#0A1123]">
+    <section id="skills" className="py-20 lg:py-28 relative bg-[#101116]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
           number="[ 03 ]"
@@ -37,15 +37,15 @@ export function SkillsSection() {
           {skillCategories.map((categoryGroup) => (
             <div
               key={categoryGroup.category}
-              className="rounded-xl bg-[#101830] border border-[rgba(58,62,108,0.35)] hover:border-[rgba(131,135,195,0.45)] p-6 transition-all duration-300 flex flex-col justify-between shadow-lg"
+              className="rounded-xl bg-[#171924] border border-[rgba(255,255,255,0.08)] hover:border-[rgba(131,135,195,0.45)] p-6 transition-all duration-300 flex flex-col justify-between shadow-xl"
             >
               <div>
-                <div className="flex items-center gap-3 pb-4 border-b border-[rgba(58,62,108,0.25)]">
-                  <div className="p-2.5 rounded bg-[#162040] border border-[rgba(58,62,108,0.3)]">
+                <div className="flex items-center gap-3 pb-4 border-b border-[rgba(255,255,255,0.08)]">
+                  <div className="p-2.5 rounded-lg bg-[#1E2030] border border-[rgba(255,255,255,0.08)]">
                     {getCategoryIcon(categoryGroup.category)}
                   </div>
                   <div>
-                    <h3 className="font-editorial text-2xl text-[#E7E7F0] font-normal tracking-wide">
+                    <h3 className="font-editorial text-2xl text-[#F0EEF4] font-normal tracking-wide">
                       {categoryGroup.title}
                     </h3>
                   </div>
@@ -59,10 +59,10 @@ export function SkillsSection() {
                   {categoryGroup.skills.map((skill) => (
                     <div
                       key={skill.name}
-                      className="p-3 rounded-lg bg-[#0A1123] border border-[rgba(58,62,108,0.25)] group hover:border-[rgba(131,135,195,0.35)] transition-colors"
+                      className="p-3 rounded-lg bg-[#111218] border border-[rgba(255,255,255,0.06)] group hover:border-[rgba(131,135,195,0.35)] transition-colors"
                     >
                       <div className="flex items-baseline justify-between gap-2">
-                        <span className="font-code text-xs font-medium text-[#E7E7F0]">
+                        <span className="font-code text-xs font-medium text-[#F0EEF4]">
                           {skill.name}
                         </span>
                         {skill.demonstratedIn && skill.demonstratedIn.length > 0 && (
@@ -81,7 +81,7 @@ export function SkillsSection() {
                 </div>
               </div>
 
-              <div className="pt-4 mt-5 border-t border-[rgba(58,62,108,0.2)] flex justify-between items-center text-[10px] font-code text-[#8A8CAC]">
+              <div className="pt-4 mt-5 border-t border-[rgba(255,255,255,0.08)] flex justify-between items-center text-[10px] font-code text-[#8A8CAC]">
                 <span>CATEGORY VERIFIED</span>
                 <span className="text-[#8387C3] flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#8387C3]" />
