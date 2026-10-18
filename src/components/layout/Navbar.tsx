@@ -22,6 +22,17 @@ const NAV_LINKS: NavLinkItem[] = [
   { label: "CONTACT", href: "/contact", sectionId: "contact" },
 ];
 
+// Mapping of all page sections in reading order to their parent nav link
+const HOME_SECTIONS = [
+  { id: "work", navId: "work" },
+  { id: "about", navId: "about" },
+  { id: "skills", navId: "about" }, // skills is grouped under about
+  { id: "achievements", navId: "achievements" },
+  { id: "journey", navId: "journey" },
+  { id: "activities", navId: "activities" },
+  { id: "contact", navId: "contact" },
+];
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -37,50 +48,82 @@ export function Navbar() {
     restDelta: 0.001,
   });
 
-  // Track scroll position for header appearance and hero active section reset
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      if (window.scrollY < 240) {
-        setActiveSection("");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // IntersectionObserver for active section on homepage
+  // High-precision scroll position and active section detection
   useEffect(() => {
     if (!isHome) {
       setActiveSection("");
-      return;
+      const handleScroll = () => setIsScrolled(window.scrollY > 20);
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => window.removeEventListener("scroll", handleScroll);
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (window.scrollY < 240) {
-          setActiveSection("");
-          return;
-        }
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      {
-        rootMargin: "-15% 0px -55% 0px",
-        threshold: 0.1,
+    let rafId: number | null = null;
+
+    const determineActiveSection = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 20);
+
+      // 1. If at or near top (Hero zone), no nav link is active
+      if (scrollY < 240) {
+        setActiveSection("");
+        return;
       }
-    );
 
-    NAV_LINKS.forEach((link) => {
-      const el = document.getElementById(link.sectionId);
-      if (el) observer.observe(el);
-    });
+      // 2. If at bottom of page (within 100px of bottom), Contact is active
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      if (scrollY + windowHeight >= documentHeight - 100) {
+        setActiveSection("contact");
+        return;
+      }
 
-    return () => observer.disconnect();
+      // 3. Focal line: 35% from the top of the viewport
+      const focalPoint = scrollY + windowHeight * 0.35;
+      let matchedNavId = "";
+
+      // Find section currently crossing the focal line
+      for (const item of HOME_SECTIONS) {
+        const el = document.getElementById(item.id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (focalPoint >= top && focalPoint < top + height) {
+            matchedNavId = item.navId;
+            break;
+          }
+        }
+      }
+
+      // Fallback: If between sections, select the most recent section passed
+      if (!matchedNavId) {
+        for (let i = HOME_SECTIONS.length - 1; i >= 0; i--) {
+          const el = document.getElementById(HOME_SECTIONS[i].id);
+          if (el && focalPoint >= el.offsetTop) {
+            matchedNavId = HOME_SECTIONS[i].navId;
+            break;
+          }
+        }
+      }
+
+      setActiveSection(matchedNavId);
+    };
+
+    const handleScroll = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(determineActiveSection);
+    };
+
+    // Initial check on mount
+    determineActiveSection();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, [isHome]);
 
   // Escape key handler & focus trapping for mobile menu
@@ -110,8 +153,13 @@ export function Navbar() {
       const targetElement = document.getElementById(link.sectionId);
       if (targetElement) {
         e.preventDefault();
+        // 1. Immediately update active state for instant visual response
+        setActiveSection(link.sectionId);
+        // 2. Smoothly scroll target into view
         targetElement.scrollIntoView({ behavior: "smooth" });
         if (mobileMenuOpen) setMobileMenuOpen(false);
+        // 3. Update URL hash without causing a page jump
+        window.history.pushState(null, "", `#${link.sectionId}`);
       }
     }
   };
@@ -120,15 +168,17 @@ export function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? "bg-[#101116]/92 backdrop-blur-md border-b border-[rgba(255,255,255,0.08)] py-3.5 shadow-xl shadow-black/40"
-          : "bg-transparent py-5 border-b border-[rgba(255,255,255,0.05)]"
+          ? "bg-[#101116]/92 backdrop-blur-md border-b border-[rgba(255,255,255,0.08)] py-3 shadow-xl shadow-black/40"
+          : "bg-transparent py-4 sm:py-5 border-b border-[rgba(255,255,255,0.05)]"
       }`}
     >
-      {/* Scroll Progress Indicator Line */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#8387C3] via-[#F0EEF4] to-[#8387C3] origin-left"
-        style={{ scaleX }}
-      />
+      {/* Precision Scroll Reading Gauge */}
+      <div className="absolute bottom-0 inset-x-0 h-[1.5px] bg-[rgba(255,255,255,0.05)] pointer-events-none overflow-hidden">
+        <motion.div
+          className="h-full bg-gradient-to-r from-[#8387C3]/30 via-[#8387C3] to-[#F0EEF4] origin-left shadow-[0_0_8px_rgba(131,135,195,0.7)]"
+          style={{ scaleX }}
+        />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -145,10 +195,10 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation Dock */}
           <nav
             aria-label="Main Navigation"
-            className="hidden md:flex items-center gap-6 lg:gap-8"
+            className="hidden md:flex items-center gap-1 lg:gap-2 bg-[#171924]/70 p-1.5 rounded-full border border-[rgba(255,255,255,0.08)] backdrop-blur-md shadow-lg shadow-black/30"
           >
             {NAV_LINKS.map((link) => {
               const isSectionActive = isHome && activeSection === link.sectionId;
@@ -161,19 +211,33 @@ export function Navbar() {
                   href={isHome ? `#${link.sectionId}` : link.href}
                   onClick={(e) => handleLinkClick(e, link)}
                   aria-current={isActive ? "page" : undefined}
-                  className={`relative font-code text-xs tracking-widest transition-colors py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded ${
+                  className={`relative font-code text-xs tracking-widest px-3.5 py-1.5 rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] ${
                     isActive
                       ? "text-[#F0EEF4] font-semibold"
-                      : "text-[#959BB5] hover:text-[#F0EEF4]"
+                      : "text-[#959BB5] hover:text-[#F0EEF4] hover:bg-white/[0.04]"
                   }`}
                 >
-                  {link.label}
+                  {/* Subtle active pill backlight */}
                   {isActive && (
-                    <motion.span
-                      layoutId="nav-active-indicator"
-                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#8387C3] rounded-full"
-                      transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                    <motion.div
+                      layoutId="nav-active-capsule"
+                      className="absolute inset-0 bg-[#8387C3]/15 rounded-full border border-[rgba(131,135,195,0.28)] shadow-[0_0_12px_rgba(131,135,195,0.2)] pointer-events-none"
+                      transition={{ type: "spring", stiffness: 420, damping: 32 }}
                     />
+                  )}
+
+                  <span className="relative z-10">{link.label}</span>
+
+                  {/* Refined luminous underline bar with precision optic diamond */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-active-underline"
+                      className="absolute -bottom-2 inset-x-2 flex flex-col items-center pointer-events-none"
+                      transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                    >
+                      <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#8387C3] to-transparent rounded-full shadow-[0_0_8px_rgba(131,135,195,0.9)]" />
+                      <div className="w-1.5 h-1.5 rotate-45 bg-[#F0EEF4] -mt-[3.5px] shadow-[0_0_6px_rgba(240,238,244,1)]" />
+                    </motion.div>
                   )}
                 </Link>
               );
@@ -184,7 +248,7 @@ export function Navbar() {
               href={profileData.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-fluid group inline-flex items-center gap-1.5 font-code text-xs tracking-wider text-[#F0EEF4] bg-[#1A1C28] hover:bg-[#222534] px-4 py-2 rounded-full border border-[rgba(255,255,255,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+              className="btn-fluid group inline-flex items-center gap-1.5 font-code text-xs tracking-wider text-[#F0EEF4] bg-[#1E2130] hover:bg-[#282C40] px-3.5 py-1.5 rounded-full border border-[rgba(255,255,255,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] ml-1 transition-colors"
             >
               <FileText className="w-3.5 h-3.5 text-[#8387C3]" />
               <span>RÉSUMÉ</span>
