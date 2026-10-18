@@ -21,9 +21,10 @@ export const TIMING = {
   WORD_PAUSE: 300,           // ms pause between ARYAN and KELKAR (Phase 3)
   CHAR_INTERVAL_KELKAR: 95,  // ms per character in "KELKAR." (Phase 4)
   PRE_GLITCH_PAUSE: 220,     // ms pause after typing completes before glitch burst
-  GLITCH_DURATION: 550,      // ms duration of glitch burst (Phase 5)
+  GLITCH_DURATION: 600,      // ms duration of enhanced multi-layer glitch burst (Phase 5)
   LIGHT_SWEEP_DURATION: 750, // ms duration of lavender specular sweep
   HOVER_COOLDOWN: 1200,      // ms cooldown between hover interactions
+  AMBIENT_INTERVAL: 16000,   // ms interval between occasional subtle ambient micro-glitches (Effect G)
 } as const;
 
 interface AnimState {
@@ -47,11 +48,12 @@ export function HeroName() {
     isGlitching: false,
   }));
 
+  const [ambientGlitch, setAmbientGlitch] = useState(false);
   const [sweepActive, setSweepActive] = useState(false);
   const cooldownRef = useRef(false);
   const hoverTimersRef = useRef<NodeJS.Timeout[]>([]);
 
-  // Sequential, deterministic animation scheduler
+  // Sequential, deterministic typewriter & initial glitch scheduler
   useEffect(() => {
     if (shouldReduceMotion) {
       return;
@@ -121,7 +123,7 @@ export function HeroName() {
     }, elapsed);
     elapsed += TIMING.PRE_GLITCH_PAUSE;
 
-    // PHASE 5: Controlled Cinematic Glitch Burst (550ms)
+    // PHASE 5: Enhanced Multi-Layered Cinematic Glitch Burst (600ms)
     schedule(() => {
       setAnimState((prev) => ({
         ...prev,
@@ -133,11 +135,11 @@ export function HeroName() {
     // Specular Lavender Light Sweep
     schedule(() => {
       setSweepActive(true);
-    }, elapsed + 200);
+    }, elapsed + 220);
 
     schedule(() => {
       setSweepActive(false);
-    }, elapsed + 200 + TIMING.LIGHT_SWEEP_DURATION);
+    }, elapsed + 220 + TIMING.LIGHT_SWEEP_DURATION);
 
     elapsed += TIMING.GLITCH_DURATION;
 
@@ -156,6 +158,51 @@ export function HeroName() {
       timers.forEach((t) => clearTimeout(t));
     };
   }, [shouldReduceMotion]);
+
+  // EFFECT G: Occasional subtle ambient micro-glitch after reveal is complete
+  useEffect(() => {
+    if (shouldReduceMotion || animState.phase !== "COMPLETE") {
+      return;
+    }
+
+    let ambientTimer: NodeJS.Timeout | null = null;
+    let resetTimer: NodeJS.Timeout | null = null;
+
+    const scheduleAmbient = () => {
+      ambientTimer = setTimeout(() => {
+        if (typeof document !== "undefined" && (document.hidden || cooldownRef.current)) {
+          scheduleAmbient();
+          return;
+        }
+
+        setAmbientGlitch(true);
+        resetTimer = setTimeout(() => {
+          setAmbientGlitch(false);
+          scheduleAmbient();
+        }, 180);
+      }, TIMING.AMBIENT_INTERVAL);
+    };
+
+    scheduleAmbient();
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (ambientTimer) clearTimeout(ambientTimer);
+        if (resetTimer) clearTimeout(resetTimer);
+        setAmbientGlitch(false);
+      } else {
+        scheduleAmbient();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      if (ambientTimer) clearTimeout(ambientTimer);
+      if (resetTimer) clearTimeout(resetTimer);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [shouldReduceMotion, animState.phase]);
 
   // Clean up hover interaction timers on unmount
   useEffect(() => {
@@ -177,7 +224,7 @@ export function HeroName() {
 
     const t1 = setTimeout(() => {
       setAnimState((prev) => ({ ...prev, isGlitching: false }));
-    }, 240);
+    }, 280);
 
     const t2 = setTimeout(() => {
       setSweepActive(false);
@@ -193,6 +240,13 @@ export function HeroName() {
   const showCursor = animState.showCursor && !shouldReduceMotion;
   const cursorLine = animState.cursorLine;
 
+  const isGlitching = (animState.isGlitching || ambientGlitch) && !shouldReduceMotion;
+  const glitchModifierClass = animState.isGlitching
+    ? "hero-glitch-active"
+    : ambientGlitch
+    ? "hero-glitch-ambient"
+    : "";
+
   return (
     <h1
       aria-label="Aryan Kelkar."
@@ -200,16 +254,18 @@ export function HeroName() {
       onFocus={handleInteraction}
       tabIndex={0}
       className={`font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[6.2rem] xl:text-[7.2rem] 2xl:text-[7.8rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none relative group cursor-default outline-none focus-visible:ring-1 focus-visible:ring-[#8387C3]/40 rounded-sm transition-all duration-300 ${
-        animState.isGlitching && !shouldReduceMotion ? "hero-glitch-active" : ""
+        isGlitching ? glitchModifierClass : ""
       }`}
     >
       {/* Screen-reader only accessible label */}
       <span className="sr-only">Aryan Kelkar.</span>
 
-      {/* Main Visible Typography Layer */}
+      {/* Main Visible Typography Layer with Effect C: Micro-Jitter & Effect D: Frame Corruption Flash */}
       <span
         aria-hidden="true"
-        className="block relative transition-all duration-500 group-hover:drop-shadow-[0_0_30px_rgba(131,135,195,0.40)]"
+        className={`block relative transition-all duration-500 group-hover:drop-shadow-[0_0_30px_rgba(131,135,195,0.40)] ${
+          animState.isGlitching && !shouldReduceMotion ? "hero-base-jitter-flash" : ""
+        }`}
       >
         {/* Line 1: ARYAN */}
         <span
@@ -280,11 +336,19 @@ export function HeroName() {
         </span>
       </span>
 
+      {/* Effect E: Digital Glitch Raster Scanline Overlay */}
+      {animState.isGlitching && !shouldReduceMotion && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none select-none hero-glitch-scanlines z-20 rounded-sm"
+        />
+      )}
+
       {/* Archival Micro-Scan Line during Glitch */}
       {animState.isGlitching && !shouldReduceMotion && (
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#A5A9E6]/75 to-transparent pointer-events-none hero-scan-line z-30"
+          className="absolute inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#00E5FF]/60 via-[#A5A9E6]/90 to-transparent pointer-events-none hero-scan-line z-30"
         />
       )}
 
