@@ -96,7 +96,7 @@ export const profileData: ProfileData = {
       aspectRatio: "4/5",
     },
     documentaryPhoto: {
-      src: "/images/aryan/Picsart_26-10-10_11-46-34-364.jpg",
+      src: "/images/aryan/documentary-hd.jpg",
       alt: "Aryan Kelkar — Atmospheric documentary photograph in misty mountain landscape",
       caption: "Field exploration // Perspective beyond the screen",
       date: "2024",

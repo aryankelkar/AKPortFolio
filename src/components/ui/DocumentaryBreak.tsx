@@ -25,9 +25,9 @@ export function DocumentaryBreak() {
               src={photo.src}
               alt={photo.alt}
               fill
-              quality={92}
-              sizes="(max-width: 1024px) 100vw, 750px"
-              className="object-cover object-center filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"
+              quality={96}
+              sizes="(max-width: 1024px) 100vw, 800px"
+              className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#171924]/95 hidden lg:block pointer-events-none" />
           </div>

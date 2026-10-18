@@ -100,18 +100,18 @@ export function AboutSection() {
             transition={{ duration: 0.45, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-6 space-y-6"
           >
-            {/* FIG. 03 Documentary Frame */}
+            {/* Enhanced High-Definition Documentary Frame */}
             <div className="relative rounded-2xl overflow-hidden bg-[#171924] border border-[rgba(255,255,255,0.12)] shadow-2xl group">
-              <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full">
+              <div className="relative aspect-[4/3] sm:aspect-[4/3] w-full">
                 <Image
                   src={docPhoto.src}
                   alt={docPhoto.alt}
                   fill
-                  quality={92}
-                  sizes="(max-width: 1024px) 100vw, 750px"
-                  className="object-cover object-center filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"
+                  quality={96}
+                  sizes="(max-width: 1024px) 100vw, 800px"
+                  className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-[#101116]/20 to-transparent opacity-85 pointer-events-none" />
 
                 {/* Bottom Quote Overlay */}
                 <div className="absolute bottom-5 left-5 right-5 pointer-events-none max-w-md">
