@@ -17,7 +17,7 @@ export default function WorkPage() {
     <>
       <CustomCursor />
       <Navbar />
-      <main className="flex-1 pt-28 pb-16 bg-[#0A1123]">
+      <main className="flex-1 pt-28 pb-16 bg-[#0B1020]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
           <SectionHeading
             number="[ ARCHIVE // 01 ]"

@@ -1,37 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  /* Design System: "The Personal Engineering Archive" */
-  --midnight-navy: #0A1123;
-  --deep-blue: #10182D;
+  /* ==========================================================================
+     Design System: "The Personal Engineering Archive"
+     Navy-Blue Visual Identity Palette
+     ========================================================================== */
+  --background-primary: #0B1020;     /* Layer 1: Midnight Navy Base */
+  --background-secondary: #0D1427;   /* Layer 5: Alternating Section Navy */
+  --background-tertiary: #10182D;    /* Elevated Surface Navy */
+
+  --surface-primary: #12172A;
+  --surface-elevated: #162040;
+  --surface-card: #0E1528;
+
+  --border-subtle: rgba(160, 170, 210, 0.12);
+  --border-medium: rgba(160, 170, 210, 0.20);
+  --border-accent: rgba(163, 154, 255, 0.35);
+
+  --accent-lavender: #A39AFF;
+  --accent-lavender-muted: #827BCB;
+  --accent-ube: #8387C3;
+
+  --text-primary: #F0EEF4;
+  --text-secondary: #B0AEB8;
+  --text-muted: #85879B;
+
+  /* Backward compatibility aliases */
+  --midnight-navy: var(--background-primary);
+  --deep-blue: var(--background-tertiary);
   --muted-blue: #3A3E6C;
-  --primary-lavender: #8387C3;
-  --soft-lavender: #8A8CAC;
-  --muted-blue-gray: #959BB5;
-  --warm-off-white: #E7E7F0;
+  --primary-lavender: var(--accent-lavender);
+  --soft-lavender: var(--accent-lavender-muted);
+  --muted-blue-gray: var(--text-secondary);
+  --warm-off-white: var(--text-primary);
 
   /* Semantic defaults */
-  --background: var(--midnight-navy);
-  --foreground: var(--warm-off-white);
-  --surface: #10182D;
-  --surface-elevated: #162040;
-  --surface-card: #0D152B;
-  --surface-border: rgba(58, 62, 108, 0.38);
-  --surface-border-strong: rgba(131, 135, 195, 0.35);
-  --accent: var(--primary-lavender);
-  --text-primary: var(--warm-off-white);
-  --text-secondary: var(--muted-blue-gray);
-  --text-muted: var(--soft-lavender);
+  --background: var(--background-primary);
+  --foreground: var(--text-primary);
+  --surface: var(--background-tertiary);
+  --surface-border: var(--border-subtle);
+  --surface-border-strong: var(--border-accent);
 }
 
 @theme {
-  --color-midnight-navy: #0A1123;
+  --color-background-primary: #0B1020;
+  --color-background-secondary: #0D1427;
+  --color-background-tertiary: #10182D;
+  --color-surface-primary: #12172A;
+  --color-surface-elevated: #162040;
+  --color-surface-card: #0E1528;
+
+  --color-midnight-navy: #0B1020;
   --color-deep-blue: #10182D;
   --color-muted-blue: #3A3E6C;
-  --color-primary-lavender: #8387C3;
-  --color-soft-lavender: #8A8CAC;
-  --color-muted-blue-gray: #959BB5;
-  --color-warm-off-white: #E7E7F0;
+  --color-accent-lavender: #A39AFF;
+  --color-accent-lavender-muted: #827BCB;
+  --color-primary-lavender: #A39AFF;
+  --color-soft-lavender: #827BCB;
+  --color-muted-blue-gray: #B0AEB8;
+  --color-warm-off-white: #F0EEF4;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -45,20 +72,20 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--midnight-navy);
-  color: var(--warm-off-white);
+  background-color: #0B1020;
+  color: #F0EEF4;
 }
 
 body {
-  background-color: var(--midnight-navy);
-  color: var(--warm-off-white);
+  background-color: #0B1020;
+  color: #F0EEF4;
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
 }
 
 ::selection {
-  background: var(--muted-blue);
-  color: var(--warm-off-white);
+  background: #3A3E6C;
+  color: #F0EEF4;
 }
 
 /* Custom Scrollbar */
@@ -66,43 +93,74 @@ body {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--midnight-navy);
+  background: #0B1020;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--muted-blue);
+  background: #3A3E6C;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-lavender);
+  background: #827BCB;
 }
 
-/* Layer 4: Subtle Material Texture (Grain) */
-.bg-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E");
+/* ==========================================================================
+   5-Layer Atmospheric & Architectural Texture System
+   ========================================================================== */
+
+/* Layer 2: Subtle Asymmetrical Atmospheric Radial Lighting */
+.bg-atmospheric-canvas {
+  background-image:
+    radial-gradient(1100px 750px at 85% 10%, rgba(58, 62, 108, 0.16), transparent 70%),
+    radial-gradient(950px 700px at 15% 45%, rgba(26, 38, 74, 0.22), transparent 70%),
+    radial-gradient(1200px 850px at 80% 85%, rgba(130, 123, 203, 0.05), transparent 75%);
 }
 
-/* Layer 3: Technical Geometry (Fine Architectural Grid) */
-.bg-architectural-grid {
+/* Layer 3: Technical Blueprint Dual-Grid (Standard) */
+/* Minor: 40px (opacity 0.022) | Major: 160px (opacity 0.045) */
+.bg-blueprint-grid {
   background-image: 
-    linear-gradient(to right, rgba(58, 62, 108, 0.12) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(58, 62, 108, 0.12) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(to right, rgba(160, 170, 210, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(160, 170, 210, 0.045) 1px, transparent 1px),
+    linear-gradient(to right, rgba(160, 170, 210, 0.022) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(160, 170, 210, 0.022) 1px, transparent 1px);
+  background-size: 160px 160px, 160px 160px, 40px 40px, 40px 40px;
 }
 
-/* Section Contrast Surfaces */
-.section-base {
-  background-color: #0A1123;
-  color: #E7E7F0;
+/* Layer 3 (Hero Variant): Sharper Architectural Precision */
+/* Minor: 40px (opacity 0.032) | Major: 160px (opacity 0.065) */
+.bg-blueprint-grid-hero {
+  background-image: 
+    linear-gradient(to right, rgba(160, 170, 210, 0.065) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(160, 170, 210, 0.065) 1px, transparent 1px),
+    linear-gradient(to right, rgba(160, 170, 210, 0.032) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(160, 170, 210, 0.032) 1px, transparent 1px);
+  background-size: 160px 160px, 160px 160px, 40px 40px, 40px 40px;
+}
+
+/* Layer 4: Organic Monochromatic Film Grain Texture */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.022'/%3E%3C/svg%3E");
+}
+
+/* Layer 5: Section Depth Classes */
+.section-primary {
+  background-color: #0B1020;
+  color: #F0EEF4;
+}
+
+.section-secondary {
+  background-color: #0D1427;
+  color: #F0EEF4;
 }
 
 .section-elevated {
   background-color: #10182D;
-  color: #E7E7F0;
+  color: #F0EEF4;
 }
 
 .section-card {
-  background-color: #0D152B;
-  color: #E7E7F0;
+  background-color: #0E1528;
+  color: #F0EEF4;
 }
 
 /* Typography Helpers */
@@ -120,6 +178,15 @@ body {
 }
 
 .card-interactive:hover {
-  border-color: rgba(131, 135, 195, 0.45);
-  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5), 0 0 20px -4px rgba(131, 135, 195, 0.08);
+  border-color: rgba(163, 154, 255, 0.45);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.5), 0 0 20px -4px rgba(163, 154, 255, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

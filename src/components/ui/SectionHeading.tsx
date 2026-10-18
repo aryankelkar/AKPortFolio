@@ -27,7 +27,7 @@ export function SectionHeading({
         className={`flex items-center gap-3 mb-3 ${isCenter ? "justify-center" : ""}`}
       >
         {number && (
-          <span className="font-code text-xs font-semibold text-[#8387C3] tracking-widest uppercase">
+          <span className="font-code text-xs font-semibold text-[#A39AFF] tracking-widest uppercase">
             {number}
           </span>
         )}
@@ -35,18 +35,18 @@ export function SectionHeading({
           <span className="w-1.5 h-1.5 rounded-full bg-[#3A3E6C]" />
         )}
         {tag && (
-          <span className="font-code text-xs uppercase tracking-widest text-[#8A8CAC]">
+          <span className="font-code text-xs uppercase tracking-widest text-[#85879B]">
             {tag}
           </span>
         )}
       </div>
 
-      <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-[#E7E7F0] tracking-tight leading-[1.12]">
+      <h2 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal text-[#F0EEF4] tracking-tight leading-[1.12]">
         {title}
       </h2>
 
       {description && (
-        <p className="mt-4 text-[#959BB5] text-base sm:text-lg leading-relaxed font-sans font-light">
+        <p className="mt-4 text-[#B0AEB8] text-base sm:text-lg leading-relaxed font-sans font-light">
           {description}
         </p>
       )}

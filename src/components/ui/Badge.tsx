@@ -23,17 +23,17 @@ export function Badge({
 
   const variantStyles = {
     default:
-      "bg-[#10182D] text-[#959BB5] border border-[rgba(58,62,108,0.4)] hover:border-[rgba(131,135,195,0.45)]",
+      "bg-[#10182D] text-[#B0AEB8] border border-[rgba(160,170,210,0.14)] hover:border-[rgba(163,154,255,0.4)]",
     accent:
-      "bg-[rgba(131,135,195,0.18)] text-[#E7E7F0] border border-[rgba(131,135,195,0.4)]",
+      "bg-[rgba(163,154,255,0.14)] text-[#F0EEF4] border border-[rgba(163,154,255,0.35)]",
     outline:
-      "bg-transparent text-[#959BB5] border border-[rgba(58,62,108,0.35)] hover:text-[#E7E7F0]",
+      "bg-transparent text-[#B0AEB8] border border-[rgba(160,170,210,0.16)] hover:text-[#F0EEF4]",
     muted:
-      "bg-[#0A1123] text-[#8A8CAC] border border-[rgba(58,62,108,0.25)]",
+      "bg-[#0B1020] text-[#85879B] border border-[rgba(160,170,210,0.12)]",
     status:
-      "bg-[#162040] text-[#8387C3] border border-[rgba(131,135,195,0.35)]",
+      "bg-[#162040] text-[#A39AFF] border border-[rgba(163,154,255,0.3)]",
     lime:
-      "bg-[rgba(131,135,195,0.15)] text-[#E7E7F0] border border-[rgba(131,135,195,0.35)] font-semibold",
+      "bg-[rgba(163,154,255,0.14)] text-[#F0EEF4] border border-[rgba(163,154,255,0.35)] font-semibold",
   };
 
   return (

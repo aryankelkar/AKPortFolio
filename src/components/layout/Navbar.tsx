@@ -53,13 +53,13 @@ export function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? "bg-[#0A1123]/92 backdrop-blur-md border-b border-[rgba(58,62,108,0.35)] py-3.5 shadow-xl shadow-black/40"
-          : "bg-transparent py-5 border-b border-[rgba(58,62,108,0.2)]"
+          ? "bg-[#0B1020]/92 backdrop-blur-md border-b border-[rgba(160,170,210,0.14)] py-3.5 shadow-xl shadow-black/40"
+          : "bg-transparent py-5 border-b border-[rgba(160,170,210,0.1)]"
       }`}
     >
-      {/* Scroll Progress Indicator Line (Layer 3/4) */}
+      {/* Scroll Progress Indicator Line */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#8387C3] via-[#E7E7F0] to-[#8387C3] origin-left"
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#827BCB] via-[#F0EEF4] to-[#A39AFF] origin-left"
         style={{ scaleX }}
       />
 
@@ -68,12 +68,12 @@ export function Navbar() {
           {/* Brand */}
           <Link
             href="/"
-            className="group flex items-center gap-2.5 text-[#E7E7F0] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded"
+            className="group flex items-center gap-2.5 text-[#F0EEF4] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A39AFF] rounded"
           >
-            <span className="font-editorial text-xl sm:text-2xl font-normal tracking-wide group-hover:text-[#8387C3] transition-colors">
+            <span className="font-editorial text-xl sm:text-2xl font-normal tracking-wide group-hover:text-[#A39AFF] transition-colors">
               ARYAN KELKAR
             </span>
-            <span className="hidden sm:inline-block font-code text-[10px] text-[#8387C3] bg-[#10182D] px-2 py-0.5 rounded border border-[rgba(58,62,108,0.35)] tracking-widest">
+            <span className="hidden sm:inline-block font-code text-[10px] text-[#A39AFF] bg-[#10182D] px-2 py-0.5 rounded border border-[rgba(160,170,210,0.18)] tracking-widest">
               ARCHIVE
             </span>
           </Link>
@@ -93,10 +93,10 @@ export function Navbar() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className={`font-code text-xs tracking-widest transition-colors py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3] rounded ${
+                  className={`font-code text-xs tracking-widest transition-colors py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A39AFF] rounded ${
                     isActive
-                      ? "text-[#E7E7F0] font-semibold border-b-2 border-[#8387C3]"
-                      : "text-[#959BB5] hover:text-[#E7E7F0]"
+                      ? "text-[#F0EEF4] font-semibold border-b-2 border-[#A39AFF]"
+                      : "text-[#B0AEB8] hover:text-[#F0EEF4]"
                   }`}
                 >
                   {link.label}
@@ -109,11 +109,11 @@ export function Navbar() {
               href={profileData.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-code text-xs tracking-wider text-[#E7E7F0] bg-[#162040] hover:bg-[#1E2C58] px-4 py-2 rounded-full border border-[rgba(58,62,108,0.4)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+              className="inline-flex items-center gap-1.5 font-code text-xs tracking-wider text-[#F0EEF4] bg-[#162040] hover:bg-[#1E2C58] px-4 py-2 rounded-full border border-[rgba(160,170,210,0.2)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A39AFF]"
             >
-              <FileText className="w-3.5 h-3.5 text-[#8387C3]" />
+              <FileText className="w-3.5 h-3.5 text-[#A39AFF]" />
               <span>RÉSUMÉ</span>
-              <ArrowUpRight className="w-3 h-3 text-[#8A8CAC]" />
+              <ArrowUpRight className="w-3 h-3 text-[#85879B]" />
             </a>
           </nav>
 
@@ -121,13 +121,13 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-[#959BB5] hover:text-[#E7E7F0] hover:bg-[#10182D] border border-[rgba(58,62,108,0.3)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+            className="md:hidden p-2 rounded-lg text-[#B0AEB8] hover:text-[#F0EEF4] hover:bg-[#10182D] border border-[rgba(160,170,210,0.18)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A39AFF]"
             aria-expanded={mobileMenuOpen}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-controls="mobile-navigation"
           >
             {mobileMenuOpen ? (
-              <X className="w-5 h-5 text-[#E7E7F0]" />
+              <X className="w-5 h-5 text-[#F0EEF4]" />
             ) : (
               <Menu className="w-5 h-5" />
             )}
@@ -139,10 +139,10 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div
           id="mobile-navigation"
-          className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#0A1123]/98 backdrop-blur-xl border-t border-[rgba(58,62,108,0.35)] px-6 py-8 flex flex-col justify-between overflow-y-auto"
+          className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#0B1020]/98 backdrop-blur-xl border-t border-[rgba(160,170,210,0.18)] px-6 py-8 flex flex-col justify-between overflow-y-auto"
         >
           <div className="space-y-4">
-            <p className="font-code text-[11px] uppercase tracking-widest text-[#8387C3] mb-4">
+            <p className="font-code text-[11px] uppercase tracking-widest text-[#A39AFF] mb-4">
               [ DIRECTORY NAVIGATION ]
             </p>
             {NAV_LINKS.map((link) => {
@@ -156,10 +156,10 @@ export function Navbar() {
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-editorial text-2xl tracking-wide border-b border-[rgba(58,62,108,0.2)] transition-colors ${
+                  className={`block py-3 font-editorial text-2xl tracking-wide border-b border-[rgba(160,170,210,0.1)] transition-colors ${
                     isActive
-                      ? "text-[#8387C3] pl-2 font-medium"
-                      : "text-[#E7E7F0] hover:text-[#8387C3]"
+                      ? "text-[#A39AFF] pl-2 font-medium"
+                      : "text-[#F0EEF4] hover:text-[#A39AFF]"
                   }`}
                 >
                   {link.label}
@@ -168,19 +168,19 @@ export function Navbar() {
             })}
           </div>
 
-          <div className="pt-8 border-t border-[rgba(58,62,108,0.3)] space-y-4">
+          <div className="pt-8 border-t border-[rgba(160,170,210,0.14)] space-y-4">
             <a
               href={profileData.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 font-code text-xs tracking-wider text-[#E7E7F0] bg-[#162040] hover:bg-[#1E2C58] px-4 py-3 rounded-lg border border-[rgba(58,62,108,0.4)] transition-all"
+              className="w-full flex items-center justify-center gap-2 font-code text-xs tracking-wider text-[#F0EEF4] bg-[#162040] hover:bg-[#1E2C58] px-4 py-3 rounded-lg border border-[rgba(160,170,210,0.2)] transition-all"
             >
-              <FileText className="w-4 h-4 text-[#8387C3]" />
+              <FileText className="w-4 h-4 text-[#A39AFF]" />
               <span>VIEW RÉSUMÉ (PDF)</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-[#8A8CAC]" />
+              <ArrowUpRight className="w-3.5 h-3.5 text-[#85879B]" />
             </a>
 
-            <div className="text-center font-code text-[11px] text-[#959BB5]">
+            <div className="text-center font-code text-[11px] text-[#B0AEB8]">
               {profileData.email}
             </div>
           </div>

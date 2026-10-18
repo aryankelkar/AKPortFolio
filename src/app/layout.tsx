@@ -24,7 +24,7 @@ const monoFont = IBM_Plex_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0A1123",
+  themeColor: "#0B1020",
   width: "device-width",
   initialScale: 1,
 };
@@ -78,8 +78,15 @@ export default function RootLayout({
       lang="en"
       className={`${serifFont.variable} ${sansFont.variable} ${monoFont.variable} scroll-smooth`}
     >
-      <body className="min-h-screen bg-[#0A1123] text-[#E7E7F0] font-sans antialiased selection:bg-[#3A3E6C] selection:text-[#E7E7F0] flex flex-col">
-        {children}
+      <body className="min-h-screen bg-[#0B1020] text-[#F0EEF4] font-sans antialiased selection:bg-[#3A3E6C] selection:text-[#F0EEF4] flex flex-col relative bg-atmospheric-canvas">
+        {/* Layer 3 & Layer 4: Global Architectural Blueprint Dual Grid & Tactile Grain */}
+        <div
+          className="fixed inset-0 pointer-events-none z-0 bg-blueprint-grid bg-grain opacity-85"
+          aria-hidden="true"
+        />
+        <div className="relative z-10 flex flex-col min-h-screen">
+          {children}
+        </div>
       </body>
     </html>
   );
