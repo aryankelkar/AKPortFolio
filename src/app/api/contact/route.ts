@@ -2,8 +2,17 @@ import { NextResponse } from "next/server";
 import { profileData } from "@/data/profile";
 
 export async function POST(request: Request) {
+  let body: Record<string, unknown>;
   try {
-    const body = await request.json();
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { error: "Invalid or malformed JSON payload." },
+      { status: 400 }
+    );
+  }
+
+  try {
     const { name, email, subject, message } = body;
 
     // Strict validation
