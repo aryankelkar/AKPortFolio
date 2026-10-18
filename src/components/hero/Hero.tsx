@@ -16,14 +16,14 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const photoY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 35]);
-  const floatingPhotoY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : -25]);
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 25]);
+  const floatingPhotoY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : -20]);
 
   return (
     <section
       ref={containerRef}
       id="hero"
-      className="relative min-h-[96vh] flex flex-col justify-between pt-28 pb-12 overflow-hidden border-b border-[rgba(255,255,255,0.08)] bg-[#101116]"
+      className="relative min-h-[92vh] flex flex-col justify-between pt-24 sm:pt-28 pb-8 sm:pb-10 border-b border-[rgba(255,255,255,0.08)] bg-[#101116]"
     >
       {/* Restrained Background Atmosphere on Deep Graphite-Black (#101116) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -40,7 +40,7 @@ export function Hero() {
           initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.04, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[rgba(255,255,255,0.08)] text-[11px] font-code text-[#8A8CAC]"
+          className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-6 sm:mb-8 border-b border-[rgba(255,255,255,0.08)] text-[11px] font-code text-[#8A8CAC]"
         >
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#8387C3] animate-pulse" />
@@ -57,16 +57,16 @@ export function Hero() {
         </motion.div>
 
         {/* Main Grid: Left Typography & Right Photographic Composition */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* Left Column: Expressive Editorial Typography */}
-          <div className="lg:col-span-7 space-y-8">
+          <div className="lg:col-span-7 space-y-6 sm:space-y-8">
             {/* 2. Headline Reveal */}
             <motion.div
               initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
             >
-              <h1 className="font-editorial text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.88] select-none">
+              <h1 className="font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[6.8rem] xl:text-[7.4rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none">
                 ARYAN
                 <br />
                 <span className="italic font-light text-[#8387C3] hover:text-[#F0EEF4] transition-colors duration-300">
@@ -79,20 +79,20 @@ export function Hero() {
             <motion.p
               initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-              className="font-serif italic text-xl sm:text-2xl text-[#959BB5] max-w-xl leading-relaxed"
+              transition={{ duration: 0.4, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              className="font-serif italic text-lg sm:text-xl md:text-2xl text-[#959BB5] max-w-xl leading-relaxed"
             >
               &ldquo;{profileData.headline}&rdquo;
             </motion.p>
 
-            {/* 5. Three Disciplines — Staggered micro-reveals */}
-            <div className="space-y-3 pt-2 max-w-xl border-t border-[rgba(255,255,255,0.08)]">
+            {/* 4. Three Disciplines — Staggered micro-reveals */}
+            <div className="space-y-2.5 pt-2 max-w-xl border-t border-[rgba(255,255,255,0.08)]">
               {profileData.disciplines.map((d, idx) => (
                 <motion.div
                   key={d.name}
                   initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.38, delay: 0.34 + idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.36, delay: 0.32 + idx * 0.05, ease: [0.22, 1, 0.36, 1] }}
                   className="group flex flex-col sm:flex-row sm:items-baseline justify-between py-2 border-b border-[rgba(255,255,255,0.06)] hover:border-[rgba(131,135,195,0.4)] transition-colors"
                 >
                   <div className="flex items-center gap-2.5">
@@ -110,16 +110,16 @@ export function Hero() {
               ))}
             </div>
 
-            {/* Actions */}
+            {/* 5. Actions */}
             <motion.div
               initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.52, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-wrap items-center gap-5 pt-4"
+              transition={{ duration: 0.4, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-wrap items-center gap-5 pt-3"
             >
               <Link
                 href="/work"
-                className="btn-fluid group relative inline-flex items-center gap-2.5 font-code text-xs uppercase tracking-widest bg-[#F0EEF4] hover:bg-[#8387C3] text-[#101116] font-semibold px-7 py-4 rounded-full shadow-xl shadow-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+                className="btn-fluid group relative inline-flex items-center gap-2.5 font-code text-xs uppercase tracking-widest bg-[#F0EEF4] hover:bg-[#8387C3] text-[#101116] font-semibold px-7 py-3.5 rounded-full shadow-xl shadow-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
               >
                 <span>EXPLORE SELECTED WORK</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -127,7 +127,7 @@ export function Hero() {
 
               <Link
                 href="/about"
-                className="btn-fluid group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#F0EEF4] hover:text-[#8387C3] py-4 px-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
+                className="btn-fluid group inline-flex items-center gap-2 font-code text-xs uppercase tracking-widest text-[#F0EEF4] hover:text-[#8387C3] py-3.5 px-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8387C3]"
               >
                 <span>A LITTLE ABOUT ME</span>
                 <ArrowDownRight className="w-4 h-4 text-[#8387C3] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" />
@@ -135,22 +135,20 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* 4. Right Column: THE PHOTOGRAPHIC HERO COMPOSITION (Magazine Cover Unmasking) */}
+          {/* 6. Right Column: THE PHOTOGRAPHIC HERO COMPOSITION (Art-Directed Diptych) */}
           <motion.div
-            initial={
-              shouldReduceMotion
-                ? { opacity: 1, scale: 1 }
-                : { opacity: 0, scale: 1.03, clipPath: "inset(8% 0% 0% 0%)" }
-            }
-            animate={{ opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)" }}
-            transition={{ duration: 0.58, delay: 0.20, ease: [0.22, 1, 0.36, 1] }}
+            initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-5 relative flex justify-center lg:justify-end"
           >
-            <div className="relative w-full max-w-[380px] sm:max-w-[420px]">
-              {/* IMAGE 01 — HERO PORTRAIT */}
+            {/* Composition Framing Container: Dedicated margins and padding so NO element clips */}
+            <div className="relative pt-2 pb-8 pl-4 sm:pl-8 pr-2 w-full max-w-[360px] sm:max-w-[390px] lg:max-w-[410px]">
+              
+              {/* PRIMARY EXHIBIT FRAME (FIG. 01) */}
               <motion.div
                 style={{ y: photoY }}
-                className="relative rounded-2xl overflow-hidden bg-[#171924] border border-[rgba(255,255,255,0.12)] shadow-2xl shadow-black/80 aspect-[3/4] group"
+                className="relative rounded-2xl overflow-hidden bg-[#151720] border border-[rgba(255,255,255,0.12)] shadow-[0_25px_60px_rgba(0,0,0,0.85)] aspect-[3/4] group"
               >
                 <Image
                   src={profileData.photos.heroPortrait.src}
@@ -161,56 +159,71 @@ export function Hero() {
                   className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
                 />
 
-                {/* Editorial Vignette & Technical Watermark */}
+                {/* Cinematic Vignette */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85 pointer-events-none" />
-                <div className="absolute top-4 left-4 font-code text-[10px] text-[#F0EEF4] bg-[#101116]/85 backdrop-blur-md px-2.5 py-1 rounded border border-[rgba(255,255,255,0.12)]">
-                  FIG. 01 // IDENTITY
+
+                {/* Top Architectural Metadata Rail: Both Badges Inside the Frame */}
+                <div className="absolute top-3.5 inset-x-3.5 flex items-center justify-between pointer-events-none z-10">
+                  <div className="flex items-center gap-1.5 font-code text-[10px] text-[#F0EEF4] bg-[#101116]/85 backdrop-blur-md px-2.5 py-1 rounded border border-[rgba(255,255,255,0.12)]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#8387C3]" />
+                    <span>FIG. 01 // IDENTITY</span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 font-code text-[10px] text-[#8387C3] bg-[#101116]/85 backdrop-blur-md px-2.5 py-1 rounded border border-[rgba(255,255,255,0.12)]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>SYS_ONLINE • 2026</span>
+                  </div>
                 </div>
 
-                <div className="absolute bottom-4 left-4 right-4 pointer-events-none">
-                  <p className="font-editorial text-lg text-[#F0EEF4] font-medium leading-tight">
+                {/* Bottom-Right Identity Watermark — Positioned safely away from the floating card */}
+                <div className="absolute bottom-4 right-4 text-right pointer-events-none z-10 max-w-[190px]">
+                  <p className="font-editorial text-lg sm:text-xl text-[#F0EEF4] font-medium leading-tight drop-shadow-md">
                     Aryan Kelkar
                   </p>
-                  <p className="font-code text-[11px] text-[#959BB5] mt-0.5">
-                    {profileData.photos.heroPortrait.caption}
+                  <p className="font-code text-[10px] text-[#8387C3] mt-0.5 tracking-wider uppercase font-medium">
+                    Systems Builder
                   </p>
                 </div>
               </motion.div>
 
-              {/* IMAGE 02 — FLOATING DETAIL PORTRAIT (Overlapping Asymmetrically) */}
+              {/* SECONDARY FLOATING ACCENT EXHIBIT (FIG. 02) */}
               <motion.div
                 style={{ y: floatingPhotoY }}
-                className="absolute -bottom-8 -left-8 sm:-left-12 w-40 sm:w-48 aspect-[4/5] rounded-xl overflow-hidden bg-[#171924] border-2 border-[#8387C3]/50 shadow-2xl shadow-black/90 rotate-[-3deg] hover:rotate-0 transition-transform duration-500 group hidden sm:block"
+                className="absolute -bottom-4 -left-2 sm:-bottom-6 sm:-left-6 w-32 sm:w-44 aspect-[4/5] rounded-xl overflow-hidden bg-[#151720] border-2 border-[#8387C3]/60 shadow-[0_20px_50px_rgba(0,0,0,0.95)] rotate-[-3deg] hover:rotate-0 transition-transform duration-500 z-20 group"
               >
                 <Image
                   src={profileData.photos.floatingPortrait.src}
                   alt={profileData.photos.floatingPortrait.alt}
                   fill
-                  sizes="192px"
+                  sizes="(max-width: 640px) 128px, 176px"
                   className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-75 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-80 pointer-events-none" />
                 <div className="absolute bottom-2.5 left-2.5 right-2.5 pointer-events-none">
-                  <span className="font-code text-[9px] uppercase tracking-wider text-[#8387C3] block">
+                  <span className="font-code text-[9px] uppercase tracking-wider text-[#8387C3] block font-semibold">
                     FIG. 02 // DETAIL
                   </span>
-                  <span className="font-code text-[9px] text-[#F0EEF4] truncate block">
+                  <span className="font-code text-[10px] text-[#F0EEF4] font-medium truncate block">
                     Analytical View
                   </span>
                 </div>
               </motion.div>
 
-              {/* Corner Coordinate Badge */}
-              <div className="absolute -top-4 -right-4 bg-[#171924] border border-[rgba(255,255,255,0.12)] px-3 py-1.5 rounded-lg font-code text-[10px] text-[#8387C3] shadow-lg hidden sm:block">
-                SYS_ONLINE • 2026
+              {/* Editorial Exhibition Strip below FIG. 01 */}
+              <div className="mt-3 pt-2.5 border-t border-[rgba(255,255,255,0.08)] flex items-center justify-between text-[11px] font-code text-[#8A8CAC] px-1">
+                <span className="text-[#959BB5] truncate max-w-[240px]">
+                  {profileData.photos.heroPortrait.caption}
+                </span>
+                <span className="text-[#8387C3] font-medium shrink-0 ml-2">ARCHIVE // 01</span>
               </div>
+
             </div>
           </motion.div>
         </div>
       </div>
 
       {/* Bottom Scroll Indicator Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8 flex items-center justify-between text-xs font-code text-[#8A8CAC]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6 sm:pt-8 flex items-center justify-between text-xs font-code text-[#8A8CAC]">
         <div className="flex items-center gap-2">
           <CornerDownRight className="w-3.5 h-3.5 text-[#8387C3]" />
           <span>SCROLL TO EXPLORE ARCHIVE</span>

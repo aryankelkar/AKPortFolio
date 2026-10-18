@@ -37,10 +37,13 @@ export function Navbar() {
     restDelta: 0.001,
   });
 
-  // Track scroll position for header appearance
+  // Track scroll position for header appearance and hero active section reset
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+      if (window.scrollY < 240) {
+        setActiveSection("");
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -56,6 +59,10 @@ export function Navbar() {
 
     const observer = new IntersectionObserver(
       (entries) => {
+        if (window.scrollY < 240) {
+          setActiveSection("");
+          return;
+        }
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id);
@@ -63,7 +70,7 @@ export function Navbar() {
         });
       },
       {
-        rootMargin: "-20% 0px -60% 0px",
+        rootMargin: "-15% 0px -55% 0px",
         threshold: 0.1,
       }
     );
