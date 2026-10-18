@@ -196,9 +196,6 @@ export function Hero() {
           <CornerDownRight className="w-3.5 h-3.5 text-[#8387C3]" />
           <span>SCROLL TO EXPLORE ARCHIVE</span>
         </div>
-        <div className="hidden sm:block">
-          <span>HUMANITY + SYSTEMS</span>
-        </div>
       </div>
     </section>
   );
