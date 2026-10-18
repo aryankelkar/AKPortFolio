@@ -112,18 +112,10 @@ export function AboutSection() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85 pointer-events-none" />
 
-                {/* Top Label */}
-                <div className="absolute top-4 left-4 font-code text-[10px] text-[#F0EEF4] bg-[#101116]/85 backdrop-blur-md px-2.5 py-1 rounded border border-[rgba(255,255,255,0.12)] pointer-events-none">
-                  FIG. 03 // PERSPECTIVE
-                </div>
-
-                {/* Bottom Quote Overlay matching reference image */}
-                <div className="absolute bottom-4 left-4 right-4 pointer-events-none max-w-md">
+                {/* Bottom Quote Overlay */}
+                <div className="absolute bottom-5 left-5 right-5 pointer-events-none max-w-md">
                   <p className="font-editorial italic text-lg sm:text-xl text-[#F0EEF4] leading-snug drop-shadow-md">
                     Engineering is shaped by the world outside the terminal.
-                  </p>
-                  <p className="font-code text-[10px] text-[#8387C3] mt-1 uppercase tracking-wider">
-                    Location Study • Field Archive
                   </p>
                 </div>
               </div>

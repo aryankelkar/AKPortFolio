@@ -94,9 +94,6 @@ export default function AboutPage() {
                     className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 transition-all duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85" />
-                  <div className="absolute top-4 left-4 font-code text-[10px] text-[#F0EEF4] bg-[#101116]/90 backdrop-blur-md px-2.5 py-1 rounded border border-[rgba(255,255,255,0.08)]">
-                    FIG. 04 // BIOGRAPHY
-                  </div>
                   <div className="absolute bottom-4 left-4 right-4 text-xs font-code text-[#959BB5]">
                     {photoPersonal.caption}
                   </div>

@@ -33,19 +33,13 @@ export function ContactSection() {
                   className="object-cover object-top filter grayscale contrast-110 group-hover:grayscale-0 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#151720] via-transparent to-transparent opacity-85" />
-                <div className="absolute top-4 left-4 font-code text-[10px] text-[#F0EEF4] bg-[#111218]/90 backdrop-blur-md px-3 py-1 rounded border border-[rgba(255,255,255,0.1)]">
-                  FIG. 05 // SIGNATURE STUDY
-                </div>
 
-                <div className="absolute bottom-4 left-4 right-4">
-                  <span className="font-code text-[10px] uppercase text-[#8387C3] tracking-wider block">
-                    FINAL MEMORANDUM
-                  </span>
-                  <p className="font-editorial text-xl text-[#F0EEF4] font-medium leading-tight mt-0.5">
+                <div className="absolute bottom-5 left-5 right-5">
+                  <p className="font-editorial text-xl text-[#F0EEF4] font-medium leading-tight">
                     Aryan Kelkar
                   </p>
-                  <p className="font-code text-[11px] text-[#959BB5] mt-0.5">
-                    {photo.caption}
+                  <p className="font-code text-[11px] text-[#959BB5] mt-1">
+                    Information Technology Student & Builder
                   </p>
                 </div>
               </div>

@@ -159,20 +159,7 @@ export function Hero() {
                 {/* Cinematic Vignette */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-85 pointer-events-none" />
 
-                {/* Top Architectural Metadata Rail: Both Badges Inside the Frame */}
-                <div className="absolute top-3.5 inset-x-3.5 flex items-center justify-between pointer-events-none z-10">
-                  <div className="flex items-center gap-1.5 font-code text-[10px] text-[#F0EEF4] bg-[#101116]/85 backdrop-blur-md px-2.5 py-1 rounded border border-[rgba(255,255,255,0.12)]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#8387C3]" />
-                    <span>FIG. 01 // IDENTITY</span>
-                  </div>
-
-                  <div className="flex items-center gap-1.5 font-code text-[10px] text-[#8387C3] bg-[#101116]/85 backdrop-blur-md px-2.5 py-1 rounded border border-[rgba(255,255,255,0.12)]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>SYS_ONLINE • 2026</span>
-                  </div>
-                </div>
-
-                {/* Bottom-Right Signature Watermark — Matches Reference Concept */}
+                {/* Bottom-Right Signature Watermark — Authentic Professional Identity */}
                 <div className="absolute bottom-4 right-4 text-right pointer-events-none z-10 max-w-[210px]">
                   <p className="font-editorial italic text-2xl text-[#F0EEF4] font-medium leading-none drop-shadow-lg tracking-wide">
                     Aryan Kelkar
@@ -183,7 +170,7 @@ export function Hero() {
                 </div>
               </motion.div>
 
-              {/* SECONDARY FLOATING ACCENT EXHIBIT (FIG. 02) */}
+              {/* SECONDARY FLOATING ACCENT PORTRAIT */}
               <motion.div
                 style={{ y: floatingPhotoY }}
                 className="absolute -bottom-4 -left-2 sm:-bottom-6 sm:-left-6 w-32 sm:w-44 aspect-[4/5] rounded-xl overflow-hidden bg-[#151720] border-2 border-[#8387C3]/70 shadow-[0_20px_50px_rgba(0,0,0,0.95)] rotate-[-3deg] hover:rotate-0 transition-transform duration-500 z-20 group"
@@ -195,24 +182,8 @@ export function Hero() {
                   sizes="(max-width: 640px) 128px, 176px"
                   className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-80 pointer-events-none" />
-                <div className="absolute bottom-2.5 left-2.5 right-2.5 pointer-events-none">
-                  <span className="font-code text-[9px] uppercase tracking-wider text-[#8387C3] block font-semibold">
-                    FIG. 02 // DETAIL
-                  </span>
-                  <span className="font-code text-[10px] text-[#F0EEF4] font-medium truncate block">
-                    Analytical View OPTICAL
-                  </span>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101116] via-transparent to-transparent opacity-60 pointer-events-none" />
               </motion.div>
-
-              {/* Editorial Exhibition Strip below FIG. 01 */}
-              <div className="mt-3 pt-2.5 border-t border-[rgba(255,255,255,0.08)] flex items-center justify-between text-[11px] font-code text-[#8A8CAC] px-1">
-                <span className="text-[#959BB5] truncate max-w-[240px]">
-                  {profileData.photos.heroPortrait.caption}
-                </span>
-                <span className="text-[#8387C3] font-medium shrink-0 ml-2">ARCHIVE // 01</span>
-              </div>
 
             </div>
           </motion.div>

@@ -29,24 +29,6 @@ export function DocumentaryBreak() {
               className="object-cover object-center filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700 ease-out"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#171924]/95 hidden lg:block pointer-events-none" />
-            <motion.div
-              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -6 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, duration: 0.35 }}
-              className="absolute top-4 left-4 font-code text-[10px] text-[#F0EEF4] bg-[#101116]/85 backdrop-blur-md px-3 py-1 rounded border border-[rgba(255,255,255,0.1)] pointer-events-none"
-            >
-              FIG. 03 // DOCUMENTARY STUDY
-            </motion.div>
-            <motion.div
-              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.28, duration: 0.35 }}
-              className="absolute bottom-4 left-4 font-code text-[10px] text-[#8387C3] bg-[#101116]/85 backdrop-blur-md px-3 py-1 rounded border border-[rgba(255,255,255,0.1)] pointer-events-none"
-            >
-              DATE: {photo.date}
-            </motion.div>
           </div>
 
           {/* Editorial Narrative Column */}
