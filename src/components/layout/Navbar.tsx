@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence, useScroll, useSpring, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Menu, X, ArrowUpRight, FileText } from "lucide-react";
 import { profileData } from "@/data/profile";
 
@@ -42,14 +42,6 @@ export function Navbar() {
   const isHome = pathname === "/";
   const shouldReduceMotion = useReducedMotion();
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 260,
-    damping: 28,
-    mass: 0.25,
-    restDelta: 0.0005,
-  });
-
   const activeSpringConfig = {
     type: "spring" as const,
     stiffness: 300,
@@ -57,105 +49,71 @@ export function Navbar() {
     mass: 0.6,
   };
 
+  const wasScrolledRef = useRef(false);
+
   // High-precision scroll position and active section detection for landing page
   useEffect(() => {
     if (!isHome) {
-      const handleScroll = () => setIsScrolled(window.scrollY > 20);
+      const handleScroll = () => {
+        const scrolled = window.scrollY > 20;
+        if (scrolled !== wasScrolledRef.current) {
+          wasScrolledRef.current = scrolled;
+          setIsScrolled(scrolled);
+        }
+      };
       window.addEventListener("scroll", handleScroll, { passive: true });
       return () => window.removeEventListener("scroll", handleScroll);
     }
 
     let rafId: number | null = null;
-    // Cache section boundaries to eliminate DOM query layout thrashing during scroll
-    let cachedSections: { navId: string; top: number; height: number }[] = [];
-
-    const measureSections = () => {
-      cachedSections = HOME_SECTIONS.map((item) => {
-        const el = document.getElementById(item.id);
-        return {
-          navId: item.navId,
-          top: el ? el.offsetTop : 0,
-          height: el ? el.offsetHeight : 0,
-        };
-      }).filter((s) => s.top > 0);
-    };
-
-    const determineActiveSection = () => {
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollY > 20);
-
-      // 1. If at or near top (Hero zone), no nav link is active
-      if (scrollY < 240) {
-        setActiveSection("");
-        return;
-      }
-
-      // 2. If at bottom of page (within 100px of bottom), Contact is active
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      if (scrollY + windowHeight >= documentHeight - 100) {
-        setActiveSection("contact");
-        return;
-      }
-
-      // 3. Focal line: 35% from the top of the viewport
-      const focalPoint = scrollY + windowHeight * 0.35;
-      let matchedNavId = "";
-
-      // Find section currently crossing the focal line using cached layout bounds
-      for (const item of cachedSections) {
-        if (focalPoint >= item.top && focalPoint < item.top + item.height) {
-          matchedNavId = item.navId;
-          break;
-        }
-      }
-
-      // Fallback: If between sections, select the most recent section passed
-      if (!matchedNavId) {
-        for (let i = cachedSections.length - 1; i >= 0; i--) {
-          if (focalPoint >= cachedSections[i].top) {
-            matchedNavId = cachedSections[i].navId;
-            break;
-          }
-        }
-      }
-
-      setActiveSection(matchedNavId);
-    };
-
     const handleScroll = () => {
       if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(determineActiveSection);
+      rafId = requestAnimationFrame(() => {
+        const scrolled = window.scrollY > 20;
+        if (scrolled !== wasScrolledRef.current) {
+          wasScrolledRef.current = scrolled;
+          setIsScrolled(scrolled);
+        }
+        if (window.scrollY < 200) {
+          setActiveSection((prev) => (prev !== "" ? "" : prev));
+        }
+      });
     };
-
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-    let resizeRafId: number | null = null;
-
-    const handleResize = () => {
-      // Coalesce rapid zoom bursts: avoid forced synchronous layout thrashing (el.offsetTop) on intermediate zoom ticks
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        if (resizeRafId) cancelAnimationFrame(resizeRafId);
-        resizeRafId = requestAnimationFrame(() => {
-          measureSections();
-          determineActiveSection();
-        });
-      }, 100);
-    };
-
-    // Initial measurement and check on mount
-    measureSections();
-    determineActiveSection();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleResize, { passive: true });
+    handleScroll();
+
+    // IntersectionObserver with focal band (-20% to -55% from viewport top)
+    // Completely eliminates forced synchronous layout reflows (offsetTop / offsetHeight) during zoom and resize
+    const sectionElements = HOME_SECTIONS.map((s) => ({
+      navId: s.navId,
+      el: document.getElementById(s.id),
+    })).filter((s): s is { navId: string; el: HTMLElement } => s.el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const intersecting = entries.filter((e) => e.isIntersecting);
+        if (intersecting.length > 0) {
+          intersecting.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          const topVisible = intersecting[0];
+          const matched = sectionElements.find((s) => s.el === topVisible.target);
+          if (matched && window.scrollY >= 200) {
+            setActiveSection((prev) => (prev === matched.navId ? prev : matched.navId));
+          }
+        }
+      },
+      {
+        rootMargin: "-20% 0px -55% 0px",
+        threshold: [0, 0.1, 0.25],
+      }
+    );
+
+    sectionElements.forEach((s) => observer.observe(s.el));
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
-      if (resizeRafId) cancelAnimationFrame(resizeRafId);
-      if (resizeTimer) clearTimeout(resizeTimer);
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
+      observer.disconnect();
     };
   }, [isHome]);
 
@@ -185,18 +143,10 @@ export function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         isScrolled
-          ? "bg-[#101116]/92 backdrop-blur-md border-b border-[rgba(255,255,255,0.08)] py-3 shadow-xl shadow-black/40"
+          ? "bg-[#05040A]/95 border-b border-[rgba(255,255,255,0.08)] py-3 shadow-xl shadow-black/50"
           : "bg-transparent py-4 sm:py-5 border-b border-[rgba(255,255,255,0.05)]"
       }`}
     >
-      {/* Precision Scroll Reading Gauge */}
-      <div className="absolute bottom-0 inset-x-0 h-[2px] bg-[rgba(255,255,255,0.04)] pointer-events-none overflow-hidden">
-        <motion.div
-          className="h-full bg-gradient-to-r from-[#8387C3]/20 via-[#8387C3] to-[#F0EEF4] origin-left shadow-[0_0_10px_rgba(131,135,195,0.8)]"
-          style={{ scaleX: shouldReduceMotion ? scrollYProgress : scaleX }}
-        />
-      </div>
-
       <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="flex items-center justify-between">
           {/* Brand */}
@@ -215,7 +165,7 @@ export function Navbar() {
           {/* Desktop Navigation Dock */}
           <nav
             aria-label="Main Navigation"
-            className="hidden md:flex items-center gap-1 lg:gap-2 bg-[#171924]/75 p-1.5 rounded-full border border-[rgba(255,255,255,0.08)] backdrop-blur-md shadow-lg shadow-black/30 transition-all duration-300"
+            className="hidden md:flex items-center gap-1 lg:gap-2 bg-[#171924]/95 p-1.5 rounded-full border border-[rgba(255,255,255,0.12)] shadow-lg shadow-black/40 transition-all duration-300"
           >
             {NAV_LINKS.map((link) => {
               const isSectionActive = isHome && activeSection === link.sectionId;
@@ -322,7 +272,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
             transition={{ duration: shouldReduceMotion ? 0.05 : 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#101116]/98 backdrop-blur-xl border-t border-[rgba(255,255,255,0.10)] px-6 py-8 flex flex-col justify-between overflow-y-auto z-50"
+            className="md:hidden fixed inset-x-0 top-[61px] bottom-0 bg-[#05040A]/98 border-t border-[rgba(255,255,255,0.10)] px-6 py-8 flex flex-col justify-between overflow-y-auto z-50"
           >
             <div className="space-y-3">
               <p className="font-code text-[11px] uppercase tracking-widest text-[#8387C3] mb-4">

@@ -14,7 +14,7 @@ export function ContactSection({ showHeader = true }: ContactSectionProps) {
   const photo = profileData.photos.signaturePortrait;
 
   return (
-    <section id="contact" className="py-12 lg:py-16 relative bg-[#151720]/80 backdrop-blur-sm border-t border-[rgba(255,255,255,0.08)]">
+    <section id="contact" className="py-12 lg:py-16 relative bg-[#151720]/95 border-t border-[rgba(255,255,255,0.08)]">
       <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 relative z-10">
         {showHeader && (
           <SectionHeading

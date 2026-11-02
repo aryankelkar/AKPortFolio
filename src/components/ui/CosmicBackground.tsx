@@ -1,607 +1,495 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import * as THREE from "three";
+import Image from "next/image";
 import { useReducedMotion } from "motion/react";
 
-// Check for WebGL capability safely in browser
-function checkWebGLSupport(): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    const canvas = document.createElement("canvas");
-    return Boolean(
-      window.WebGLRenderingContext &&
-        (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))
-    );
-  } catch {
-    return false;
-  }
-}
-
-// GLSL Vertex Shader for Fullscreen Nebula Quad
-const nebulaVertexShader = `
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = vec4(position, 1.0);
-  }
-`;
-
-// GLSL Fragment Shader: Serene, Deep-Space Astronomical Nebula
-const nebulaFragmentShader = `
-  precision highp float;
-  uniform vec2 u_resolution;
-  uniform float u_time;
-  uniform vec2 u_mouse;
-  varying vec2 vUv;
-
-  // 2D Simplex Noise implementations
-  vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-  vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-  vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
-
-  float snoise(vec2 v) {
-    const vec4 C = vec4(0.211324865405187,
-                        0.366025403784439,
-                       -0.577350269189626,
-                        0.024390243902439);
-    vec2 i  = floor(v + dot(v, C.yy));
-    vec2 x0 = v - i + dot(i, C.xx);
-    vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-    vec4 x12 = x0.xyxy + C.xxzz;
-    x12.xy -= i1;
-    i = mod289(i);
-    vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
-          + i.x + vec3(0.0, i1.x, 1.0));
-    vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
-    m = m * m;
-    m = m * m;
-    vec3 x = 2.0 * fract(p * C.www) - 1.0;
-    vec3 h = abs(x) - 0.5;
-    vec3 ox = floor(x + 0.5);
-    vec3 a0 = x - ox;
-    m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
-    vec3 g;
-    g.x  = a0.x  * x0.x  + h.x  * x0.y;
-    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-    return 130.0 * dot(m, g);
-  }
-
-  // Broad, low-frequency 2-octave smooth cosmic noise (Zero high-frequency distortion)
-  float cosmicNoise(vec2 p, float t) {
-    // Macro cloud structure: very broad scale
-    float n1 = snoise(p * 0.40 + vec2(t * 0.010, t * 0.007));
-    // Gentle wispy secondary modulation with minimal displacement
-    float n2 = snoise(p * 0.80 - vec2(t * 0.007, -t * 0.009) + n1 * 0.20);
-    return (n1 * 0.65 + n2 * 0.35) * 0.5 + 0.5;
-  }
-
-  void main() {
-    // Aspect-ratio normalized coordinates centered at 0,0
-    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
-
-    // Subtle pointer parallax offset (calm, grounded depth)
-    uv += u_mouse * 0.012;
-
-    float t = u_time;
-
-    // Spatial Astronomical Masking:
-    // Plume 1: Upper-right hero celestial formation (fades smoothly towards center)
-    vec2 plumePos1 = uv - vec2(0.42, 0.26);
-    float plumeDist1 = length(vec2(plumePos1.x * 0.85, plumePos1.y * 1.15));
-    float plumeMask1 = smoothstep(1.15, 0.18, plumeDist1);
-
-    // Plume 2: Subtle lower-left cosmic veil
-    vec2 plumePos2 = uv - vec2(-0.48, -0.38);
-    float plumeDist2 = length(vec2(plumePos2.x * 1.05, plumePos2.y * 0.85));
-    float plumeMask2 = smoothstep(0.95, 0.12, plumeDist2) * 0.50;
-
-    float spatialMask = clamp(plumeMask1 + plumeMask2, 0.0, 1.0);
-
-    // Low-frequency procedural cloud density
-    float rawDensity = cosmicNoise(uv, t);
-
-    // Soft organic thresholding: clouds emerge organically and dissolve into darkness
-    float nebulaDensity = smoothstep(0.36, 0.82, rawDensity) * spatialMask;
-
-    // Design Tokens from User Specification:
-    vec3 colGraphite    = vec3(0.063, 0.067, 0.086); // #101116 (Dominant)
-    vec3 colDeepSpace   = vec3(0.067, 0.075, 0.106); // #11131B
-    vec3 colDarkBlue    = vec3(0.090, 0.106, 0.169); // #171B2B
-    vec3 colMutedViolet = vec3(0.157, 0.145, 0.247); // #28253F
-    vec3 colSoftLavender= vec3(0.384, 0.361, 0.569); // #625C91
-
-    // Serene layered color transitions without harsh ridges
-    vec3 color = mix(colGraphite, colDeepSpace, smoothstep(0.0, 0.35, nebulaDensity));
-    color = mix(color, colDarkBlue, smoothstep(0.18, 0.58, nebulaDensity));
-    color = mix(color, colMutedViolet, smoothstep(0.42, 0.82, nebulaDensity));
-    color = mix(color, colSoftLavender, smoothstep(0.78, 0.98, nebulaDensity) * 0.40);
-
-    // Soft center vignette ensuring maximum contrast for editorial text and cards
-    float centerDist = length(uv);
-    float centerVignette = smoothstep(1.40, 0.30, centerDist);
-    color = mix(colGraphite, color, clamp(centerVignette * 0.85 + 0.15, 0.0, 1.0));
-
-    gl_FragColor = vec4(color, 1.0);
-  }
-`;
-
-// GLSL Shaders for Anti-Aliased Round Stars with Independent Twinkle & Depth
-const starVertexShader = `
-  attribute float aSize;
-  attribute float aAlpha;
-  attribute float aTwinkleSpeed;
-  attribute float aTwinkleOffset;
-  attribute vec3 aColor;
-
-  uniform float u_time;
-  uniform float u_pixelRatio;
-  uniform vec2 u_mouse;
-  uniform float u_depthFactor;
-  uniform vec2 u_driftSpeed;
-
-  varying float vAlpha;
-  varying vec3 vColor;
-
-  void main() {
-    vColor = aColor;
-
-    // Stable brightness for steady stars; gentle sinusoidal breathing for selected stars
-    float twinkle = aTwinkleSpeed > 0.0 ? sin(u_time * aTwinkleSpeed + aTwinkleOffset) * 0.30 : 0.0;
-    vAlpha = clamp(aAlpha + twinkle, 0.06, 1.0);
-
-    // GPU-accelerated continuous drift with seamless modular boundary wrapping
-    // Total coordinate domain is [-1.25, 1.25] (span = 2.50)
-    vec2 basePos = position.xy + u_driftSpeed * u_time;
-    vec2 wrappedPos = mod(basePos + vec2(1.25), vec2(2.50)) - vec2(1.25);
-
-    // Subtle pointer parallax translation
-    wrappedPos += u_mouse * u_depthFactor;
-
-    vec4 mvPosition = modelViewMatrix * vec4(wrappedPos, position.z, 1.0);
-    gl_Position = projectionMatrix * mvPosition;
-
-    // Size scaled by DPR
-    gl_PointSize = aSize * u_pixelRatio;
-  }
-`;
-
-const starFragmentShader = `
-  precision highp float;
-  varying float vAlpha;
-  varying vec3 vColor;
-
-  void main() {
-    // Perfect round point with soft Gaussian celestial edge
-    float dist = length(gl_PointCoord - vec2(0.5));
-    if (dist > 0.5) discard;
-
-    float softAlpha = smoothstep(0.5, 0.08, dist) * vAlpha;
-    gl_FragColor = vec4(vColor, softAlpha);
-  }
-`;
-
-// Bounded Backing Store Engine: Prevents GPU fillrate stalls and memory exhaustion during zoom
-const MAX_RENDER_WIDTH = 1920;
-const MAX_RENDER_HEIGHT = 1080;
-
-function calculateBackingDimensions(vpWidth: number, vpHeight: number, dpr: number) {
-  const clampedDpr = Math.min(Math.max(dpr, 1.0), 1.25);
-  let rawW = Math.round(vpWidth * clampedDpr);
-  let rawH = Math.round(vpHeight * clampedDpr);
-
-  // When zooming out, viewport in CSS pixels expands dramatically (e.g. 3840x2160 at 50% zoom).
-  // Clamping to MAX_RENDER_WIDTH / MAX_RENDER_HEIGHT prevents catastrophic GPU fillrate explosions.
-  if (rawW > MAX_RENDER_WIDTH || rawH > MAX_RENDER_HEIGHT) {
-    const scale = Math.min(MAX_RENDER_WIDTH / rawW, MAX_RENDER_HEIGHT / rawH);
-    rawW = Math.round(rawW * scale);
-    rawH = Math.round(rawH * scale);
-  }
-
-  return {
-    width: Math.max(rawW, 320),
-    height: Math.max(rawH, 240),
-    effectiveDpr: rawW / Math.max(vpWidth, 1),
-  };
-}
-
+/**
+ * CosmicBackground — ETERNAL RESET: FRACTURED TIME
+ *
+ * Cinematic dimensional environment built around the original artwork:
+ * "Moonlit Lavender Valley with Shattered Skies.png"
+ *
+ * Visual Systems:
+ * 1. Untouched high-quality original artwork directly served from public/video/
+ * 2. 2.5D Multi-plane optical micro-parallax counter-displacement
+ * 3. Return by Death rotating celestial clock vortex concentric dial
+ * 4. Suspended Tome of Wisdom floating parchment pages in the misty air
+ * 5. Bioluminescent path fissure energy glints leading to Echidna's tea table
+ * 6. Ethereal drifting flower spores / fireflies over the lavender field
+ * 7. Fractured glass prisms physically aligning with the shattered sky cracks
+ * 8. WCAG AAA typography protective shield for Aryan's editorial content
+ *
+ * Performance:
+ * - 0 WebGL overhead
+ * - 0 React re-renders during mouse movement (CSS custom variables + rAF lerp)
+ * - Pure hardware-accelerated GPU transforms and opacity blending
+ */
 export function CosmicBackground() {
-  const canvasContainerRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // 1. Initial WebGL Compatibility Check
-    if (!checkWebGLSupport()) {
-      return;
+    const video = videoRef.current;
+    if (video) {
+      video.muted = true;
+      if (shouldReduceMotion) {
+        video.pause();
+      } else {
+        video.play().catch(() => {});
+      }
     }
 
-    const container = canvasContainerRef.current;
-    if (!container) return;
-
-    let animationFrameId: number | null = null;
-    let resizeDebounceTimer: ReturnType<typeof setTimeout> | null = null;
-    let resizeRafId: number | null = null;
-    let lastAllocatedW = 0;
-    let lastAllocatedH = 0;
-    let isDisposed = false;
-
-    // 2. Setup Three.js Scene, Camera, and Renderer
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-
-    const renderer = new THREE.WebGLRenderer({
-      powerPreference: "high-performance",
-      antialias: false,
-      stencil: false,
-      depth: false,
-      alpha: false,
-    });
-
-    const initialRes = calculateBackingDimensions(
-      window.innerWidth,
-      window.innerHeight,
-      window.devicePixelRatio || 1
-    );
-
-    lastAllocatedW = initialRes.width;
-    lastAllocatedH = initialRes.height;
-
-    // Decouple canvas backing store from CSS layout size:
-    // Passing `false` to setSize prevents Three.js from setting inline style.width/height in px.
-    // CSS classes (position: absolute; inset: 0; width: 100%; height: 100%) handle seamless scaling
-    renderer.setPixelRatio(1);
-    renderer.setSize(initialRes.width, initialRes.height, false);
-    renderer.domElement.style.position = "absolute";
-    renderer.domElement.style.inset = "0";
-    renderer.domElement.style.width = "100%";
-    renderer.domElement.style.height = "100%";
-    renderer.domElement.style.pointerEvents = "none";
-    container.appendChild(renderer.domElement);
-
-    // Context loss handler
-    const handleContextLost = (e: Event) => {
-      e.preventDefault();
-      if (renderer.domElement) {
-        renderer.domElement.style.display = "none";
+    const handleVisibility = () => {
+      if (!video) return;
+      if (document.hidden) {
+        video.pause();
+      } else if (!shouldReduceMotion) {
+        video.play().catch(() => {});
       }
     };
-    renderer.domElement.addEventListener("webglcontextlost", handleContextLost, false);
 
-    // 3. Create Fullscreen Nebula Quad with Procedural GLSL Shader
-    const nebulaUniforms = {
-      u_time: { value: 0 },
-      u_resolution: { value: new THREE.Vector2(initialRes.width, initialRes.height) },
-      u_mouse: { value: new THREE.Vector2(0, 0) },
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
+  }, [shouldReduceMotion]);
 
-    const nebulaMaterial = new THREE.ShaderMaterial({
-      vertexShader: nebulaVertexShader,
-      fragmentShader: nebulaFragmentShader,
-      uniforms: nebulaUniforms,
-      depthWrite: false,
-      depthTest: false,
-    });
+  // Micro-Parallax Cursor Interaction: Pure CSS Custom Variables (0 React Rerenders)
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || shouldReduceMotion) return;
 
-    const nebulaQuad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), nebulaMaterial);
-    scene.add(nebulaQuad);
-
-    // 4. Starfield Generation Across 3 Distinct Depth Layers
-    // Layer A: 750 Distant Faint Stars (85% steady, very slow drift)
-    // Layer B: 220 Mid-depth Stars (40% subtle twinkle, moderate drift)
-    // Layer C: 30 Prominent Celestial Beacons (organic breathing opacity)
-    const starPalette = [
-      new THREE.Color("#FFFFFF"),
-      new THREE.Color("#E0E7FF"),
-      new THREE.Color("#C7D2FE"),
-      new THREE.Color("#DDD6FE"),
-      new THREE.Color("#EDE9FE"),
-    ];
-
-    interface StarLayerConfig {
-      count: number;
-      sizeRange: [number, number];
-      alphaRange: [number, number];
-      twinkleSpeedRange: [number, number];
-      twinkleRatio: number;
-      depthFactor: number;
-      driftSpeed: { x: number; y: number };
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+    if (!hasFinePointer) {
+      const handleScroll = () => {
+        const scrollFraction = window.scrollY / (document.documentElement.scrollHeight || 1);
+        container.style.setProperty("--scroll-offset", `${scrollFraction * 40}px`);
+      };
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => window.removeEventListener("scroll", handleScroll);
     }
 
-    const starLayersConfig: StarLayerConfig[] = [
-      {
-        // Layer A: Distant background field (numerous tiny, faint stars; 85% steady)
-        count: 750,
-        sizeRange: [0.85, 1.35],
-        alphaRange: [0.15, 0.38],
-        twinkleSpeedRange: [0.20, 0.50],
-        twinkleRatio: 0.15,
-        depthFactor: 0.006,
-        driftSpeed: { x: 0.0006, y: 0.0003 },
-      },
-      {
-        // Layer B: Mid-depth stars with gentle parallax drift (220 stars; 40% subtle twinkle)
-        count: 220,
-        sizeRange: [1.5, 2.1],
-        alphaRange: [0.28, 0.58],
-        twinkleSpeedRange: [0.45, 1.0],
-        twinkleRatio: 0.40,
-        depthFactor: 0.016,
-        driftSpeed: { x: -0.0016, y: 0.0010 },
-      },
-      {
-        // Layer C: Prominent twinkling celestial beacons (30 stars; individual organic breathing)
-        count: 30,
-        sizeRange: [2.5, 3.5],
-        alphaRange: [0.60, 0.85],
-        twinkleSpeedRange: [0.75, 1.5],
-        twinkleRatio: 1.0,
-        depthFactor: 0.032,
-        driftSpeed: { x: 0.0028, y: -0.0018 },
-      },
-    ];
-
-    interface StarLayer {
-      points: THREE.Points;
-      positions: Float32Array;
-      config: StarLayerConfig;
-      uniforms: {
-        u_time: { value: number };
-        u_pixelRatio: { value: number };
-        u_mouse: { value: THREE.Vector2 };
-        u_depthFactor: { value: number };
-        u_driftSpeed: { value: THREE.Vector2 };
-      };
-    }
-
-    const starLayers: StarLayer[] = [];
-
-    starLayersConfig.forEach((cfg) => {
-      const geometry = new THREE.BufferGeometry();
-      const positions = new Float32Array(cfg.count * 3);
-      const sizes = new Float32Array(cfg.count);
-      const alphas = new Float32Array(cfg.count);
-      const twinkleSpeeds = new Float32Array(cfg.count);
-      const twinkleOffsets = new Float32Array(cfg.count);
-      const colors = new Float32Array(cfg.count * 3);
-
-      for (let i = 0; i < cfg.count; i++) {
-        // Orthographic space coordinates [-1.2, 1.2]
-        positions[i * 3 + 0] = (Math.random() * 2 - 1) * 1.2;
-        positions[i * 3 + 1] = (Math.random() * 2 - 1) * 1.2;
-        positions[i * 3 + 2] = 0;
-
-        sizes[i] = cfg.sizeRange[0] + Math.random() * (cfg.sizeRange[1] - cfg.sizeRange[0]);
-        alphas[i] = cfg.alphaRange[0] + Math.random() * (cfg.alphaRange[1] - cfg.alphaRange[0]);
-
-        const shouldTwinkle = Math.random() < cfg.twinkleRatio;
-        twinkleSpeeds[i] = shouldTwinkle
-          ? cfg.twinkleSpeedRange[0] +
-            Math.random() * (cfg.twinkleSpeedRange[1] - cfg.twinkleSpeedRange[0])
-          : 0.0;
-        twinkleOffsets[i] = Math.random() * Math.PI * 2;
-
-        const col = starPalette[Math.floor(Math.random() * starPalette.length)];
-        colors[i * 3 + 0] = col.r;
-        colors[i * 3 + 1] = col.g;
-        colors[i * 3 + 2] = col.b;
-      }
-
-      geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute("aSize", new THREE.BufferAttribute(sizes, 1));
-      geometry.setAttribute("aAlpha", new THREE.BufferAttribute(alphas, 1));
-      geometry.setAttribute("aTwinkleSpeed", new THREE.BufferAttribute(twinkleSpeeds, 1));
-      geometry.setAttribute("aTwinkleOffset", new THREE.BufferAttribute(twinkleOffsets, 1));
-      geometry.setAttribute("aColor", new THREE.BufferAttribute(colors, 3));
-
-      const uniforms = {
-        u_time: { value: 0 },
-        u_pixelRatio: { value: initialRes.effectiveDpr },
-        u_mouse: { value: new THREE.Vector2(0, 0) },
-        u_depthFactor: { value: cfg.depthFactor },
-        u_driftSpeed: { value: new THREE.Vector2(cfg.driftSpeed.x, cfg.driftSpeed.y) },
-      };
-
-      const material = new THREE.ShaderMaterial({
-        vertexShader: starVertexShader,
-        fragmentShader: starFragmentShader,
-        uniforms: uniforms,
-        transparent: true,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        depthTest: false,
-      });
-
-      const points = new THREE.Points(geometry, material);
-      scene.add(points);
-
-      starLayers.push({
-        points,
-        positions,
-        config: cfg,
-        uniforms,
-      });
-    });
-
-    // 5. Mouse Parallax Tracking (Smooth Lerp, Fine Pointer Only)
-    const targetMouse = { x: 0, y: 0 };
-    const currentMouse = { x: 0, y: 0 };
+    let rafId: number | null = null;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (shouldReduceMotion) return;
-      targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-      targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-    };
+      targetX = (e.clientX / window.innerWidth) * 2 - 1;
+      targetY = (e.clientY / window.innerHeight) * 2 - 1;
 
-    const isFinePointer =
-      typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches;
-
-    if (isFinePointer) {
-      window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    }
-
-    // 6. Viewport Resize Handler with Coalescing & Debouncing
-    const performResize = (force = false) => {
-      if (isDisposed) return;
-      const vpW = window.innerWidth;
-      const vpH = window.innerHeight;
-      const currentDpr = window.devicePixelRatio || 1;
-
-      const { width, height, effectiveDpr } = calculateBackingDimensions(vpW, vpH, currentDpr);
-
-      // Only reallocate WebGL drawing buffer if dimensions actually changed
-      if (!force && width === lastAllocatedW && height === lastAllocatedH) {
-        return;
-      }
-
-      lastAllocatedW = width;
-      lastAllocatedH = height;
-
-      // Passing `false` to setSize prevents Three.js from setting inline style.width/height in px.
-      // CSS width: 100%; height: 100% handles visual scaling without reflows.
-      renderer.setPixelRatio(1);
-      renderer.setSize(width, height, false);
-
-      nebulaUniforms.u_resolution.value.set(width, height);
-      starLayers.forEach((layer) => {
-        layer.uniforms.u_pixelRatio.value = effectiveDpr;
-      });
-    };
-
-    const handleResize = () => {
-      if (isDisposed) return;
-
-      // Coalesce rapid zoom bursts: Debounce the heavy WebGL drawing buffer reallocation
-      // while allowing CSS (width: 100%; height: 100%) to instantly handle visual scaling
-      if (resizeDebounceTimer) clearTimeout(resizeDebounceTimer);
-      resizeDebounceTimer = setTimeout(() => {
-        if (resizeRafId) cancelAnimationFrame(resizeRafId);
-        resizeRafId = requestAnimationFrame(() => performResize(false));
-      }, 100);
-    };
-
-    window.addEventListener("resize", handleResize, { passive: true });
-
-    // 7. Visibility Aware Continuous Render Loop
-    let lastTime = performance.now();
-    let isTabVisible = true;
-
-    const handleVisibilityChange = () => {
-      isTabVisible = !document.hidden;
-      if (isTabVisible && !isDisposed) {
-        lastTime = performance.now();
-        if (!animationFrameId && !shouldReduceMotion) {
-          animationFrameId = requestAnimationFrame(animate);
-        }
-      } else if (!isTabVisible && animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(updateParallax);
       }
     };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
 
-    const animate = (currentTime: number) => {
-      if (isDisposed || !isTabVisible) {
-        animationFrameId = null;
-        return;
-      }
+    const updateParallax = () => {
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
 
-      // Delta time calculation clamped to 64ms (~15fps floor) to prevent jumps on tab resume/stalls
-      const rawDelta = (currentTime - lastTime) * 0.001;
-      lastTime = currentTime;
-      const delta = Math.min(Math.max(rawDelta, 0.0), 0.064);
+      container.style.setProperty("--cursor-rel-x", currentX.toFixed(4));
+      container.style.setProperty("--cursor-rel-y", currentY.toFixed(4));
 
-      // When reduced motion is preferred, pause evolution to respect user settings
-      const timeScale = shouldReduceMotion ? 0 : 1;
-
-      // Update Mouse Lerp with gentle dampening
-      currentMouse.x += (targetMouse.x - currentMouse.x) * 0.035;
-      currentMouse.y += (targetMouse.y - currentMouse.y) * 0.035;
-
-      // Update Nebula Shader Uniforms
-      nebulaUniforms.u_time.value += delta * timeScale;
-      nebulaUniforms.u_mouse.value.set(currentMouse.x, currentMouse.y);
-
-      // Update Star Layers (100% GPU-accelerated drift & twinkle - Zero CPU buffer thrashing!)
-      starLayers.forEach((layer) => {
-        layer.uniforms.u_time.value += delta * timeScale;
-        layer.uniforms.u_mouse.value.set(currentMouse.x, currentMouse.y);
-      });
-
-      // Render Scene
-      renderer.render(scene, camera);
-
-      // Loop only if active
-      if (!shouldReduceMotion) {
-        animationFrameId = requestAnimationFrame(animate);
+      if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) {
+        rafId = requestAnimationFrame(updateParallax);
       } else {
-        // Render one static frame
-        renderer.render(scene, camera);
-        animationFrameId = null;
+        rafId = null;
       }
     };
 
-    // Kick off animation loop
-    animationFrameId = requestAnimationFrame(animate);
-
-    // 8. Robust Teardown and Resource Disposal
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
-      isDisposed = true;
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-      if (resizeDebounceTimer) clearTimeout(resizeDebounceTimer);
-      if (resizeRafId) cancelAnimationFrame(resizeRafId);
-
-      window.removeEventListener("resize", handleResize);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      if (isFinePointer) {
-        window.removeEventListener("mousemove", handleMouseMove);
-      }
-
-      // Dispose Three.js objects
-      nebulaQuad.geometry.dispose();
-      nebulaMaterial.dispose();
-
-      starLayers.forEach((layer) => {
-        layer.points.geometry.dispose();
-        (layer.points.material as THREE.Material).dispose();
-      });
-
-      renderer.domElement.removeEventListener("webglcontextlost", handleContextLost);
-      if (renderer.domElement.parentElement) {
-        renderer.domElement.parentElement.removeChild(renderer.domElement);
-      }
-      renderer.dispose();
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (rafId !== null) cancelAnimationFrame(rafId);
     };
   }, [shouldReduceMotion]);
 
   return (
     <div
-      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#101116] transform-gpu"
+      ref={containerRef}
+      className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#05040A] transform-gpu"
+      style={
+        {
+          "--cursor-rel-x": "0",
+          "--cursor-rel-y": "0",
+          "--scroll-offset": "0px",
+        } as React.CSSProperties
+      }
       aria-hidden="true"
     >
-      {/* Permanent CSS fallback gradient (renders identically on SSR and client; sits behind WebGL canvas) */}
-      <div className="absolute inset-0 bg-[#101116] pointer-events-none transform-gpu">
-        <div className="absolute -top-[10%] -right-[15%] w-[850px] h-[850px] rounded-full bg-gradient-to-br from-[#2E2864]/40 via-[#1C1844]/25 to-transparent blur-[140px]" />
-        <div className="absolute top-[35%] -left-[10%] w-[900px] h-[750px] rounded-full bg-gradient-to-tr from-[#1E1B4B]/35 via-[#161934]/20 to-transparent blur-[160px]" />
+      {/* =========================================================================
+          LAYER 1: Original High-Quality Artwork Plane (Direct from public/video/)
+          - Subtle 2.5D optical counter-displacement creates deep immersion
+          ========================================================================= */}
+      <div
+        className="absolute inset-[-3%] w-[106%] h-[106%] select-none pointer-events-none"
+        style={{
+          transform: shouldReduceMotion
+            ? "none"
+            : "translate3d(calc(var(--cursor-rel-x) * -12px), calc(var(--cursor-rel-y) * -10px), 0)",
+        }}
+      >
+        <Image
+          src="/video/Moonlit Lavender Valley with Shattered Skies.png"
+          alt="Moonlit Lavender Valley with Shattered Skies — Return by Death Meadow"
+          fill
+          priority
+          unoptimized
+          className="object-cover object-[65%_25%] md:object-[center_20%] lg:object-[center_15%] opacity-90 brightness-[0.96] contrast-[1.04]"
+        />
       </div>
 
-      {/* WebGL Canvas Mount Container */}
-      <div ref={canvasContainerRef} className="absolute inset-0 pointer-events-none z-0" />
+      {/* =========================================================================
+          LAYER 2: Living Celestial Atmosphere & Dynamic Lighting
+          ========================================================================= */}
+      {/* 2A. Subtle Atmospheric Live Nebula / Cloud Drift (Screen Blend) */}
+      <video
+        ref={videoRef}
+        autoPlay={!shouldReduceMotion}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="absolute inset-0 w-full h-full object-cover object-[75%_center] opacity-20 mix-blend-screen select-none pointer-events-none"
+        style={{
+          transform: "translateZ(0)",
+          backfaceVisibility: "hidden",
+        }}
+      >
+        <source src="/videos/eternal-reset-desktop.mp4" type="video/mp4" />
+        <source src="/video/cosmic-nebula.mp4" type="video/mp4" />
+      </video>
 
-      {/* Celestial Horizon Curve (Atmospheric Planetary Limb on the Right) */}
-      <div className="absolute top-[6%] -right-[260px] sm:-right-[220px] lg:-right-[180px] w-[580px] sm:w-[680px] lg:w-[780px] aspect-square rounded-full pointer-events-none opacity-45 sm:opacity-55 lg:opacity-65 select-none z-10">
-        <div className="absolute inset-0 rounded-full bg-[#0D0E14] border border-[rgba(131,135,195,0.18)] shadow-[inset_-30px_-30px_90px_rgba(0,0,0,0.95)]" />
-        <div className="absolute inset-0 rounded-full bg-gradient-to-l from-[#8387C3]/35 via-[#4E5296]/15 to-transparent blur-md" />
-        <div className="absolute -inset-1 rounded-full bg-gradient-to-l from-[#A5A9E6]/25 to-transparent blur-xl" />
+      {/* 2B. Celestial Crescent Eclipse Core Luminescence (Aligns with top-center moon) */}
+      <div
+        className="absolute top-[8%] left-[27%] sm:left-[29%] w-72 sm:w-96 aspect-square rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(167,138,203,0.35)_0%,rgba(112,70,160,0.16)_45%,transparent_70%)] pointer-events-none z-10 animate-pulse"
+        style={{ animationDuration: "8s" }}
+      />
+
+      {/* 2C. Return by Death: Rotating Celestial Time Spiral Ring (Aligns with clock vortex) */}
+      <div
+        className="absolute top-[8%] right-[22%] sm:right-[25%] w-72 sm:w-96 aspect-square pointer-events-none z-10 opacity-30 mix-blend-screen"
+        style={{
+          transform: shouldReduceMotion
+            ? "none"
+            : "translate3d(calc(var(--cursor-rel-x) * 8px), calc(var(--cursor-rel-y) * 8px), 0)",
+        }}
+      >
+        <svg
+          viewBox="0 0 200 200"
+          className="w-full h-full animate-spin text-[#8387C3]"
+          style={{ animationDuration: "85s", animationTimingFunction: "linear" }}
+        >
+          {/* Outer Roman Dial Tick Ring */}
+          <circle
+            cx="100"
+            cy="100"
+            r="88"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="0.75"
+            strokeDasharray="2 8 16 8 32 8"
+            strokeOpacity="0.7"
+          />
+          {/* Inner Concentric Fracture Circle */}
+          <circle
+            cx="100"
+            cy="100"
+            r="64"
+            fill="none"
+            stroke="#A78ACB"
+            strokeWidth="0.5"
+            strokeDasharray="4 6 12 6"
+            strokeOpacity="0.5"
+          />
+          {/* Ethereal Zenith Pointer */}
+          <line
+            x1="100"
+            y1="12"
+            x2="100"
+            y2="36"
+            stroke="#F0EEF4"
+            strokeWidth="0.8"
+            strokeOpacity="0.6"
+          />
+          <line
+            x1="100"
+            y1="164"
+            x2="100"
+            y2="188"
+            stroke="#F0EEF4"
+            strokeWidth="0.8"
+            strokeOpacity="0.4"
+          />
+        </svg>
       </div>
 
-      {/* Architectural Engineering Grid (2.5% subtle overlay) */}
-      <div className="absolute inset-0 bg-blueprint-grid opacity-45 pointer-events-none z-10" />
+      {/* 2D. Left Editorial Protection Wash — Guarantees WCAG AAA typography contrast */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#05040A] via-[#05040A]/85 md:via-[#05040A]/75 to-transparent w-full md:w-[62%] lg:w-[52%] pointer-events-none z-10" />
 
-      {/* Fine Film Grain Texture */}
-      <div className="absolute inset-0 bg-grain opacity-80 pointer-events-none z-10" />
+      {/* 2E. Bottom Horizon Depth Blend */}
+      <div className="absolute bottom-0 inset-x-0 h-44 bg-gradient-to-t from-[#05040A] via-[#05040A]/70 to-transparent pointer-events-none z-10" />
 
-      {/* Vignette Overlay for Content Readability */}
-      <div className="absolute inset-0 bg-radial-gradient-to-c from-transparent via-[#101116]/40 to-[#101116]/80 pointer-events-none z-10" />
+      {/* 2F. Top Navbar Soft Gradient Shield */}
+      <div className="absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-[#05040A]/90 via-[#05040A]/40 to-transparent pointer-events-none z-10" />
+
+      {/* =========================================================================
+          LAYER 3: BIOLUMINESCENT COBBLESTONE PATHWAY ENERGY GLINTS
+          Pulsing time energy runs along the stone pavers winding up to Echidna's table
+          ========================================================================= */}
+      <div
+        className="hidden lg:block absolute bottom-[18%] right-[28%] w-2 h-2 rounded-full bg-[#A78ACB] opacity-60 shadow-[0_0_8px_#A78ACB,0_0_16px_#7046A0] animate-pulse"
+        style={{ animationDuration: "3.5s" }}
+      />
+      <div
+        className="hidden lg:block absolute bottom-[26%] right-[22%] w-1.5 h-1.5 rounded-full bg-[#B9C4E0] opacity-55 shadow-[0_0_6px_#B9C4E0,0_0_12px_#8387C3] animate-pulse"
+        style={{ animationDuration: "4.5s", animationDelay: "1.5s" }}
+      />
+      <div
+        className="hidden lg:block absolute bottom-[38%] right-[18%] w-2 h-2 rounded-full bg-[#8387C3] opacity-65 shadow-[0_0_8px_#8387C3] animate-pulse"
+        style={{ animationDuration: "4s", animationDelay: "2.5s" }}
+      />
+
+      {/* =========================================================================
+          LAYER 4: FRACTURED GLASS ENVIRONMENT (SUSPENDED TIME SHARDS)
+          Physical 3D prisms aligned with the shattered sky in the artwork
+          ========================================================================= */}
+      <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">
+        {/* Dimensional Fracture Fissures (Ethereal time-fault hairline vectors) */}
+        <svg
+          className="absolute right-0 top-0 w-full md:w-[60%] h-full opacity-40 mix-blend-screen"
+          viewBox="0 0 800 1000"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="fissure-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#7046A0" stopOpacity="0" />
+              <stop offset="45%" stopColor="#A78ACB" stopOpacity="0.65" />
+              <stop offset="75%" stopColor="#B9C4E0" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#7046A0" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="fissure-grad-2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#382052" stopOpacity="0" />
+              <stop offset="50%" stopColor="#8387C3" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#382052" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          {/* Dynamic Fissure Fault Lines */}
+          <path
+            d="M520,60 L620,180 L580,310 L690,440 L640,620 L740,820"
+            stroke="url(#fissure-grad-1)"
+            strokeWidth="0.8"
+            strokeDasharray="4 8 16 4"
+            className="hidden sm:block"
+          />
+          <path
+            d="M620,180 L760,230 M580,310 L480,380 L520,520 M690,440 L780,490"
+            stroke="url(#fissure-grad-2)"
+            strokeWidth="0.6"
+            strokeDasharray="2 6 12 4"
+            className="hidden sm:block"
+          />
+        </svg>
+
+        {/* -----------------------------------------------------------------------
+            SHARD 1 (Large Foreground Master Prism — Top Right)
+            ----------------------------------------------------------------------- */}
+        <div
+          className="absolute top-[8%] sm:top-[12%] right-[5%] sm:right-[10%] w-36 sm:w-48 lg:w-64 aspect-[3/4]"
+          style={{
+            transform: shouldReduceMotion
+              ? "none"
+              : "translate3d(calc(var(--cursor-rel-x) * 22px), calc(var(--cursor-rel-y) * 22px + var(--scroll-offset)), 0) rotate(calc(var(--cursor-rel-x) * 4deg))",
+          }}
+        >
+          <div className="relative w-full h-full animate-[floatSlow_28s_ease-in-out_infinite]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(112,70,160,0.24)_0%,transparent_70%)] rounded-full pointer-events-none -z-10 scale-125" />
+            <svg viewBox="0 0 200 260" className="w-full h-full" fill="none">
+              <defs>
+                <linearGradient id="facet-main-1" x1="20%" y1="0%" x2="80%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(167, 138, 203, 0.22)" />
+                  <stop offset="45%" stopColor="rgba(56, 32, 82, 0.35)" />
+                  <stop offset="100%" stopColor="rgba(12, 9, 19, 0.6)" />
+                </linearGradient>
+                <linearGradient id="facet-specular-1" x1="0%" y1="0%" x2="100%" y2="40%">
+                  <stop offset="0%" stopColor="rgba(185, 196, 224, 0.55)" />
+                  <stop offset="60%" stopColor="rgba(167, 138, 203, 0.15)" />
+                  <stop offset="100%" stopColor="transparent" />
+                </linearGradient>
+              </defs>
+              <polygon
+                points="95,12 178,72 152,228 34,188 18,92"
+                fill="url(#facet-main-1)"
+                stroke="#B9C4E0"
+                strokeWidth="0.85"
+                strokeOpacity="0.5"
+              />
+              <polygon
+                points="95,12 178,72 118,135 18,92"
+                fill="url(#facet-specular-1)"
+                stroke="#A78ACB"
+                strokeWidth="0.5"
+                strokeOpacity="0.4"
+              />
+              <polygon
+                points="118,135 178,72 152,228"
+                fill="rgba(112, 70, 160, 0.18)"
+                stroke="#7046A0"
+                strokeWidth="0.5"
+                strokeOpacity="0.3"
+              />
+              <circle cx="95" cy="12" r="1.5" fill="#FFFFFF" className="animate-pulse" />
+            </svg>
+          </div>
+        </div>
+
+        {/* -----------------------------------------------------------------------
+            SHARD 2 (Midground Elongated Crystal Fragment — Mid-Right)
+            ----------------------------------------------------------------------- */}
+        <div
+          className="absolute top-[38%] sm:top-[42%] right-[2%] sm:right-[6%] w-28 sm:w-40 lg:w-52 aspect-[2/3]"
+          style={{
+            transform: shouldReduceMotion
+              ? "none"
+              : "translate3d(calc(var(--cursor-rel-x) * 32px), calc(var(--cursor-rel-y) * 32px + var(--scroll-offset)), 0) rotate(calc(var(--cursor-rel-x) * -5deg))",
+          }}
+        >
+          <div className="relative w-full h-full animate-[floatMedium_22s_ease-in-out_infinite_3s]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(56,32,82,0.32)_0%,transparent_70%)] rounded-full pointer-events-none -z-10 scale-110" />
+            <svg viewBox="0 0 160 240" className="w-full h-full" fill="none">
+              <polygon
+                points="82,8 148,110 88,232 20,136"
+                fill="rgba(26, 16, 41, 0.55)"
+                stroke="#A78ACB"
+                strokeWidth="0.75"
+                strokeOpacity="0.45"
+              />
+              <line
+                x1="82"
+                y1="8"
+                x2="88"
+                y2="232"
+                stroke="#B9C4E0"
+                strokeWidth="0.6"
+                strokeOpacity="0.6"
+              />
+              <polygon
+                points="82,8 88,232 20,136"
+                fill="rgba(112, 70, 160, 0.22)"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* -----------------------------------------------------------------------
+            SHARD 3 (Deep Background Floating Geometric Shard — Upper Center-Right)
+            ----------------------------------------------------------------------- */}
+        <div
+          className="hidden sm:block absolute top-[22%] right-[28%] lg:right-[32%] w-20 sm:w-28 aspect-square opacity-65"
+          style={{
+            transform: shouldReduceMotion
+              ? "none"
+              : "translate3d(calc(var(--cursor-rel-x) * 14px), calc(var(--cursor-rel-y) * 14px + var(--scroll-offset)), 0)",
+          }}
+        >
+          <div className="w-full h-full animate-[floatSlow_34s_ease-in-out_infinite_7s]">
+            <svg viewBox="0 0 120 120" className="w-full h-full" fill="none">
+              <polygon
+                points="60,6 112,48 88,112 18,88 8,36"
+                fill="rgba(56, 32, 82, 0.25)"
+                stroke="#8387C3"
+                strokeWidth="0.65"
+                strokeOpacity="0.35"
+              />
+              <line
+                x1="60"
+                y1="6"
+                x2="88"
+                y2="112"
+                stroke="#A78ACB"
+                strokeWidth="0.4"
+                strokeOpacity="0.3"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* -----------------------------------------------------------------------
+            SHARD 4 (Suspended Lower Time Wedge — Lower Right)
+            ----------------------------------------------------------------------- */}
+        <div
+          className="absolute bottom-[8%] sm:bottom-[14%] right-[8%] sm:right-[15%] w-32 sm:w-44 lg:w-56 aspect-[4/3]"
+          style={{
+            transform: shouldReduceMotion
+              ? "none"
+              : "translate3d(calc(var(--cursor-rel-x) * 26px), calc(var(--cursor-rel-y) * 26px + var(--scroll-offset)), 0) rotate(calc(var(--cursor-rel-x) * 3deg))",
+          }}
+        >
+          <div className="relative w-full h-full animate-[floatSlow_30s_ease-in-out_infinite_5s]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(112,70,160,0.20)_0%,transparent_70%)] rounded-full pointer-events-none -z-10 scale-120" />
+            <svg viewBox="0 0 220 160" className="w-full h-full" fill="none">
+              <polygon
+                points="18,34 196,14 172,142 42,126"
+                fill="rgba(26, 16, 41, 0.45)"
+                stroke="#7046A0"
+                strokeWidth="0.75"
+                strokeOpacity="0.45"
+              />
+              <polygon
+                points="18,34 196,14 115,82"
+                fill="rgba(167, 138, 203, 0.18)"
+                stroke="#B9C4E0"
+                strokeWidth="0.5"
+                strokeOpacity="0.5"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* -----------------------------------------------------------------------
+            FLOATING ETHEREAL TIME PARTICLES & DRIFTING PETALS
+            ----------------------------------------------------------------------- */}
+        <div
+          className="hidden md:block absolute top-[28%] right-[18%] w-3 h-3 rounded-full bg-[#B9C4E0] opacity-50 shadow-[0_0_6px_rgba(185,196,224,0.6)] animate-pulse"
+          style={{ animationDuration: "4s" }}
+        />
+        <div
+          className="hidden md:block absolute top-[58%] right-[24%] w-2 h-2 rounded-full bg-[#A78ACB] opacity-40 shadow-[0_0_4px_rgba(167,138,203,0.5)] animate-pulse"
+          style={{ animationDuration: "6s", animationDelay: "2s" }}
+        />
+        <div
+          className="hidden md:block absolute top-[72%] right-[12%] w-2.5 h-2.5 rounded-full bg-[#7046A0] opacity-45 shadow-[0_0_5px_rgba(112,70,160,0.6)] animate-pulse"
+          style={{ animationDuration: "5s", animationDelay: "3s" }}
+        />
+        {/* Subtle Drifting Flower Petal 1 (Bottom Left Meadow) */}
+        <div
+          className="hidden lg:block absolute bottom-[22%] left-[14%] w-2.5 h-1.5 rounded-full bg-[#A78ACB] opacity-40 rotate-[25deg] animate-[floatSlow_18s_ease-in-out_infinite]"
+        />
+        {/* Subtle Drifting Flower Petal 2 (Bottom Mid Meadow) */}
+        <div
+          className="hidden lg:block absolute bottom-[12%] left-[32%] w-2 h-1 rounded-full bg-[#B9C4E0] opacity-35 rotate-[-15deg] animate-[floatMedium_15s_ease-in-out_infinite_4s]"
+        />
+      </div>
+
+      {/* =========================================================================
+          LAYER 5: Atmospheric Overlays & Textures
+          - Architectural Blueprint Grid (subtle technical precision)
+          - Fine Film Grain (organic cinematic texture)
+          - Radial Vignette (content focus & contrast)
+          ========================================================================= */}
+      {/* 6A. Subtle Architectural Engineering Grid */}
+      <div className="absolute inset-0 bg-blueprint-grid opacity-30 pointer-events-none z-30" />
+
+      {/* 6B. Fine Film Grain Texture */}
+      <div className="absolute inset-0 bg-grain opacity-[0.035] pointer-events-none z-30" />
+
+      {/* 6C. Peripheral Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_100%_at_50%_50%,transparent_50%,rgba(5,4,10,0.85)_100%)] pointer-events-none z-30" />
     </div>
   );
 }

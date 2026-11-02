@@ -14,11 +14,11 @@ export const journeyData: JourneyMilestone[] = [
   {
     year: "2024 - Present",
     quarterOrMonth: "Mid 2024",
-    title: "Event Head — 'ALGORYTHM' & Technical Council",
+    title: "Event Head — 'ALGORHYTHM' & Technical Council",
     organizationOrContext: "Technical Council (Student Council of VIT), Mumbai",
     category: "Milestone",
     description:
-      "Selected as Event Head for 'ALGORYTHM' under the Technical Council (part of Student Council of VIT), steering flagship algorithmic challenges, coding competitions, and technical logistics across collegiate fixtures.",
+      "Selected as Event Head for 'ALGORHYTHM' under the Technical Council (part of Student Council of VIT), steering flagship algorithmic challenges, coding competitions, and technical logistics across collegiate fixtures.",
     technologiesUsed: ["Event Leadership", "Algorithmic Contests", "Technical Operations", "Team Coordination"],
   },
   {

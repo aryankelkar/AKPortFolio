@@ -2,9 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { CosmicBackground } from "@/components/ui/CosmicBackground";
+import { EternalResetLoader } from "@/components/ui/EternalResetLoader";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { CustomCursor } from "@/components/ui/CustomCursor";
+import { WitchSealCursor } from "@/components/ui/WitchSealCursor";
 
 const serifFont = Cormorant_Garamond({
   variable: "--font-serif",
@@ -89,17 +90,21 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${serifFont.variable} ${sansFont.variable} ${monoFont.variable} scroll-smooth`}
+      data-scroll-behavior="smooth"
+      className={`${serifFont.variable} ${sansFont.variable} ${monoFont.variable}`}
     >
       <body
         suppressHydrationWarning
-        className="min-h-screen bg-[#101116] text-[#F0EEF4] font-sans antialiased selection:bg-[#252838] selection:text-[#F0EEF4] flex flex-col relative"
+        className="min-h-screen bg-[#05040A] text-[#F0EEF4] font-sans antialiased selection:bg-[#252838] selection:text-[#F0EEF4] flex flex-col relative"
       >
-        {/* Living Deep-Space Cosmic Environment */}
+        {/* Eternal Reset — Cinematic Fractured Dimensional Environment */}
         <CosmicBackground />
         
+        {/* Dimensional Transition & Initialization Experience */}
+        <EternalResetLoader />
+        
         <div className="relative z-10 flex flex-col min-h-screen">
-          <CustomCursor />
+          <WitchSealCursor />
           <Navbar />
           <div className="flex-1 flex flex-col">
             {children}

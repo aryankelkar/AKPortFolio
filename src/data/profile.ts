@@ -151,7 +151,7 @@ export const profileData: ProfileData = {
       "I'm Aryan Kelkar, a Third Year Information Technology student at Vidyalankar Institute of Technology (VIT), Mumbai, interested in building useful digital products, exploring artificial intelligence, and turning complex problems into practical solutions.",
     full: [
       "I'm Aryan Kelkar, a Third Year Information Technology student at Vidyalankar Institute of Technology (VIT), Mumbai, interested in building useful digital products, exploring artificial intelligence, and turning complex problems into practical solutions.",
-      "At VIT, I serve as an Event Head for 'ALGORYTHM' under the Technical Council (part of the Student Council of VIT), organizing competitive technical events and tournaments, while also shaping visual media and branding as part of the Creatives Team at ITSA (Information Technology Student Association).",
+      "At VIT, I serve as an Event Head for 'ALGORHYTHM' under the Technical Council (part of the Student Council of VIT), organizing competitive technical events and tournaments, while also shaping visual media and branding as part of the Creatives Team at ITSA (Information Technology Student Association).",
       "I enjoy moving between software engineering, machine learning, and product design. What interests me most is understanding a problem deeply enough to build something that genuinely helps.",
     ],
     philosophy:

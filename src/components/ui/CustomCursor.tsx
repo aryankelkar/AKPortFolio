@@ -58,29 +58,33 @@ export function CustomCursor() {
       setIsMouseDown(false);
     };
 
+    let curHovered = false;
+    let curInputHovered = false;
+    let curText = "";
+
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
       // If hovering form input or textarea, defer to native I-beam cursor
-      const isInput = target.closest("input, textarea, select, [contenteditable='true']");
+      const isInput = Boolean(target.closest("input, textarea, select, [contenteditable='true']"));
       if (isInput) {
-        setIsInputHovered(true);
-        setIsHovered(false);
-        setCursorText("");
+        if (!curInputHovered) { curInputHovered = true; setIsInputHovered(true); }
+        if (curHovered) { curHovered = false; setIsHovered(false); }
+        if (curText) { curText = ""; setCursorText(""); }
         return;
       }
-      setIsInputHovered(false);
+      if (curInputHovered) { curInputHovered = false; setIsInputHovered(false); }
 
       // Interactive clickable elements
       const interactive = target.closest("a, button, [role='button'], [data-cursor]");
       if (interactive) {
-        setIsHovered(true);
-        const text = interactive.getAttribute("data-cursor");
-        setCursorText(text || "");
+        if (!curHovered) { curHovered = true; setIsHovered(true); }
+        const text = interactive.getAttribute("data-cursor") || "";
+        if (curText !== text) { curText = text; setCursorText(text); }
       } else {
-        setIsHovered(false);
-        setCursorText("");
+        if (curHovered) { curHovered = false; setIsHovered(false); }
+        if (curText) { curText = ""; setCursorText(""); }
       }
     };
 
@@ -122,17 +126,24 @@ export function CustomCursor() {
             : isHovered
             ? cursorText ? 2.6 : 1.85
             : 1,
-          borderColor: isHovered ? "rgba(255, 255, 255, 0.85)" : "rgba(255, 255, 255, 0.35)",
-          backgroundColor: isHovered ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.03)",
+          borderColor: isHovered ? "rgba(167, 138, 203, 0.85)" : "rgba(185, 196, 224, 0.35)",
+          backgroundColor: isHovered ? "rgba(112, 70, 160, 0.16)" : "rgba(255, 255, 255, 0.02)",
         }}
         transition={{
           duration: 0.2,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full border flex items-center justify-center backdrop-blur-[0.5px] pointer-events-none will-change-transform z-50 transition-colors"
+        className="fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full border flex items-center justify-center pointer-events-none z-50"
       >
+        {/* Pre-composited Outer Violet Glow: pure GPU opacity fade, 0 per-frame box-shadow rasterization */}
+        <div
+          className={`absolute -inset-1 rounded-full shadow-[0_0_18px_rgba(167,138,203,0.4)] pointer-events-none transition-opacity duration-200 ${
+            isHovered ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
         {cursorText && (
-          <span className="font-code text-[8px] font-bold uppercase tracking-widest text-white select-none drop-shadow-sm px-1">
+          <span className="font-code text-[8px] font-bold uppercase tracking-widest text-white select-none drop-shadow-sm px-1 relative z-10">
             {cursorText}
           </span>
         )}
@@ -152,7 +163,7 @@ export function CustomCursor() {
           duration: 0.15,
           ease: "easeOut",
         }}
-        className="fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9),0_0_2px_rgba(255,255,255,1)] pointer-events-none will-change-transform z-50"
+        className="fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9),0_0_2px_rgba(255,255,255,1)] pointer-events-none z-50"
       />
     </div>
   );

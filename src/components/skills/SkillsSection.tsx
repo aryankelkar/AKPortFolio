@@ -87,22 +87,36 @@ export function SkillsSection() {
           description="Technologies actively applied across full-stack web architectures, applied machine learning pipelines, and algorithmic systems. No arbitrary progress bars — each technology is linked to applied project implementations."
         />
 
-        {/* 15-Tool Intentional Matrix (5 Columns × 3 Rows matching reference design) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-8">
-          {PRIMARY_TECH_STACK.map((tech, idx) => {
+        {/* 15-Tool Intentional Matrix (Staggered with a single root IntersectionObserver) */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: shouldReduceMotion ? 0 : 0.03,
+              },
+            },
+          }}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-8"
+        >
+          {PRIMARY_TECH_STACK.map((tech) => {
             const Icon = tech.icon;
             return (
               <motion.div
                 key={tech.name}
-                initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{
-                  duration: 0.35,
-                  delay: Math.min(idx * 0.03, 0.25),
-                  ease: [0.22, 1, 0.36, 1],
+                variants={{
+                  hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+                  },
                 }}
-                className="group p-4 rounded-xl bg-[#171924]/85 border border-[rgba(255,255,255,0.08)] hover:border-[#8387C3]/50 card-interactive flex flex-col justify-between shadow-lg backdrop-blur-sm"
+                className="group p-4 rounded-xl bg-[#171924]/95 border border-[rgba(255,255,255,0.08)] hover:border-[#8387C3]/50 card-interactive flex flex-col justify-between shadow-lg"
               >
                 <div className="flex items-center justify-between pb-3">
                   <div className="p-2 rounded-lg bg-[#1E2030] border border-[rgba(255,255,255,0.08)] group-hover:border-[#8387C3]/40 group-hover:text-[#F0EEF4] transition-colors">
@@ -123,7 +137,7 @@ export function SkillsSection() {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* View Detailed Stack Button matching reference design */}
         <div className="flex justify-center pt-2 pb-8">

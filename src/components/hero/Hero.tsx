@@ -17,8 +17,8 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const photoY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 25]);
-  const floatingPhotoY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : -20]);
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 28]);
+  const floatingPhotoY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : -22]);
 
   return (
     <section
@@ -28,8 +28,8 @@ export function Hero() {
     >
       {/* Soft Vignette Overlay strictly behind text to preserve crisp readability */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute top-1/4 -left-1/4 w-[600px] h-[600px] bg-[#101116]/80 rounded-full blur-[140px]" />
-        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#101116] to-transparent" />
+        <div className="absolute top-1/4 -left-1/4 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(5,4,10,0.80)_0%,transparent_70%)]" />
+        <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-[#05040A]/60 to-transparent" />
       </div>
 
       <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 w-full relative z-10 my-auto">
@@ -159,6 +159,7 @@ export function Hero() {
                       alt={profileData.photos.heroPortrait.alt}
                       fill
                       priority
+                      decoding="async"
                       quality={95}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 750px"
                       className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-105 group-hover:scale-[1.02] transition-all duration-700 ease-out"
@@ -206,6 +207,7 @@ export function Hero() {
                     fill
                     priority
                     loading="eager"
+                    decoding="async"
                     quality={95}
                     sizes="(max-width: 640px) 200px, 300px"
                     className="object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 hover:grayscale-0 group-hover:contrast-105 group-hover:brightness-105 group-hover:scale-[1.02] transition-all duration-700 ease-out"

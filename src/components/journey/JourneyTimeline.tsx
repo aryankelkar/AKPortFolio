@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
 import { ArrowUpRight, GraduationCap, GitCommit, Trophy, Code } from "lucide-react";
@@ -20,6 +20,22 @@ export function JourneyTimeline({
   const displayed = initialLimit ? journeyData.slice(0, initialLimit) : journeyData;
   const shouldReduceMotion = useReducedMotion();
   const timelineRef = useRef<HTMLDivElement>(null);
+  const [spineHeight, setSpineHeight] = useState(0);
+
+  useEffect(() => {
+    const el = timelineRef.current;
+    if (!el) return;
+
+    // ResizeObserver tracks dimensions asynchronously with 0 forced layout reflows
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setSpineHeight(entry.contentRect.height);
+      }
+    });
+
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: timelineRef,
@@ -28,13 +44,14 @@ export function JourneyTimeline({
 
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 180,
-    damping: 26,
+    damping: 28,
     mass: 0.3,
-    restDelta: 0.001,
+    restDelta: 0.002,
   });
 
   const scaleY = shouldReduceMotion ? 1 : smoothProgress;
-  const lightTop = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
+  // GPU-accelerated translateY in pixels replaces layout-triggering top: "0%" -> "100%"
+  const beaconY = useTransform(smoothProgress, [0, 1], [0, spineHeight || 1000]);
   const lightOpacity = useTransform(
     smoothProgress,
     [0, 0.03, 0.97, 1],
@@ -55,7 +72,7 @@ export function JourneyTimeline({
   };
 
   return (
-    <section id="journey" className="py-12 lg:py-16 relative bg-[#151720]/75 backdrop-blur-sm border-t border-[rgba(255,255,255,0.08)]">
+    <section id="journey" className="py-12 lg:py-16 relative bg-[#151720]/95 border-t border-[rgba(255,255,255,0.08)]">
       <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 relative z-10">
         {showHeader && (
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
@@ -94,11 +111,11 @@ export function JourneyTimeline({
               style={{ scaleY }}
             />
 
-            {/* 3. Traveling Fluid Light Beacon */}
+            {/* 3. Traveling Fluid Light Beacon (GPU Compositor TranslateY) */}
             <motion.div
-              className="absolute -left-[5px] w-3 h-3 -translate-y-1/2 rounded-full pointer-events-none z-10"
+              className="absolute -left-[5px] top-0 w-3 h-3 -translate-y-1/2 rounded-full pointer-events-none z-10"
               style={{
-                top: lightTop,
+                y: beaconY,
                 opacity: lightOpacity,
               }}
             >

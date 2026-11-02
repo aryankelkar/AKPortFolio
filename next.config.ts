@@ -32,7 +32,10 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   images: {
-    qualities: [75, 90, 92, 95, 96],
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [640, 750, 1080, 1200, 1920, 2048, 2560, 3840],
+    imageSizes: [16, 32, 64, 128, 256, 384],
+    qualities: [75, 82, 85, 90, 92, 95, 96, 98, 100],
   },
   async redirects() {
     return [

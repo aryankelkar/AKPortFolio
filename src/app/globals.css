@@ -120,14 +120,14 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Cursor Rules for Fine-Pointer Devices */
+/* Custom Cursor Rules for Fine-Pointer Devices — Strict Single Cursor Enforcement */
 @media (pointer: fine) {
+  html:has(body.has-custom-cursor),
   body.has-custom-cursor,
-  body.has-custom-cursor a,
-  body.has-custom-cursor button,
-  body.has-custom-cursor [role="button"] {
+  body.has-custom-cursor *:not(input):not(textarea):not(select):not([contenteditable="true"]) {
     cursor: none !important;
   }
+
   body.has-custom-cursor input,
   body.has-custom-cursor textarea,
   body.has-custom-cursor select,
@@ -177,21 +177,19 @@ body {
     radial-gradient(1300px 900px at 75% 88%, rgba(30, 32, 45, 0.25), transparent 75%);
 }
 
-/* Delicate Architectural Blueprint Grid at Very Low Opacity */
+/* Delicate Architectural Blueprint Grid (Streamlined 2-Pass Grid for GPU Compositor Efficiency) */
 .bg-blueprint-grid {
   background-image: 
-    /* Major grid lines (160px) */
-    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    /* Minor grid lines (40px) */
-    linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
-  background-size: 160px 160px, 160px 160px, 40px 40px, 40px 40px;
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
 }
 
-/* Extremely Subtle Organic Film Grain Texture */
+/* Pre-Computed Static Film Grain (Decodes once into invariant GPU texture, 0 SVG filter stalls) */
 .bg-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.022'/%3E%3C/svg%3E");
+  background-image: url("/images/noise.png");
+  background-repeat: repeat;
+  background-size: 128px 128px;
 }
 
 /* Section Depth Classes */
@@ -230,7 +228,6 @@ body {
     border-color var(--motion-standard) var(--ease-fluid),
     transform var(--motion-standard) var(--ease-fluid),
     box-shadow var(--motion-standard) var(--ease-fluid);
-  will-change: transform;
 }
 
 .card-interactive:hover {
@@ -546,7 +543,7 @@ body {
 
 .hero-base-jitter-flash {
   animation: heroBaseJitterFlash 0.6s steps(1, end) forwards;
-  will-change: transform, filter;
+  will-change: transform;
 }
 
 /* 5. Effect E: Scanlines & Digital Raster Texture Overlay */
@@ -625,7 +622,7 @@ body {
   color: var(--glitch-cyan, #00E5FF);
   mix-blend-mode: screen;
   animation: ambientGlitch1 0.18s steps(1, end) forwards;
-  will-change: transform, clip-path, opacity;
+  will-change: transform, opacity;
   z-index: 10;
 }
 
@@ -633,7 +630,7 @@ body {
   color: var(--glitch-red, #FF2A55);
   mix-blend-mode: screen;
   animation: ambientGlitch2 0.18s steps(1, end) forwards;
-  will-change: transform, clip-path, opacity;
+  will-change: transform, opacity;
   z-index: 11;
 }
 
@@ -657,7 +654,7 @@ body {
   color: var(--glitch-cyan, #00E5FF);
   mix-blend-mode: screen;
   animation: cinematicGlitchBurst1 0.6s steps(1, end) forwards;
-  will-change: transform, clip-path, opacity;
+  will-change: transform, opacity;
   z-index: 10;
 }
 
@@ -665,7 +662,7 @@ body {
   color: var(--glitch-red, #FF2A55);
   mix-blend-mode: screen;
   animation: cinematicGlitchBurst2 0.6s steps(1, end) forwards;
-  will-change: transform, clip-path, opacity;
+  will-change: transform, opacity;
   z-index: 11;
 }
 
@@ -712,7 +709,7 @@ body {
 
 .hero-scan-line {
   animation: archivalScan 0.35s ease-out forwards;
-  will-change: top, opacity;
+  will-change: opacity;
 }
 
 /* ==========================================================================
@@ -731,7 +728,6 @@ body {
 
 .portrait-cinematic-breath {
   animation: portraitBreathing 16s ease-in-out infinite;
-  will-change: transform;
 }
 
 /* 11. Secondary Photograph Subtle Archival Drift (11s cycle) */
@@ -746,7 +742,33 @@ body {
 
 .floating-photo-drift {
   animation: floatingPhotoDrift 11s ease-in-out infinite;
-  will-change: transform;
+}
+
+/* ==========================================================================
+   Eternal Reset: Fractured Glass Shard Floating Drift (Hardware-Accelerated)
+   ========================================================================== */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(5px, -14px, 0) rotate(1.4deg);
+  }
+  66% {
+    transform: translate3d(-7px, -7px, 0) rotate(-1.6deg);
+  }
+}
+
+@keyframes floatMedium {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  40% {
+    transform: translate3d(-9px, -16px, 0) rotate(-2.2deg);
+  }
+  75% {
+    transform: translate3d(7px, -5px, 0) rotate(1.9deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

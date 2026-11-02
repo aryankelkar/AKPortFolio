@@ -13,7 +13,7 @@ export function AboutSection() {
   const docPhoto = profileData.photos.documentaryPhoto;
 
   return (
-    <section id="about" className="py-24 lg:py-32 relative bg-[#151720]/80 backdrop-blur-sm border-y border-[rgba(255,255,255,0.08)]">
+    <section id="about" className="py-24 lg:py-32 relative bg-[#151720]/95 border-y border-[rgba(255,255,255,0.08)]">
       <div className="max-w-[1536px] 2xl:max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 relative z-10">
         <SectionHeading
           number="[ 02 ]"
@@ -108,6 +108,7 @@ export function AboutSection() {
                   alt={docPhoto.alt}
                   fill
                   quality={96}
+                  decoding="async"
                   sizes="(max-width: 1024px) 100vw, 800px"
                   className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                 />

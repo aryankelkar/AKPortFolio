@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
@@ -511,6 +511,7 @@ export function ProjectCard({
   const isFeatured = layout === "featured";
   const projectNumber = String(index + 1).padStart(2, "0");
   const shouldReduceMotion = useReducedMotion();
+  const exhibitRectRef = useRef<DOMRect | null>(null);
 
   const renderProjectVisualIdentity = () => {
     switch (project.slug) {
@@ -576,8 +577,8 @@ export function ProjectCard({
         }}
         className="group relative rounded-2xl bg-[#171924] border border-[rgba(255,255,255,0.08)] card-interactive p-6 sm:p-8 lg:p-10 shadow-xl overflow-hidden"
       >
-        {/* Subtle Ambient Light */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#8387C3]/[0.03] rounded-full blur-3xl pointer-events-none group-hover:bg-[#8387C3]/[0.06] transition-all duration-500" />
+        {/* Subtle Ambient Light (GPU Radial Gradient) */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(circle_at_70%_30%,rgba(131,135,195,0.08)_0%,transparent_70%)] pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Main Info Column */}
@@ -666,15 +667,21 @@ export function ProjectCard({
 
           {/* Right Column: Visual Architectural Interactive Exhibit with subtle pointer shift */}
           <div
-            className="lg:col-span-5 w-full relative group/exhibit transition-transform duration-300 ease-out"
+            className="lg:col-span-5 w-full relative group/exhibit"
+            onMouseEnter={(e) => {
+              exhibitRectRef.current = e.currentTarget.getBoundingClientRect();
+              e.currentTarget.style.transition = "none";
+            }}
             onMouseMove={(e) => {
               if (shouldReduceMotion) return;
-              const rect = e.currentTarget.getBoundingClientRect();
+              const rect = exhibitRectRef.current || e.currentTarget.getBoundingClientRect();
               const x = ((e.clientX - rect.left) / rect.width - 0.5) * 6;
               const y = ((e.clientY - rect.top) / rect.height - 0.5) * 6;
               e.currentTarget.style.transform = `translate3d(${x}px, ${y}px, 0px)`;
             }}
             onMouseLeave={(e) => {
+              exhibitRectRef.current = null;
+              e.currentTarget.style.transition = "transform 300ms ease-out";
               e.currentTarget.style.transform = "translate3d(0px, 0px, 0px)";
             }}
           >

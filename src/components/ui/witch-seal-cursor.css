@@ -1,0 +1,398 @@
+/* ==========================================================================
+   THE WITCH'S TEMPORAL SEAL — ECHIDNA'S CURSOR SYSTEM
+   Hardware-accelerated CSS animations, GPU compositing & keyframe effects
+   ========================================================================== */
+
+/* Strict Single Custom Cursor Guarantee Across Entire Document */
+@media (pointer: fine) {
+  html:has(body.has-custom-cursor),
+  body.has-custom-cursor,
+  body.has-custom-cursor *:not(input):not(textarea):not(select):not([contenteditable="true"]) {
+    cursor: none !important;
+  }
+}
+
+/* ==========================================================================
+   ICE RELEASE CRYOGENIC MIST & FROST AURA (REFINED)
+   Organic asymmetric condensation, delicate crystal glints & chilled vapor
+   ========================================================================== */
+
+/* 1. Asymmetric Organic Vapor Drift (Subtle atmospheric cold condensation) */
+@keyframes cryoVaporDriftA {
+  0% {
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
+    opacity: 0.38;
+  }
+  38% {
+    transform: translate(1.4px, -1.6px) scale(1.04, 0.96) rotate(1.5deg);
+    opacity: 0.52;
+  }
+  72% {
+    transform: translate(-1.2px, 1.2px) scale(0.97, 1.03) rotate(-1.5deg);
+    opacity: 0.32;
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
+    opacity: 0.38;
+  }
+}
+
+/* 2. Counter-swirling Secondary Vapor Wisp */
+@keyframes cryoVaporDriftB {
+  0% {
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
+    opacity: 0.28;
+  }
+  45% {
+    transform: translate(-1.6px, -1.0px) scale(0.96, 1.04) rotate(-2deg);
+    opacity: 0.44;
+  }
+  80% {
+    transform: translate(1.2px, 0.8px) scale(1.03, 0.97) rotate(1.5deg);
+    opacity: 0.24;
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1) rotate(0deg);
+    opacity: 0.28;
+  }
+}
+
+/* 3. Delicate Crystalline Shimmer (Occasional refraction glint, not constant pulsing) */
+@keyframes cryoGlintShimmer1 {
+  0%, 72%, 100% {
+    opacity: 0.2;
+    transform: scale(0.85);
+  }
+  86% {
+    opacity: 0.92;
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 2px rgba(186, 230, 253, 0.85));
+  }
+}
+
+@keyframes cryoGlintShimmer2 {
+  0%, 65%, 100% {
+    opacity: 0.15;
+    transform: scale(0.78);
+  }
+  78% {
+    opacity: 0.85;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 2px rgba(224, 242, 254, 0.8));
+  }
+}
+
+@keyframes cryoGlintShimmer3 {
+  0%, 68%, 100% {
+    opacity: 0.18;
+    transform: scale(0.8);
+  }
+  82% {
+    opacity: 0.82;
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 2px rgba(217, 184, 255, 0.75));
+  }
+}
+
+/* 4. Purple / Lavender Ambient Cursor Aura Breathing */
+@keyframes purpleAuraBreathe {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.95;
+    filter: blur(7px);
+  }
+}
+
+.purple-lavender-aura {
+  animation: purpleAuraBreathe 3.6s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+.cryo-vapor-lobe-1 {
+  animation: cryoVaporDriftA 8.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: 14px 14px;
+}
+
+.cryo-vapor-lobe-2 {
+  animation: cryoVaporDriftB 10.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: 12px 16px;
+}
+
+.cryo-glint-1 {
+  animation: cryoGlintShimmer1 4.2s ease-in-out infinite;
+}
+
+.cryo-glint-2 {
+  animation: cryoGlintShimmer2 5.1s 1.6s ease-in-out infinite;
+}
+
+.cryo-glint-3 {
+  animation: cryoGlintShimmer3 4.8s 2.9s ease-in-out infinite;
+}
+
+/* 1. Gentle Ambient Rotation of the Outer Temporal Orbit */
+@keyframes witchSealOrbitSlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 2. Reverse Rotation during Navigation & Temporal Shift */
+@keyframes witchSealOrbitReverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* 3. Subtle Runic Glyph Shimmer */
+@keyframes witchRuneShimmer {
+  0%, 100% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 1.5px rgba(183, 122, 255, 0.35));
+  }
+  50% {
+    opacity: 0.9;
+    filter: drop-shadow(0 0 4px rgba(183, 122, 255, 0.7));
+  }
+}
+
+/* 4. Sequential Cardinal Diamond Illumination on Hover */
+@keyframes diamondSequencedGlow {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.6);
+    filter: drop-shadow(0 0 1px rgba(183, 122, 255, 0.2));
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.22);
+    filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 12px rgba(183, 122, 255, 0.9));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px rgba(183, 122, 255, 0.85));
+  }
+}
+
+.witch-diamond-north {
+  animation: diamondSequencedGlow 0.36s 0.02s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: 0px 0px;
+}
+
+.witch-diamond-east {
+  animation: diamondSequencedGlow 0.36s 0.08s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: 0px 0px;
+}
+
+.witch-diamond-south {
+  animation: diamondSequencedGlow 0.36s 0.14s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: 0px 0px;
+}
+
+.witch-diamond-west {
+  animation: diamondSequencedGlow 0.36s 0.20s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: 0px 0px;
+}
+
+/* 5. Click Compact Temporal Ripple Sequence */
+/* 5a. Centre Flash: 8-12px diameter (r=4.5 -> scale 0.5 to 1.3), 140ms duration */
+@keyframes temporalFlashAnim {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.95;
+  }
+  35% {
+    transform: scale(1.15);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+.temporal-flash {
+  animation: temporalFlashAnim 0.14s ease-out forwards;
+  transform-origin: 0px 0px;
+}
+
+/* 5b. First Ring: 20-28px diameter (r=13 -> scale 0.25 to 1.05), 480ms duration */
+@keyframes temporalRing1Anim {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+    stroke-width: 1.5px;
+  }
+  15% {
+    opacity: 0.95;
+    stroke-width: 1.2px;
+  }
+  65% {
+    opacity: 0.45;
+    stroke-width: 0.7px;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 0;
+    stroke-width: 0.35px;
+  }
+}
+
+.temporal-ring-1 {
+  animation: temporalRing1Anim 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: 0px 0px;
+}
+
+/* 5c. Second Ring: 40-52px diameter (r=24 -> scale 0.2 to 1.05), 510ms duration */
+@keyframes temporalRing2Anim {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+    stroke-width: 1.3px;
+  }
+  20% {
+    opacity: 0.85;
+    stroke-width: 0.9px;
+  }
+  65% {
+    opacity: 0.4;
+    stroke-width: 0.5px;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 0;
+    stroke-width: 0.25px;
+  }
+}
+
+.temporal-ring-2 {
+  animation: temporalRing2Anim 0.51s 0.04s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: 0px 0px;
+}
+
+/* 5d. Third Ring (Optional Reticle): 65-78px diameter (r=36 -> scale 0.2 to 1.05), 530ms duration */
+@keyframes temporalRing3Anim {
+  0% {
+    transform: scale(0.2) rotate(0deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.65;
+  }
+  70% {
+    opacity: 0.25;
+  }
+  100% {
+    transform: scale(1.05) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+.temporal-ring-3 {
+  animation: temporalRing3Anim 0.53s 0.07s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: 0px 0px;
+}
+
+/* 5e. Crystalline Shards (6 points drifting outward from r=10 to r=30) */
+@keyframes temporalShardDrift {
+  0% {
+    transform: translateY(-8px) scale(0.5);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+    transform: translateY(-16px) scale(1);
+  }
+  70% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-30px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.temporal-shard-anim {
+  animation: temporalShardDrift 0.48s 0.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: 0px 0px;
+}
+
+/* 6. Navigation: Brief reverse rotation on page change */
+@keyframes witchSealNavReverse {
+  0% {
+    transform: rotate(0deg) scale(1.22);
+    opacity: 0.92;
+  }
+  65% {
+    transform: rotate(-240deg) scale(1.02);
+    opacity: 0.7;
+  }
+  100% {
+    transform: rotate(-360deg) scale(0.65);
+    opacity: 0;
+  }
+}
+
+/* 7. Utility classes */
+.witch-seal-orbit {
+  animation: witchSealOrbitSlow 18s linear infinite;
+  transform-origin: center center;
+}
+
+.witch-seal-orbit-fast {
+  animation: witchSealOrbitSlow 10s linear infinite;
+  transform-origin: center center;
+}
+
+.witch-seal-orbit-rev {
+  animation: witchSealOrbitReverse 14s linear infinite;
+  transform-origin: center center;
+}
+
+.witch-seal-nav-reverse {
+  animation: witchSealNavReverse 0.68s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+  transform-origin: center center;
+}
+
+.witch-rune-pulse {
+  animation: witchRuneShimmer 4.5s ease-in-out infinite;
+}
+
+/* Velocity afterimage pulse */
+@keyframes witchAfterimagePulse {
+  0% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+/* Accessibility: Turn off heavy animations under reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .witch-seal-orbit,
+  .witch-seal-orbit-fast,
+  .witch-seal-orbit-rev,
+  .witch-seal-nav-reverse,
+  .witch-rune-pulse,
+  .witch-diamond-north,
+  .witch-diamond-east,
+  .witch-diamond-south,
+  .witch-diamond-west {
+    animation: none !important;
+  }
+}
+

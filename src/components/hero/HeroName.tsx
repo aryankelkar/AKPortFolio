@@ -253,7 +253,7 @@ export function HeroName() {
       onMouseEnter={handleInteraction}
       onFocus={handleInteraction}
       tabIndex={0}
-      className={`font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[6.2rem] xl:text-[7.2rem] 2xl:text-[7.8rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none relative group cursor-default outline-none focus-visible:ring-1 focus-visible:ring-[#8387C3]/40 rounded-sm transition-all duration-300 ${
+      className={`font-editorial text-5xl sm:text-6xl md:text-7xl lg:text-[6.2rem] xl:text-[7.2rem] 2xl:text-[7.8rem] font-normal tracking-tight text-[#F0EEF4] leading-[0.9] select-none relative group cursor-default outline-none focus-visible:ring-1 focus-visible:ring-[#8387C3]/40 rounded-sm transition-colors duration-200 ${
         isGlitching ? glitchModifierClass : ""
       }`}
     >
@@ -263,7 +263,7 @@ export function HeroName() {
       {/* Main Visible Typography Layer with Effect C: Micro-Jitter & Effect D: Frame Corruption Flash */}
       <span
         aria-hidden="true"
-        className={`block relative transition-all duration-500 group-hover:drop-shadow-[0_0_30px_rgba(131,135,195,0.40)] ${
+        className={`block relative transition-opacity duration-300 ${
           animState.isGlitching && !shouldReduceMotion ? "hero-base-jitter-flash" : ""
         }`}
       >
